@@ -47,7 +47,7 @@
       <tr><th>Stage</th><th>What it was</th><th>Try it</th></tr>
       <tr><td>0</td><td>Broken serving</td><td>— (fixed)</td></tr>
       <tr><td>1</td><td>Flagship hand-built environment</td><td><a href="index.html">index.html</a></td></tr>
-      <tr><td>2</td><td>Generic diorama + framed print</td><td>superseded, not preserved</td></tr>
+      <tr><td>2</td><td>Flat plane + framed print, primitive props</td><td><a href="scene-stage2.html">scene-stage2.html</a> — live snapshot</td></tr>
       <tr><td>3</td><td>Perspective-armature rooms, primitive props</td><td><a href="scene-legacy.html">scene-legacy.html</a> — live snapshot</td></tr>
       <tr><td>4</td><td>Papercraft tunnel-book, real cutouts</td><td><a href="scene.html">scene.html</a> — current</td></tr>
     </table>
@@ -71,19 +71,19 @@
     mean — the other 50 plates didn't reach this bar until Stage 4.</p>
     <a class="try" href="index.html">Walk the flagship courtyard ▸</a>
 
-    <h2>Stage 2 — generic diorama, framed print</h2>
+    <h2>Stage 2 — flat plane, framed print, primitive props</h2>
     <p>The first attempt to give the other 50 plates <em>something</em>: a flat
-    ground plane, each emblem's catalogued <code>visual_elements</code> tags
+    ground plane (later textured per the emblem's setting — soil, grass,
+    flagstone), each emblem's catalogued <code>visual_elements</code> tags
     turned into primitive props (spheres for eggs, capsules for figures, cones
     for fire) scattered across the plane, with the actual engraving <strong>hung
     on a wall as a framed picture</strong> — literally a poster of the emblem
     standing in a room, not the room the emblem depicts. Walk mode, music, the
-    "operate" bench-step game loop, and de Jong scholarship panels were all
-    added at this stage and survived every later rewrite.</p>
-    <p>Not preserved as a standalone snapshot — superseded quickly by Stage 3 —
-    but its bones (<code>props.js</code>'s tag→prop routing, the
-    walk/operate/read-panel/music systems in <code>scene.js</code>) are what
-    Stage 3 and Stage 4 both still build on.</p>
+    "operate" bench-step game loop, de Jong scholarship panels, the
+    toon+ink-edge woodcut post-process, and hand-composed (<code>bespoke.js</code>)
+    staging were all added at this stage and survived every later rewrite —
+    only the flat-plane-plus-poster spatial idea itself was wrong.</p>
+    <a class="try" href="scene-stage2.html?id=af-06">Compare: Emblem VI, Stage 2 ▸</a>
 
     <h2>Stage 3 — perspective armatures, primitive props</h2>
     <blockquote>"Do you not have the ability to look at the emblems and judge
@@ -134,6 +134,21 @@
     single-best-scored-item fallback for plates that would otherwise pop
     nothing at all.</p>
     <a class="try" href="scene.html?id=af-06">Compare: Emblem VI, Stage 4 ▸</a>
+
+    <h2>The Atalanta Fugiens family</h2>
+    <p>EMBLEMSIN3D is one of several projects built from the same 1617 emblem
+    book, sharing sources across <code>C:\Dev</code> — different media, one
+    engraving set. <code>papercards.js</code>'s real figure cutouts come
+    directly from the second and fifth rows below.</p>
+    <table>
+      <tr><th>Project</th><th>What it does</th><th>Local</th></tr>
+      <tr><td>Emblems in 3D</td><td>this project — walkable papercraft tunnel-books</td><td>you're here</td></tr>
+      <tr><td>Emblem Papercraft</td><td>the same plates as shadow-casting paper pop-ups, orbit-viewed</td><td><a href="../EmblemPapercraft/index.html">../EmblemPapercraft/</a></td></tr>
+      <tr><td>Emblem Roguelike</td><td>a Dragon-Warrior-style RPG whose art is the extracted engravings</td><td><a href="../EmblemRoguelike/index.html">../EmblemRoguelike/</a></td></tr>
+      <tr><td>Emblem Novel</td><td>graphical text adventure built from the emblems</td><td><a href="../EmblemNovel/index.html">../EmblemNovel/</a></td></tr>
+      <tr><td>Atalanta Claudiens</td><td>DH site on H.M.E. de Jong's scholarship — the source for the "Read the emblem" panels here</td><td><code>../Claudiens/</code></td></tr>
+      <tr><td>Emblem Print Shop</td><td>the computer-vision pipeline that cut the 743 figures used here and in Papercraft</td><td><code>../EmblemPrintShop/</code></td></tr>
+    </table>
 
     <h2>What this means for "which version is right"</h2>
     <p>Stage 4 is the live site. Stage 3 stays reachable specifically so a

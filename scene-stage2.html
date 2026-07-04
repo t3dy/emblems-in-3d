@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emblems in 3D — Scene (legacy: primitive-prop stage)</title>
+  <title>Emblems in 3D — Scene (Stage 2: flat plane + framed print)</title>
   <link rel="stylesheet" href="gallery.css?v=5" />
   <link rel="stylesheet" href="style.css" />
   <script type="importmap">
@@ -20,7 +20,7 @@
   </style>
 </head>
 <body>
-  <div id="legacy-banner">🕰 Preserved snapshot — Stage 3 (synthetic 3D-prop rooms, correct perspective). The current site uses real paper cutouts instead: <a href="scene.html">see the current version ▸</a> · <a href="scene-stage2.html">Stage 2 ▸</a> · <a href="history.html">full history ▸</a></div>
+  <div id="legacy-banner">🕰 Preserved snapshot — Stage 2 (flat plane, primitive props, the engraving framed on a wall). The current site walks you through real paper cutouts instead: <a href="scene.html">see the current version ▸</a> · <a href="scene-legacy.html">Stage 3 ▸</a> · <a href="history.html">full history ▸</a></div>
   <canvas id="s-canvas"></canvas>
   <div id="s-top" style="top:2rem">
     <a id="s-back" href="gallery.html">◂ Gallery</a>
@@ -30,7 +30,6 @@
   <div id="s-tools">
     <button id="s-walk">🚶 Walk this scene</button>
     <button id="s-read">📖 Read the emblem</button>
-    <button id="s-plate">🖼 Hide source plate</button>
     <button id="s-tour">✦ Tour the lab process</button>
     <button id="s-relief">▦ View as relief</button>
     <a id="s-env" href="index.html" style="display:none">Full bespoke environment ▸</a>
@@ -42,6 +41,6 @@
   </div>
   <div id="s-reticle" class="s-reticle hidden"></div>
   <div id="s-loading">composing the scene…</div>
-  <script type="module" src="scene-legacy.js"></script>
+  <script type="module" src="scene-stage2.js"></script>
 </body>
 </html>

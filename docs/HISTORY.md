@@ -11,7 +11,7 @@ them live rather than take the description's word for it.
 |---|---|---|
 | 0 | Broken serving | — (fixed; see below) |
 | 1 | Flagship hand-built environment | [`index.html`](../index.html) |
-| 2 | Generic diorama + framed print | superseded, not preserved |
+| 2 | Flat plane + framed print, primitive props | [`scene-stage2.html`](../scene-stage2.html) — **live snapshot** |
 | 3 | Perspective-armature rooms, primitive props | [`scene-legacy.html`](../scene-legacy.html) — **live snapshot** |
 | 4 | Papercraft tunnel-book, real cutouts | [`scene.html`](../scene.html) — **current** |
 
@@ -35,21 +35,23 @@ ink-edge post-process for the woodcut look. This was always the reference for
 what "dimensionalizing an emblem" should mean — the other 50 plates didn't
 reach this bar until Stage 4.
 
-## Stage 2 — generic diorama, framed print
+## Stage 2 — flat plane, framed print, primitive props
 
 The first attempt to give the other 50 plates *something*: a flat 44×44
-ground plane, each emblem's catalogued `visual_elements` tags turned into
+ground plane (later textured per the emblem's setting — soil, grass,
+flagstone), each emblem's catalogued `visual_elements` tags turned into
 primitive props (spheres for eggs, capsules for figures, cones for fire) and
 scattered across the plane by rough category, with the actual engraving
 **hung on a wall as a framed picture** — literally a poster of the emblem
 standing in a room, not the room the emblem depicts. Walk mode, music, the
-"operate" bench-step game loop, and de Jong scholarship panels were all added
-at this stage and survived every later rewrite.
+"operate" bench-step game loop, de Jong scholarship panels, the toon+ink-edge
+woodcut post-process, and hand-composed (`bespoke.js`) staging were all added
+at this stage and survived every later rewrite — only the flat-plane-plus-
+poster spatial idea itself was wrong.
 
-Not preserved as a standalone snapshot (superseded quickly by Stage 3's
-perspective-armature rework), but its bones — `props.js`'s tag→prop routing,
-the walk/operate/read-panel/music systems in `scene.js` — are still exactly
-what Stage 3 and Stage 4 both build on.
+**Still running, on purpose**, at [`scene-stage2.html`](../scene-stage2.html)
+— `scene-stage2.js` restores this exact system (flat ground, `zoneOf`-based
+tag scatter, the framed backdrop plate) so it can be compared directly.
 
 ## Stage 3 — perspective armatures, primitive props
 
@@ -115,6 +117,22 @@ actually a mis-segmented crop of a robed figure's arm plus doorway masonry.
 single-best-scored-item fallback for the ~19 plates that would otherwise pop
 nothing at all. See `papercards.js`'s header comment and the README's
 "Emblem scenes" section for the current detail.
+
+## The Atalanta Fugiens family
+
+EMBLEMSIN3D is one of several projects built from the same 1617 emblem book,
+sharing sources across `C:\Dev` — different media, one engraving set.
+`papercards.js`'s real figure cutouts come directly from EmblemPapercraft /
+EmblemPrintShop below.
+
+| Project | What it does | Local |
+|---|---|---|
+| Emblems in 3D | this project — walkable papercraft tunnel-books | — |
+| Emblem Papercraft | the same plates as shadow-casting paper pop-ups, orbit-viewed | `../EmblemPapercraft/` |
+| Emblem Roguelike | a Dragon-Warrior-style RPG whose art is the extracted engravings | `../EmblemRoguelike/` |
+| Emblem Novel | graphical text adventure built from the emblems | `../EmblemNovel/` |
+| Atalanta Claudiens | DH site on H.M.E. de Jong's scholarship — the source for the "Read the emblem" panels here | `../Claudiens/` |
+| Emblem Print Shop | the computer-vision pipeline that cut the 743 figures used here and in Papercraft | `../EmblemPrintShop/` |
 
 ## What this means for "which version is right"
 
