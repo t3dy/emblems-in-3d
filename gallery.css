@@ -36,6 +36,8 @@ body {
 #jb-link:hover { background: rgba(70,50,24,0.9); }
 #lab-link { font-family: inherit; font-size: 0.82rem; color: #e8ddc4; text-decoration: none; background: rgba(40,30,16,0.7); border: 1px solid rgba(200,160,90,0.45); padding: 0.4rem 0.8rem; border-radius: 3px; }
 #lab-link:hover { background: rgba(70,50,24,0.9); }
+#hist-link { font-family: inherit; font-size: 0.82rem; color: #e8ddc4; text-decoration: none; background: rgba(40,30,16,0.7); border: 1px solid rgba(200,160,90,0.45); padding: 0.4rem 0.8rem; border-radius: 3px; }
+#hist-link:hover { background: rgba(70,50,24,0.9); }
 
 /* grid */
 #grid { padding: 1.4rem; }
@@ -106,6 +108,8 @@ body {
 #s-back:hover { background: rgba(70,50,24,0.9); }
 #s-title { color: #e8ddc4; font-size: 1rem; }
 .s-setting { color: #b08d4a; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(200,160,90,0.35); border-radius: 3px; padding: 0.15rem 0.5rem; }
+a.s-setting { text-decoration: none; pointer-events: auto; }
+a.s-setting:hover { background: rgba(70,50,24,0.6); }
 #s-tools { position: fixed; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; justify-content: center; gap: 1.2rem; flex-wrap: wrap; padding: 1rem; font-size: 0.82rem; color: #c9bd9c; background: linear-gradient(0deg, rgba(12,10,6,0.85), transparent); }
 #s-tools button, #s-tools a { font-family: inherit; font-size: 0.82rem; color: #f0e4c2; cursor: pointer; text-decoration: none; background: rgba(60,42,20,0.7); border: 1px solid rgba(200,160,90,0.45); padding: 0.4rem 0.85rem; border-radius: 3px; }
 #s-tools button:hover, #s-tools a:hover { background: rgba(90,62,28,0.9); }

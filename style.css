@@ -101,6 +101,14 @@ canvas { display: block; }
   padding: 0.55rem 0.75rem; backdrop-filter: blur(6px);
 }
 #feast-link:hover { background: rgba(86,36,22,0.86); border-color: rgba(224,180,90,0.72); }
+#hist-link {
+  position: fixed; top: 54px; right: 200px; z-index: 9;
+  font-family: inherit; font-size: 0.75rem; letter-spacing: 0.04em;
+  color: #e8ddc4; text-decoration: none;
+  background: rgba(30,22,12,0.7); border: 1px solid rgba(200,160,90,0.4);
+  padding: 0.4rem 0.8rem; border-radius: 3px;
+}
+#hist-link:hover { background: rgba(70,50,24,0.9); border-color: rgba(240,200,120,0.7); }
 #hint b { color: rgba(240,210,140,0.85); }
 .controls b { color: #f0d28c; }
 

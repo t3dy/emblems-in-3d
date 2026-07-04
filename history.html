@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emblems in 3D — Development History</title>
+  <link rel="stylesheet" href="gallery.css" />
+  <style>
+    #hist { max-width: 46rem; margin: 0 auto; padding: 2.2rem 1.4rem 5rem; line-height: 1.7; }
+    #hist h1 { font-weight: 400; font-size: 1.6rem; color: #e8ddc4; margin-bottom: 0.4rem; }
+    #hist .lede { color: #b8ac8e; font-size: 0.95rem; margin-bottom: 2rem; }
+    #hist h2 { font-weight: 400; font-size: 1.15rem; color: #d8b46a; margin: 2.4rem 0 0.8rem; border-bottom: 1px solid rgba(200,170,110,0.2); padding-bottom: 0.4rem; }
+    #hist p { color: #ddd2b8; margin-bottom: 1rem; }
+    #hist blockquote { border-left: 3px solid rgba(200,170,110,0.4); padding: 0.3rem 0 0.3rem 1rem; margin: 1rem 0; color: #cabf9e; font-style: italic; }
+    #hist a { color: #ffd86a; }
+    #hist code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.88em; }
+    #hist .try { display: inline-block; margin-top: 0.4rem; font-size: 0.85rem; color: #1a140b; background: #d8b46a; border: 1px solid #d8b46a; padding: 0.35rem 0.8rem; border-radius: 3px; text-decoration: none; }
+    #hist .try:hover { background: #ecc97e; }
+    #hist table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.6rem; font-size: 0.88rem; }
+    #hist th, #hist td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid rgba(200,170,110,0.15); color: #ddd2b8; }
+    #hist th { color: #cdb98a; font-weight: 400; }
+    #hist .stage-tag { display: inline-block; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7d5e; }
+  </style>
+</head>
+<body>
+  <header id="bar">
+    <div class="brand">
+      <span class="brand-main">EMBLEMS IN 3D</span>
+      <span class="brand-sub">Development History</span>
+    </div>
+    <div class="filters">
+      <a id="gt-link" href="gallery.html">⊞ Gallery</a>
+      <a id="jb-link" href="scene.html">✦ Current scenes</a>
+      <a id="lab-link" href="scene-legacy.html">🕰 Legacy scenes</a>
+    </div>
+  </header>
+
+  <main id="hist">
+    <h1>How this got built — honestly, stage by stage</h1>
+    <p class="lede">EMBLEMSIN3D's per-emblem 3D scenes went through several genuinely
+    different implementations. This page documents each one — including two
+    that were wrong and got replaced after direct pushback — and links to a
+    <strong>preserved, still-running snapshot</strong> of the stage before the
+    current one, so a claim here can be checked by looking, not just read.</p>
+
+    <table>
+      <tr><th>Stage</th><th>What it was</th><th>Try it</th></tr>
+      <tr><td>0</td><td>Broken serving</td><td>— (fixed)</td></tr>
+      <tr><td>1</td><td>Flagship hand-built environment</td><td><a href="index.html">index.html</a></td></tr>
+      <tr><td>2</td><td>Generic diorama + framed print</td><td>superseded, not preserved</td></tr>
+      <tr><td>3</td><td>Perspective-armature rooms, primitive props</td><td><a href="scene-legacy.html">scene-legacy.html</a> — live snapshot</td></tr>
+      <tr><td>4</td><td>Papercraft tunnel-book, real cutouts</td><td><a href="scene.html">scene.html</a> — current</td></tr>
+    </table>
+
+    <h2>Stage 0 — broken serving</h2>
+    <p>The site was reported "not working." The actual cause: every catalogue
+    asset path is absolute (<code>/EmblemPrintShop/sources/.../emblem-08.jpg</code>),
+    so the static server has to be rooted at <code>C:\Dev</code>, not at
+    <code>EMBLEMSIN3D</code> itself. It had been served from the wrong
+    directory (and 13 stray <code>python -m http.server</code> processes were
+    running simultaneously, likely bound to the wrong roots). Fixed via
+    <code>.claude/launch.json</code>. No code was wrong; the deployment was.</p>
+
+    <h2>Stage 1 — the flagship: Emblem VIII</h2>
+    <p>Predates this development arc. A fully hand-built environment
+    reconstructing Emblem VIII's actual courtyard: tiled floor in perspective,
+    crenellated walls, a vaulted tunnel to a glowing doorway, the furnace, the
+    philosophical egg, the adept with his sword, the town beyond the walls,
+    toon shading and a Sobel ink-edge post-process for the woodcut look. This
+    was always the reference for what "dimensionalizing an emblem" should
+    mean — the other 50 plates didn't reach this bar until Stage 4.</p>
+    <a class="try" href="index.html">Walk the flagship courtyard ▸</a>
+
+    <h2>Stage 2 — generic diorama, framed print</h2>
+    <p>The first attempt to give the other 50 plates <em>something</em>: a flat
+    ground plane, each emblem's catalogued <code>visual_elements</code> tags
+    turned into primitive props (spheres for eggs, capsules for figures, cones
+    for fire) scattered across the plane, with the actual engraving <strong>hung
+    on a wall as a framed picture</strong> — literally a poster of the emblem
+    standing in a room, not the room the emblem depicts. Walk mode, music, the
+    "operate" bench-step game loop, and de Jong scholarship panels were all
+    added at this stage and survived every later rewrite.</p>
+    <p>Not preserved as a standalone snapshot — superseded quickly by Stage 3 —
+    but its bones (<code>props.js</code>'s tag→prop routing, the
+    walk/operate/read-panel/music systems in <code>scene.js</code>) are what
+    Stage 3 and Stage 4 both still build on.</p>
+
+    <h2>Stage 3 — perspective armatures, primitive props</h2>
+    <blockquote>"Do you not have the ability to look at the emblems and judge
+    the three-dimensional perspectives that the emblems create? ... I'd like
+    you to think hard about what I've been asking and see if you can't
+    simulate all the spaces that are being created by the lines and planes and
+    angles of the images."</blockquote>
+    <p>The first real correction: Stage 2's flat-plane-with-a-poster completely
+    ignored what the engravings actually construct spatially. Reading the
+    plates directly (not the database tags) showed they fall into a handful of
+    repeatable <strong>perspective armatures</strong> — a one-point-perspective
+    interior box (kitchens, labs), a walled court (a paved yard receding to an
+    arched back wall, the VIII model generalized), a foreground-figure
+    landscape (near ground → river/town band → mountains → cloud-scroll sky,
+    the dominant type), and a diagram wall (Emblem XXI's inscribed
+    circle/triangle/square). This got the <em>rooms</em> right, but the
+    <em>contents</em> were still synthetic 3D primitives standing in for the
+    actual figures — a sphere for an egg, a peg-doll for a person, a
+    cone-roofed box for a farmhouse. Structurally sound, visually nothing like
+    a 1617 engraving.</p>
+    <p><strong>Still running, on purpose</strong> — <code>scene-legacy.js</code>
+    restores this exact system so it can be compared directly rather than just
+    described.</p>
+    <a class="try" href="scene-legacy.html?id=af-06">Compare: Emblem VI, Stage 3 ▸</a>
+
+    <h2>Stage 4 — papercraft tunnel-book, real cutouts (current)</h2>
+    <blockquote>"This isn't what I'm looking for at all! I don't want you to
+    just make wavy 3d pop-outs I want you to reconstruct the spaces... so that
+    we can make papercraft emblems that are more like pop-up books where each
+    figure ... has its own paper cut out ... What you've built looks
+    completely random."</blockquote>
+    <p>The second, larger correction. Investigating turned up a sibling
+    project, <strong>EmblemPapercraft</strong>, that had already solved exactly
+    this: 743 figures computer-vision-cut from the 51 plates, each with a
+    normalized picture-plane position, size, and inferred pop-forward depth.
+    EmblemPapercraft renders these as a fixed shadow-box you orbit around;
+    <code>papercards.js</code> places the <em>same</em> real cutouts at real
+    room-scale 3D depth instead, so walking through the scene reveals genuine
+    parallax — an antique <strong>tunnel book / peepshow box</strong>, walked
+    into rather than looked at from outside.</p>
+    <p>A real data-quality issue surfaced during this work and is handled
+    transparently: about 110 of the 743 cutouts are low-confidence automated CV
+    detections (mean confidence ≈0.32 of 1.0) and a few are visibly wrong —
+    e.g. Emblem VIII's cutout labelled "athanor retort" is actually a
+    mis-segmented crop of a robed figure's arm plus doorway masonry.
+    <code>papercards.js</code> renders only the reliable unscored cutouts by
+    default, with a small exclusion list for confirmed-bad files and a
+    single-best-scored-item fallback for plates that would otherwise pop
+    nothing at all.</p>
+    <a class="try" href="scene.html?id=af-06">Compare: Emblem VI, Stage 4 ▸</a>
+
+    <h2>What this means for "which version is right"</h2>
+    <p>Stage 4 is the live site. Stage 3 stays reachable specifically so a
+    claim like "the rooms are more spatially correct now" or "the figures are
+    real cutouts now" can be checked by looking, not just read. If you want
+    Stage 3's room geometry combined with Stage 4's real cutout figures, that
+    hybrid hasn't been built — it's a natural next step if the current
+    one-tunnel-per-emblem framing turns out too uniform once you've walked
+    all 51.</p>
+  </main>
+</body>
+</html>

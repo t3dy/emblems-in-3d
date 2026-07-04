@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emblems in 3D — Scene</title>
+  <title>Emblems in 3D — Scene (legacy: primitive-prop stage)</title>
   <link rel="stylesheet" href="gallery.css?v=5" />
   <link rel="stylesheet" href="style.css" />
   <script type="importmap">
@@ -14,14 +14,18 @@
     }
   }
   </script>
+  <style>
+    #legacy-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 20; text-align: center; padding: 0.4rem; font-size: 0.78rem; background: #4a2a1a; color: #f0e4c2; }
+    #legacy-banner a { color: #ffd86a; }
+  </style>
 </head>
 <body>
+  <div id="legacy-banner">🕰 Preserved snapshot — Stage 3 (synthetic 3D-prop rooms). The current site uses real paper cutouts instead: <a href="scene.html">see the current version ▸</a> · <a href="docs/HISTORY.md">full history ▸</a></div>
   <canvas id="s-canvas"></canvas>
-  <div id="s-top">
+  <div id="s-top" style="top:2rem">
     <a id="s-back" href="gallery.html">◂ Gallery</a>
     <span id="s-title"></span>
     <span id="s-setting" class="s-setting"></span>
-    <a id="s-hist" class="s-setting" href="history.html" style="margin-left:auto">🕰 History</a>
   </div>
   <div id="s-tools">
     <button id="s-walk">🚶 Walk this scene</button>
@@ -38,6 +42,6 @@
   </div>
   <div id="s-reticle" class="s-reticle hidden"></div>
   <div id="s-loading">composing the scene…</div>
-  <script type="module" src="scene.js?v=28"></script>
+  <script type="module" src="scene-legacy.js"></script>
 </body>
 </html>
