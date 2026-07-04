@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosimo III Feast Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <section class="tableau">
+      <canvas id="feast" width="1500" height="900" aria-label="Animated Baroque feast table"></canvas>
+      <header class="topbar">
+        <a href="../index.html">EMBLEMSIN3D</a>
+        <div>
+          <span>Palazzo Pitti, late Medici court</span>
+          <strong>Cosimo III Feast Engine</strong>
+        </div>
+        <button id="serve">Serve</button>
+      </header>
+      <section class="score">
+        <div>
+          <span>Prestige</span>
+          <strong id="prestige">0</strong>
+        </div>
+        <div>
+          <span>Debt</span>
+          <strong id="debt">0</strong>
+        </div>
+        <div>
+          <span>Secrecy</span>
+          <strong id="secrecy">0</strong>
+        </div>
+      </section>
+    </section>
+
+    <aside class="cabinet">
+      <section class="portrait">
+        <img src="portrait.svg" alt="Stylized portrait of Cosimo III de' Medici">
+        <div>
+          <p>Design Brief</p>
+          <h1>Feast As Statecraft</h1>
+        </div>
+      </section>
+
+      <p class="intro">
+        Build a ceremonial table for Cosimo III de' Medici. The goal is not abundance alone: the best banquet converts imported cacao, jasmine, pharmacy, etiquette, and music into political aura without letting expense or suspicion devour the court.
+      </p>
+
+      <section class="controls" aria-label="Feast controls">
+        <label for="course">
+          Course
+          <select id="course"></select>
+        </label>
+        <label for="perfume">
+          Perfume
+          <select id="perfume"></select>
+        </label>
+        <label for="music">
+          Entertainment
+          <select id="music"></select>
+        </label>
+        <label for="manners">
+          Etiquette
+          <select id="manners"></select>
+        </label>
+        <label for="guest">
+          Political Guest
+          <select id="guest"></select>
+        </label>
+      </section>
+
+      <section class="dials">
+        <label for="jasmine">Jasmine Saturation <input id="jasmine" type="range" min="0" max="100" value="62"></label>
+        <label for="secret">Spezieria Secrecy <input id="secret" type="range" min="0" max="100" value="76"></label>
+        <label for="budget">Splendor Budget <input id="budget" type="range" min="0" max="100" value="58"></label>
+      </section>
+
+      <section class="cards">
+        <article>
+          <h2>Jasmine Chocolate</h2>
+          <p>A guarded court beverage becomes the playable center: cacao, fresh jasmine, pharmacy, and prestige are layered like a recipe and like a diplomatic code.</p>
+        </article>
+        <article>
+          <h2>Banquet Politics</h2>
+          <p>Every course is a signal. Imported ingredients increase aura, but the bill rises, and secrecy can turn refinement into paranoia.</p>
+        </article>
+        <article>
+          <h2>Table Manners</h2>
+          <p>Forks, glass, napkins, measured service, and staged music turn eating into choreography. The table is a machine for producing rank.</p>
+        </article>
+      </section>
+
+      <details class="notes">
+        <summary>Historical anchors</summary>
+        <p>Cosimo III ruled Tuscany from 1670 to 1723. The project draws especially on accounts of his courtly chocolate culture: Francesco Redi, the grand ducal pharmacy, jasmine infusion, secrecy, and the use of elite consumption as prestige-work for a small state.</p>
+      </details>
+    </aside>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# stray personal note, not project content
+p july 25.txt

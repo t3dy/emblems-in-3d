@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Great Work — a cinematic flight through Atalanta Fugiens</title>
+  <link rel="stylesheet" href="gallery.css" />
+  <style>
+    #gt-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    #gt-grade { position: fixed; inset: 0; pointer-events: none; mix-blend-mode: soft-light; opacity: 0.5; transition: background 2s ease; z-index: 2; }
+    #gt-vignette { position: fixed; inset: 0; pointer-events: none; z-index: 3;
+      box-shadow: inset 0 0 240px 60px rgba(0,0,0,0.85); }
+    /* title cards */
+    #gt-card { position: fixed; left: 7vw; bottom: 12vh; z-index: 4; max-width: 40rem;
+      opacity: 0; transform: translateY(14px); transition: opacity 1s ease, transform 1s ease; pointer-events: none; }
+    #gt-card.show { opacity: 1; transform: none; }
+    #gt-card .gt-roman { letter-spacing: 0.4em; font-size: 0.8rem; color: #c9a45a; }
+    #gt-card .gt-motto { font-size: 1.7rem; font-style: italic; color: #f0e7d2; text-shadow: 0 2px 16px rgba(0,0,0,0.9); margin-top: 0.4rem; line-height: 1.3; }
+    #gt-stage { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 4;
+      text-align: center; opacity: 0; transition: opacity 1.4s ease; pointer-events: none; }
+    #gt-stage.show { opacity: 1; }
+    #gt-stage .gt-stage-name { font-size: 4rem; letter-spacing: 0.3em; color: #f4ecd6; text-shadow: 0 4px 40px rgba(0,0,0,0.9); }
+    #gt-stage .gt-stage-sub { letter-spacing: 0.35em; font-size: 0.9rem; color: #c9a45a; margin-top: 0.6rem; }
+    /* start gate */
+    #gt-gate { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at center, rgba(24,18,10,0.7), rgba(6,5,3,0.98)); text-align: center;
+      transition: opacity 1.2s ease; }
+    #gt-gate.gone { opacity: 0; pointer-events: none; }
+    #gt-gate h1 { font-size: 3rem; font-weight: 400; color: #f0e7d2; }
+    #gt-gate .gt-sub { color: #b79a5e; letter-spacing: 0.3em; margin: 0.6rem 0 2rem; }
+    #gt-begin { font-family: inherit; font-size: 1.1rem; color: #1a140b; cursor: pointer;
+      background: #d8b46a; border: none; padding: 0.8rem 2rem; border-radius: 4px; letter-spacing: 0.08em; }
+    #gt-begin:hover { background: #ecc97e; }
+    #gt-loading { color: #9c8e6e; font-style: italic; margin-top: 1.4rem; }
+    #gt-ui { position: fixed; top: 1rem; right: 1.2rem; z-index: 5; display: flex; gap: 0.6rem; }
+    #gt-ui a, #gt-ui button { font-family: inherit; font-size: 0.8rem; color: #e8ddc4; text-decoration: none; cursor: pointer;
+      background: rgba(30,22,12,0.6); border: 1px solid rgba(200,160,90,0.4); padding: 0.35rem 0.7rem; border-radius: 3px; }
+    #gt-progress { position: fixed; bottom: 0; left: 0; height: 3px; width: 0; z-index: 5; background: linear-gradient(90deg,#7a5a2a,#e8c98a); transition: width 0.3s linear; }
+  </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="gt-canvas"></canvas>
+  <div id="gt-grade"></div>
+  <div id="gt-vignette"></div>
+
+  <div id="gt-card"><div class="gt-roman"></div><div class="gt-motto"></div></div>
+  <div id="gt-stage"><div class="gt-stage-name"></div><div class="gt-stage-sub"></div></div>
+
+  <div id="gt-ui">
+    <button id="gt-mute">♪ sound on</button>
+    <button id="gt-pause">⏸ pause</button>
+    <a href="gallery.html">⊞ Gallery</a>
+  </div>
+  <div id="gt-progress"></div>
+
+  <div id="gt-gate">
+    <div>
+      <h1>The Great Work</h1>
+      <p class="gt-sub">A FLIGHT THROUGH THE ATALANTA FUGIENS</p>
+      <button id="gt-begin" disabled>preparing the vessels…</button>
+      <p id="gt-loading"></p>
+    </div>
+  </div>
+
+  <script type="module" src="grandtour.js"></script>
+</body>
+</html>

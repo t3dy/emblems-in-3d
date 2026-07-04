@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Fugue Jukebox — Atalanta Fugiens in 8-bit</title>
+  <link rel="stylesheet" href="gallery.css" />
+  <style>
+    #jb-head { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 0.9rem 1.4rem; background: linear-gradient(180deg, rgba(28,22,14,0.98), rgba(20,16,10,0.95)); border-bottom: 1px solid rgba(200,170,110,0.25); }
+    #jb-head h1 { font-size: 1rem; letter-spacing: 0.25em; font-weight: 400; }
+    #jb-head .sub { display:block; font-size: 0.7rem; letter-spacing:0.2em; color:#9c8044; margin-top:2px; }
+    #jb-head a { font-family: inherit; font-size: 0.8rem; color: #1a140b; text-decoration:none; background:#d8b46a; border-radius:3px; padding:0.4rem 0.8rem; }
+    #jb-grid { display:grid; gap:0.8rem; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); padding: 1.2rem; padding-bottom: 7rem; }
+    .jb-card { cursor:pointer; text-align:left; background: rgba(30,24,15,0.6); border:1px solid rgba(200,170,110,0.18); border-radius:4px; overflow:hidden; padding:0; color:inherit; font:inherit; transition: transform .15s, border-color .15s; }
+    .jb-card:hover { transform: translateY(-3px); border-color: rgba(216,180,106,0.7); }
+    .jb-card.playing { border-color:#ecc97e; box-shadow:0 0 0 2px rgba(236,201,126,0.6), 0 8px 26px rgba(0,0,0,0.5); }
+    .jb-thumb { aspect-ratio:1/1; background:#e9dcc0; overflow:hidden; }
+    .jb-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .jb-cap { padding:0.45rem 0.6rem; }
+    .jb-cap .r { letter-spacing:0.2em; font-size:0.68rem; color:#c9a45a; }
+    .jb-cap .m { font-size:0.74rem; color:#c9bd9c; line-height:1.25; margin-top:2px; }
+    .jb-cap .st { font-size:0.64rem; text-transform:uppercase; letter-spacing:0.12em; color:#8a7d5e; margin-top:3px; }
+    #jb-bar { position:fixed; left:0; right:0; bottom:0; z-index:6; display:flex; align-items:center; gap:1rem; padding:0.7rem 1.4rem; background: linear-gradient(0deg, rgba(10,8,5,0.97), rgba(18,14,9,0.92)); border-top:1px solid rgba(200,170,110,0.3); }
+    #jb-viz { width:200px; height:46px; background:#0c0a07; border:1px solid rgba(200,170,110,0.25); border-radius:3px; }
+    #jb-now { flex:1; color:#e8ddc4; }
+    #jb-now .t { font-size:0.95rem; } #jb-now .s { font-size:0.75rem; color:#9c8e6e; }
+    #jb-bar button { font-family:inherit; font-size:0.85rem; color:#f0e4c2; cursor:pointer; background:rgba(60,42,20,0.8); border:1px solid rgba(200,160,90,0.45); padding:0.45rem 0.9rem; border-radius:3px; }
+    #jb-bar .nes { font-size:0.7rem; color:#8a7d5e; }
+  </style>
+  <script type="importmap">{ "imports": { } }</script>
+</head>
+<body>
+  <header id="jb-head">
+    <div><h1>THE FUGUE JUKEBOX<span class="sub">MAIER'S 50 CANONS · RENDERED IN 8-BIT (NES APU)</span></h1></div>
+    <a href="gallery.html">⊞ Gallery</a>
+  </header>
+  <main id="jb-grid"></main>
+  <div id="jb-bar">
+    <canvas id="jb-viz" width="200" height="46"></canvas>
+    <div id="jb-now"><div class="t">— select a fugue —</div><div class="s">three-voice canon → 2 pulse + triangle</div></div>
+    <span class="nes">pulse·pulse·triangle</span>
+    <button id="jb-stop">■ stop</button>
+    <button id="jb-mute">♪ on</button>
+  </div>
+  <script type="module" src="jukebox.js"></script>
+</body>
+</html>

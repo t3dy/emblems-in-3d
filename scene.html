@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emblems in 3D — Scene</title>
+  <link rel="stylesheet" href="gallery.css?v=4" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="s-canvas"></canvas>
+  <div id="s-top">
+    <a id="s-back" href="gallery.html">◂ Gallery</a>
+    <span id="s-title"></span>
+    <span id="s-setting" class="s-setting"></span>
+  </div>
+  <div id="s-tools">
+    <button id="s-walk">🚶 Walk this scene</button>
+    <button id="s-read">📖 Read the emblem</button>
+    <button id="s-plate">🖼 Hide source plate</button>
+    <button id="s-tour">✦ Tour the lab process</button>
+    <button id="s-relief">▦ View as relief</button>
+    <a id="s-env" href="index.html" style="display:none">Full bespoke environment ▸</a>
+    <span id="s-hint">drag to orbit · scroll to zoom</span>
+  </div>
+  <div id="s-walk-overlay" class="s-walk-overlay hidden">
+    <p>Click to walk</p>
+    <p class="s-walk-controls">WASD move · mouse look · <b>E</b> operate · <b>R</b> read · <b>ESC</b> release</p>
+  </div>
+  <div id="s-reticle" class="s-reticle hidden"></div>
+  <div id="s-loading">composing the scene…</div>
+  <script type="module" src="scene.js?v=28"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fugue — Atalanta Fugiens</title>
+  <link rel="stylesheet" href="gallery.css" />
+  <link rel="stylesheet" href="experiments.css" />
+  <style>
+    #fg-top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.4rem; background: linear-gradient(180deg, rgba(20,16,10,0.98), rgba(16,12,8,0.9)); border-bottom: 1px solid rgba(200,170,110,0.2); }
+    #fg-top a { font-family: inherit; font-size: 0.9rem; color: #e8ddc4; text-decoration: none; background: rgba(40,30,16,0.7); border: 1px solid rgba(200,160,90,0.4); padding: 0.4rem 0.85rem; border-radius: 3px; }
+    #fg-top a:hover { background: rgba(70,50,24,0.9); }
+    #fg-main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: start; }
+    @media (max-width: 960px) { #fg-main { grid-template-columns: 1fr; } }
+    #fg-player { position: sticky; top: 56px; padding: 1.6rem; }
+    #fg-plate { width: 100%; max-height: 42vh; object-fit: contain; background: #e9dcc0; border: 1px solid rgba(200,170,110,0.3); border-radius: 4px; }
+    #fg-now { margin-top: 1rem; padding: 0.9rem 1.1rem; background: rgba(12,10,7,0.85); border: 1px solid rgba(200,170,110,0.3); border-radius: 5px; }
+    #fg-now .ver { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: #b08d4a; }
+    #fg-now .gl { font-size: 1.25rem; color: #f0e7d2; margin: 2px 0 4px; }
+    #fg-now .bl { font-size: 0.85rem; color: #b7a877; line-height: 1.5; }
+    #fg-viz { width: 100%; height: 54px; background: #0c0a07; border: 1px solid rgba(200,170,110,0.2); border-radius: 3px; margin-top: 0.8rem; display: block; }
+    #fg-ctrls { display: flex; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
+    #fg-ctrls button { font-family: inherit; font-size: 0.85rem; color: #f0e4c2; cursor: pointer; background: rgba(60,42,20,0.8); border: 1px solid rgba(200,160,90,0.45); padding: 0.45rem 0.9rem; border-radius: 3px; }
+    #fg-ctrls button:hover { background: rgba(90,62,28,0.95); }
+    #fg-essay { padding: 1.8rem 2.2rem 4rem; max-width: 46rem; }
+    #fg-essay h1 { font-size: 2.2rem; font-weight: 400; color: #f4ecd6; line-height: 1.15; }
+    #fg-essay .motto { font-style: italic; color: #cdb98a; margin: 0.4rem 0 1.4rem; }
+    .acc { border: 1px solid rgba(200,170,110,0.25); border-radius: 6px; margin-bottom: 1.6rem; background: rgba(24,19,12,0.5); }
+    .acc > summary { cursor: pointer; list-style: none; padding: 1rem 1.2rem; }
+    .acc > summary::-webkit-details-marker { display: none; }
+    .acc .lbl { letter-spacing: 0.2em; font-size: 0.66rem; text-transform: uppercase; color: #b08d4a; }
+    .acc .short { color: #ddd2b8; line-height: 1.65; margin-top: 0.4rem; }
+    .acc .more { color: #d8b46a; font-size: 0.82rem; margin-top: 0.6rem; display: inline-block; }
+    .acc[open] .more { display: none; }
+    .acc .deep { padding: 0 1.2rem 1.2rem; color: #ccc0a3; line-height: 1.7; border-top: 1px solid rgba(200,170,110,0.15); }
+    .acc .deep p { margin: 0.9rem 0; }
+    .sec-lbl { letter-spacing: 0.2em; font-size: 0.72rem; text-transform: uppercase; color: #b08d4a; margin: 2rem 0 0.8rem; }
+    .credit { display: flex; gap: 0.8rem; padding: 0.7rem 0.9rem; border: 1px solid rgba(200,170,110,0.18); border-radius: 5px; margin-bottom: 0.6rem; background: rgba(20,16,10,0.5); transition: border-color .2s, background .2s; }
+    .credit.on { border-color: #ecc97e; background: rgba(60,46,24,0.55); box-shadow: 0 0 0 1px rgba(236,201,126,0.4); }
+    .credit .num { font-size: 0.9rem; color: #8a7d5e; min-width: 1.6rem; }
+    .credit .g { color: #f0e7d2; font-size: 0.98rem; }
+    .credit .l { color: #b08d4a; font-size: 0.78rem; }
+    .credit .b { color: #b7a877; font-size: 0.82rem; line-height: 1.5; margin-top: 2px; }
+  </style>
+</head>
+<body class="exp-body">
+  <header id="fg-top">
+    <a href="jukebox.html">◂ Jukebox</a>
+    <a id="fg-prev" href="#">◂ prev</a><a id="fg-next" href="#">next ▸</a>
+    <span id="fg-kind" style="color:#b08d4a;letter-spacing:.12em;font-size:.8rem"></span>
+  </header>
+  <main id="fg-main">
+    <section id="fg-player">
+      <img id="fg-plate" alt="" />
+      <div id="fg-now">
+        <div class="ver">— press play —</div>
+        <div class="gl"></div>
+        <div class="bl"></div>
+      </div>
+      <canvas id="fg-viz" width="600" height="54"></canvas>
+      <div id="fg-ctrls">
+        <button id="fg-play">▸ play</button>
+        <button id="fg-skip">⏭ next version</button>
+        <button id="fg-mute">♪ on</button>
+      </div>
+    </section>
+    <article id="fg-essay">
+      <p class="x-eyebrow" id="fg-eyebrow"></p>
+      <h1 id="fg-title"></h1>
+      <p class="motto" id="fg-motto"></p>
+
+      <details class="acc">
+        <summary>
+          <span class="lbl">The emblem — main idea</span>
+          <div class="short" id="fg-short"></div>
+          <span class="more">▾ expand the deep dive into its symbolism</span>
+        </summary>
+        <div class="deep" id="fg-deep"></div>
+      </details>
+
+      <p class="sec-lbl">Appendix — the ten versions &amp; their video-game synths</p>
+      <p style="color:#b7a877;line-height:1.6;font-size:0.9rem">As the fugue repeats it is re-voiced through ten NES <i>palettes</i>, one per iconic game and level (from the <code>nsfripper</code> CODEXSYNTH bench). The currently sounding version is highlighted.</p>
+      <div id="fg-credits"></div>
+    </article>
+  </main>
+  <script type="module" src="fugue.js"></script>
+</body>
+</html>

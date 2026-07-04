@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emblems in 3D — VIII · The Fiery Sword & the Egg</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Import map: load three.js + addons from CDN, no build step -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="overlay">
+    <div id="overlay-inner">
+      <p class="emblem-num">EMBLEMA VIII</p>
+      <h1>The Fiery Sword &amp; the Egg</h1>
+      <p class="latin">Accipe ovum &amp; igneo percute gladio.</p>
+      <p class="gloss">"Take the egg and strike it with a fiery sword."</p>
+      <p class="prompt">Click to resume</p>
+      <p class="controls">WASD walk &nbsp;·&nbsp; mouse look &nbsp;·&nbsp; <b>F</b> heat sword &nbsp;·&nbsp; <b>E</b> strike / use &nbsp;·&nbsp; <b>R</b> read the emblem &nbsp;·&nbsp; ESC release</p>
+    </div>
+  </div>
+
+  <a id="gallery-link" href="gallery.html">⊞ Gallery of all plates</a>
+  <a id="tour-link" href="grandtour.html">✦ The Great Work</a>
+  <a id="feast-link" href="COSIMOIII_FEAST/">Cosimo III Feast</a>
+  <div id="reticle"></div>
+  <div id="action"></div>
+  <div id="hint">WASD move · mouse look · <b>F</b> heat · <b>E</b> strike / use · <b>R</b> read · ESC release</div>
+  <div id="flash"></div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

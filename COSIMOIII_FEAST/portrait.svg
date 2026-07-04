@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Stylized portrait of Cosimo III de' Medici">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="32%" r="68%">
+      <stop offset="0" stop-color="#51301f"/>
+      <stop offset="0.62" stop-color="#21110b"/>
+      <stop offset="1" stop-color="#090504"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#33100d"/>
+      <stop offset="0.45" stop-color="#832018"/>
+      <stop offset="1" stop-color="#1a0c09"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 .18"/>
+      </feComponentTransfer>
+      <feBlend mode="multiply" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <g filter="url(#grain)">
+    <ellipse cx="324" cy="566" rx="214" ry="126" fill="url(#robe)"/>
+    <path d="M208 571c32-88 73-133 121-136 55 4 96 50 123 136z" fill="#efe2cf"/>
+    <path d="M239 438c31 48 61 72 91 72 29 0 58-25 87-74-22 14-50 22-84 22-37 0-68-7-94-20z" fill="#f7ecdc"/>
+    <path d="M195 322c-30 120 10 215 103 254-67-18-111-55-132-111-21-57-11-105 29-143z" fill="#2a1812"/>
+    <path d="M451 316c43 96 27 182-49 258 88-35 132-95 132-179 0-39-28-65-83-79z" fill="#2a1812"/>
+    <ellipse cx="323" cy="259" rx="116" ry="148" fill="#e6b58f"/>
+    <path d="M222 240c9-87 49-138 119-151 66 10 102 54 108 134-35-40-69-61-103-63-45-3-86 24-124 80z" fill="#1b120f"/>
+    <path d="M210 265c-13-80 3-139 47-177 29-25 72-36 128-34-70 23-108 76-114 159-18 7-38 24-61 52z" fill="#140d0a"/>
+    <path d="M397 74c61 31 86 88 74 171-13-38-36-66-69-84-21-41-23-70-5-87z" fill="#170f0c"/>
+    <ellipse cx="282" cy="261" rx="15" ry="10" fill="#271611"/>
+    <ellipse cx="369" cy="259" rx="15" ry="10" fill="#271611"/>
+    <path d="M326 274c-11 37-15 59-11 67 7 6 19 7 35 2" fill="none" stroke="#9f5d48" stroke-width="8" stroke-linecap="round"/>
+    <path d="M284 379c29 17 59 17 90-1" fill="none" stroke="#7e2b25" stroke-width="9" stroke-linecap="round"/>
+    <path d="M210 433c70 45 150 51 240 18" fill="none" stroke="#eadcc7" stroke-width="25" stroke-linecap="round"/>
+    <path d="M167 521c95 37 199 39 314 6" fill="none" stroke="#d5b675" stroke-width="12" opacity=".75"/>
+    <circle cx="459" cy="522" r="22" fill="#d5b675"/>
+    <path d="M118 80h404v480H118z" fill="none" stroke="#d5b675" stroke-width="10" opacity=".72"/>
+    <path d="M136 98h368v444H136z" fill="none" stroke="#f7ecdc" stroke-width="2" opacity=".35"/>
+  </g>
+</svg>
