@@ -4,6 +4,13 @@ Turning the emblems of Michael Maier's *Atalanta Fugiens* (1617) into walkable
 3D environments with [three.js](https://threejs.org/), rendered in a
 toon/woodcut style to echo the original engravings.
 
+**→ [Development history](history.html) / [`docs/HISTORY.md`](docs/HISTORY.md)**
+— the per-emblem scene system went through several genuinely different
+implementations, including two that were wrong and got replaced after direct
+feedback. That page documents each stage honestly and links a still-running
+snapshot of the previous stage (`scene-legacy.html`) so the "before" can be
+compared against the current site (`scene.html`) directly, not just described.
+
 ## Gallery of all plates (`gallery.html`)
 
 Every plate of both books is browsable and gets a generated 3D **carved
