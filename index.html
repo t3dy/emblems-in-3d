@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phase 5 — Reconstruction · Emblems in 3D</title>
+<meta name="description" content="Rebuilding the spaces of Michael Maier's Atalanta Fugiens (1617) from each plate's own perspective construction." />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1>Phase 5 — Reconstruction</h1>
+  <p class="sub">Rebuilding the spaces of Michael Maier's <em>Atalanta Fugiens</em> (1617)
+     from each plate's own perspective construction, instead of guessing depth from
+     where things sit on the page.</p>
+</header>
+
+<nav class="tabs">
+  <a href="index.html" aria-current="page">Overview</a>
+  <a href="examples.html">The three examples</a>
+  <a href="plates.html">All 51 plates</a>
+  <a href="method.html">Method</a>
+  <a href="findings.html">What was wrong</a>
+</nav>
+
+<div class="lede">
+  <p>Merian's engravings are ruled constructions. He worked from a horizon and one or
+  two vanishing points, and the evidence is still in the picture: paving grids, wall
+  courses, cornices, the lit doorway at the end of a vault. Earlier versions of this
+  project ignored all of it and set each figure's depth with</p>
+
+  <p style="text-align:center"><code>depth = vertical_position − category_bias − 0.15·area</code></p>
+
+  <p>which contains no information about perspective at all. This phase replaces it
+  with the plain pinhole relation for a camera of focal length <em>f</em> at eye height
+  <em>E</em> looking at a flat ground plane:</p>
+
+  <p style="text-align:center"><code>Z = f · E / (y − horizon)</code></p>
+
+  <p>Every depth on this site comes from that and from nothing else, applied to where
+  an element's mask <strong>touches the ground</strong> rather than to where its bounding
+  box happens to be centred. Sizes follow from the same relation, so a card always
+  subtends the angle it subtends in the engraving.</p>
+
+  <p>Setting the 3D camera to the same <em>f</em> and <em>E</em> then makes the whole thing
+  testable: the reconstruction must reproject onto the plate it came from. That is the
+  <strong>reprojection gate</strong>, and it is the check this project never had. Most
+  procedural-graphics work has to invent its visual contract. Here there are 51 of them,
+  printed in 1617.</p>
+</div>
+
+<h2>Start here</h2>
+<div class="grid">
+  <a class="card" href="reconstruct.html?id=emblem-08">
+    <img src="assets/plates/emblem-08.jpg" alt="Emblem VIII" />
+    <div class="body">
+      <div class="name">Emblem VIII — the courtyard</div>
+      <div class="meta">one-point · hand-reviewed · walkable vault</div>
+    </div>
+  </a>
+  <a class="card" href="reconstruct.html?id=emblem-01">
+    <img src="assets/plates/emblem-01.jpg" alt="Emblem I" />
+    <div class="body">
+      <div class="name">Emblem I — Boreas</div>
+      <div class="meta">figure landscape · 3 depth registers</div>
+    </div>
+  </a>
+  <a class="card" href="reconstruct.html?id=emblem-21">
+    <img src="assets/plates/emblem-21.jpg" alt="Emblem XXI" />
+    <div class="body">
+      <div class="name">Emblem XXI — the squared circle</div>
+      <div class="meta">frontal wall · diagram as decal</div>
+    </div>
+  </a>
+</div>
+
+<h2>How to read a reconstruction</h2>
+<table class="data">
+  <tr><td><strong>Walk in</strong></td><td>first person, spawning at the engraver's own eye height — for Emblem VIII that is 1.09 m, not a default 1.7 m, and standing up straight puts you in a different room.</td></tr>
+  <tr><td><strong>Reprojection gate</strong></td><td>press twice for the inverted overlay. Flat grey means the reconstruction registers with the engraving. Anything that still shows structure is a disagreement, and the page says so in words as well.</td></tr>
+  <tr><td><strong>Open the book</strong></td><td>slides every card between the flat plate and its solved depth, with the angle-preserving scale applied the whole way, so the composition stays registered as it opens. This is what a tunnel book actually does.</td></tr>
+  <tr><td><strong>The notes panel</strong></td><td>every number the scene was built from, and every place a number was assumed rather than measured.</td></tr>
+</table>
+
+<h2>Where the honesty is</h2>
+<div class="lede">
+  <p>Three of the 51 solves are hand-measured. The other 48 are automatic, and most of
+  them are weak: only 10 reach a confidence of 0.25, and the reason is worth stating
+  plainly — dense engraved hatching is thousands of short parallel lines, and it
+  swamps a Hough-and-RANSAC vanishing-point search. The automatic pass is a first
+  draft, not a result. The
+  <a href="plates.html">all-plates page</a> shows every solve drawn back onto its
+  engraving so you can see which ones are wrong, and the local review app turns those
+  judgements into overrides the pipeline reads.</p>
+  <p>Wherever a quantity could not be measured, the record says <code>ASSUMED</code>
+  and gives the reasoning. Two attempts to measure Emblem VIII's focal length failed;
+  both failures are written down rather than quietly replaced with a plausible number.</p>
+</div>
+
+<p class="fine" style="margin-top:40px;border-top:1px solid var(--rule);padding-top:14px">
+  Plates: Michael Maier, <em>Atalanta Fugiens</em>, Oppenheim 1617, engraved by Matthäus
+  Merian. Cutout masks from the EmblemPrintShop GroundingDINO + SAM pipeline, re-cut here
+  against the same source plates. Full evaluation and revision plan in
+  <code>REVISIONPROPOSAL.md</code> in the repository.
+</p>
+
+</div>
+</body>
+</html>

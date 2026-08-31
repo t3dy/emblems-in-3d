@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What was wrong · Emblems in 3D</title>
+<meta name="description" content="Six defects in the previous per-emblem renderer, each verified against the running site or the data files." />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <h1>What was wrong</h1>
+  <p class="sub">Six defects in the previous per-emblem renderer, each verified against
+     the running site or the data files rather than inferred from the code.</p>
+</header>
+<nav class="tabs">
+  <a href="index.html">Overview</a>
+  <a href="examples.html">The three examples</a>
+  <a href="plates.html">All 51 plates</a>
+  <a href="method.html">Method</a>
+  <a href="findings.html" aria-current="page">What was wrong</a>
+</nav>
+
+<div class="lede">
+<p>The previous stage was a 2.5-D layer stack with a heuristic depth channel,
+presented as a reconstruction of pictorial space. Moving from primitive props to real
+cutouts fixed the <em>content</em>, and was right. But it also discarded the only
+<em>spatial</em> model the project had ever had and replaced it with
+<code>depth = vertical_position − category_bias</code>, which contains no information
+from the engraving's perspective construction.</p>
+<p>These are the specific consequences. All six are fixed by the pipeline described
+under <a href="method.html">Method</a>.</p>
+</div>
+
+<h2>1 · Thirty of fifty-one emblems popped exactly one card</h2>
+<div class="lede">
+<p>Computed by running the old <code>papercards.js</code> filter logic over its own
+manifest — unscored elements, minus the hardcoded bad list, plus the single-best
+fallback. Distribution: one card ×30, two ×8, three ×7, four ×4, five ×1, seven ×1.
+Ninety-five popped cards for the whole book. For 59% of it, the "walkable tunnel book"
+was a flat photograph of a page with one thing floating in front of it.</p>
+</div>
+
+<h2>2 · The flagship plate rendered with a black void through its middle</h2>
+<div class="two-up">
+  <div class="rev-figure"><img src="assets/findings/old-backdrop-08.png" alt="the old backdrop: a whole book page with a rectangular hole cut out of its middle" loading="lazy" />
+    <div style="padding:8px 11px" class="fine">before — the actual backdrop image the old
+      scene hung at the back of the tunnel. Binding, gutter and letterpress included;
+      a rectangular hole where the vault used to be.</div></div>
+  <div class="rev-figure"><img src="assets/plates/emblem-08.jpg" alt="the complete Emblem VIII plate" loading="lazy" />
+    <div style="padding:8px 11px" class="fine">after — the plate the extraction masks were
+      actually cut from. Complete, no page furniture, and registered to every cutout.</div></div>
+</div>
+<div class="lede">
+<p>The backdrop was a destructively holed scan of a whole book page: leather binding,
+page gutter, letterpress epigram, and a rectangular hole where the vault and the
+figure's torso had been cut away. The renderer then <em>excluded</em> those cutouts as
+unreliable — so nothing ever filled the hole back in. Excluding a bad extraction could
+not be done safely, because the removal had already happened in the image.</p>
+<p>Fixed by using the complete Claudiens plate as the backdrop. That was always the
+right image: <code>summary.json</code>'s <code>source_image</code> shows the extraction
+masks were cut from it in the first place. The colour page-scan cutouts that shipped
+alongside are from a different copy of the book at a different framing, which is the
+root of the registration problem.</p>
+</div>
+
+<h2>3 · Every scene was stretched about 37%</h2>
+<div class="lede">
+<p><code>ROOM_W = 16, ROOM_H = 10</code> is an aspect of 1.60. The plates are about
+1.17. Cards and backdrop were stretched by the same factor, so relative registration
+survived and the distortion was invisible head-on — which is exactly why it went
+unnoticed. The reconstruction takes its aspect from the plate.</p>
+</div>
+
+<h2>4 · Vertical registration was out by 14%</h2>
+<div class="lede">
+<p>Cards were positioned with <code>y = EYE_BASE + (0.5 − cy) · 8.6</code> but sized
+with <code>nh · ROOM_H</code> where <code>ROOM_H = 10</code>. Position and size used
+different scales, so every card drifted toward the centre relative to the hole it
+came from.</p>
+</div>
+
+<h2>5 · Popping a card forward made it bigger</h2>
+<div class="lede">
+<p>A card moved from the backdrop toward the viewer subtends a larger angle than the
+hole it left, and nothing compensated. This is the structural cause of Boreas reading
+as a giant pasted over a small landscape — not a tuning error. The fix is one term:
+scale each card by <code>z_target / z_true</code> so its subtended angle is preserved
+at every intermediate position. It is what makes the "open the book" slider hold the
+composition together as it opens.</p>
+</div>
+
+<h2>6 · The gallery loaded 1,509 full-resolution JPEGs at once</h2>
+<div class="lede">
+<p>Measured live in the page: <code>document.images.length === 1509</code>,
+<code>document.body.scrollHeight === 65106</code>, and after roughly thirty seconds
+only 103 images had decoded. No thumbnail tier, no <code>loading="lazy"</code>, no
+IntersectionObserver. The page is functionally blank on first load. Every image on
+this site is lazy-loaded and served from a downscaled tier.</p>
+</div>
+
+<h2>A data-integrity note, offered neutrally</h2>
+<div class="lede">
+<p>Three different counts circulate for the same corpus.
+<code>EmblemPapercraft/CLAUDE.md</code> says 743 labelled figures;
+<code>EmblemPrintShop/data/visual_elements.json</code> holds 863 records; the manifest
+the old renderer shipped held 187 non-backdrop layers; and its declared source
+directory currently holds 151. The shipped manifest was stale with respect to the
+directory it was built from. Which number should be canonical is not for this page to
+decide — but one of them should be, before more is built on top.</p>
+<p>This phase rebuilt from the source directory directly: <strong>150 elements across
+51 plates</strong>, each re-cut against the plate its mask was made from, each with a
+measured foot line and a stated confidence.</p>
+</div>
+
+<p class="fine" style="margin-top:40px;border-top:1px solid var(--rule);padding-top:14px">
+Full evaluation of both this project and <code>3dprintlab</code>, with the ordered
+revision plan and the three.js skill mapping: <code>REVISIONPROPOSAL.md</code> in the
+repository.
+</p>
+
+</div>
+</body>
+</html>

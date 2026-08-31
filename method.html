@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Method · Emblems in 3D</title>
+<meta name="description" content="The plate-to-space pipeline: perspective solve, ground contact, taxonomy, assembly, reprojection gate." />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <h1>Method</h1>
+  <p class="sub">How a 1617 engraving becomes a space you can walk into, and what
+     stops that from being a guess.</p>
+</header>
+<nav class="tabs">
+  <a href="index.html">Overview</a>
+  <a href="examples.html">The three examples</a>
+  <a href="plates.html">All 51 plates</a>
+  <a href="method.html" aria-current="page">Method</a>
+  <a href="findings.html">What was wrong</a>
+</nav>
+
+<div class="lede">
+<h2>The pipeline</h2>
+<p>Five stages. The first three run offline in Python, where the computer vision
+already lives; the last two are the three.js runtime.</p>
+</div>
+
+<div class="scroll-x"><table class="data">
+<thead><tr><th>#</th><th>stage</th><th>what it does</th><th>output</th></tr></thead>
+<tbody>
+<tr><td class="num">1</td><td>perspective solve</td>
+    <td>Canny → Hough → separate the left- and right-leaning oblique segments →
+        RANSAC over pairwise intersections for a vanishing point → horizon. Two
+        opposed clusters also give the focal length through the orthogonality
+        constraint <code>f² = −(v₁−c)·(v₂−c)</code>; with only one, <em>f</em> is not
+        recoverable from a single image and the record says <code>ASSUMED</code>.</td>
+    <td><code>data/perspective.json</code></td></tr>
+<tr><td class="num">2</td><td>ground contact + taxonomy</td>
+    <td>For each extracted mask, the <strong>foot line</strong> — the lowest row
+        carrying a real run of pixels, not a speckle — plus a confidence and the
+        reason for it. And a <code>kind</code> from the five-way taxonomy below.</td>
+    <td><code>data/elements.json</code></td></tr>
+<tr><td class="num">3</td><td>web assets + rectified ground</td>
+    <td>Self-contained plates, and for every usable solve an inverse-perspective warp
+        of the region below the horizon into a top-down texture — the engraved
+        pavement, laid back down as a floor.</td>
+    <td><code>site/assets/</code></td></tr>
+<tr><td class="num">4</td><td>assembly</td>
+    <td>Architecture built or left on the backdrop; standing elements placed at their
+        contact depth; attached elements projected onto surfaces as decals; ornament
+        pinned where it cannot parallax.</td>
+    <td><code>site/js/reconstruct.js</code></td></tr>
+<tr><td class="num">5</td><td>reprojection gate</td>
+    <td>Render from the station point, lay the source plate over it inverted at 50%.
+        Flat grey means registered.</td>
+    <td>the <kbd>G</kbd> key</td></tr>
+</tbody></table></div>
+
+<div class="lede">
+<h2>The one relation everything rests on</h2>
+<p>For a pinhole camera of focal length <em>f</em>, at height <em>E</em> above a flat
+ground plane, looking horizontally, a point whose ground contact appears at image row
+<em>y</em> lies at depth</p>
+<p style="text-align:center"><code>Z = f · E / (y − horizon)</code></p>
+<p>and its lateral position and its world size follow from the same projection:</p>
+<p style="text-align:center"><code>X = (x − W/2) · Z / f&nbsp;&nbsp;&nbsp;&nbsp;
+   size = pixels · Z / f</code></p>
+<p>Two consequences make the whole method work. First, depth now comes from where an
+object <em>touches the ground</em>, so a tall figure and a short one standing on the
+same paving stone get the same depth — which the old bounding-box-centre heuristic
+could never do. Second, because size scales with <em>Z</em> at exactly the rate
+perspective shrinks it, a card pushed from 5 m to 500 m does not move on screen at
+all. It only changes how it parallaxes when you step sideways. That is what a tunnel
+book is. The previous renderer popped cards forward with no compensation, so every
+popped figure grew into a giant pasted over a small landscape.</p>
+
+<h2>The taxonomy</h2>
+<p>Only one of these five is a card. Every failure in the earlier versions was a
+misclassification under this table.</p>
+</div>
+
+<div class="scroll-x"><table class="data">
+<thead><tr><th>kind</th><th>example</th><th>treatment</th></tr></thead>
+<tbody>
+<tr><td><strong>standing</strong></td><td>the adept, Boreas, the egg</td>
+    <td>card at its ground-contact depth</td></tr>
+<tr><td><strong>attached</strong></td><td>Emblem XXI's inscribed circle, triangle and square</td>
+    <td><strong>decal on a reconstructed surface</strong> — never a free card</td></tr>
+<tr><td><strong>architecture</strong></td><td>Emblem VIII's vault, XXI's brick wall</td>
+    <td>built geometry, or left reading correctly on the backdrop</td></tr>
+<tr><td><strong>ornament</strong></td><td>Merian's rolled cloud-scrolls</td>
+    <td>parallax-free — it has no depth to have</td></tr>
+<tr><td><strong>furniture</strong></td><td>binding, gutter, letterpress epigram</td>
+    <td>excluded from the scene entirely</td></tr>
+</tbody></table></div>
+
+<div class="lede">
+<h2>Why the gate matters</h2>
+<p>Setting the 3D camera to the same <em>f</em> and <em>E</em> the scene was built from
+means the reconstruction <em>must</em> reproject onto the source plate. Any
+disagreement is a defect in the input — a wrong horizon, a bad foot line, an element
+filed under the wrong kind — rather than a matter of taste.</p>
+<p>It is a real test, not a formality. On Emblem I it fails: the upper two-thirds go
+flat grey, and the bottom third, where a rectified "ground" has been laid over a bank
+of shrubs that is not a flat plane, keeps its structure. The page says so in words
+next to the scene rather than waiting for someone to notice.</p>
+<p>It also has a limit worth naming. The gate tests <em>registration</em>, not
+<em>support</em>. Emblem VIII's egg rests on a bench, but its mask's lowest row is
+read as ground contact, so it is placed nearer than it really is — and it still
+reprojects perfectly. Passing the gate is necessary, not sufficient.</p>
+
+<h2>What is assumed, and where it says so</h2>
+<p>Focal length cannot be recovered from a single image with one vanishing point.
+Where it is assumed, the record says <code>ASSUMED</code> and gives the reasoning.
+Emblem VIII carries both failed attempts to measure it: the orthogonality constraint
+needs a second vanishing point that the plate does not provide, and a constrained
+search for the diagonal pavement's distance points found one weak cluster of eight
+segments implying a 110° field of view and a courtyard two metres deep. That result is
+recorded and rejected, not adopted.</p>
+<p>The same discipline covers the reverse case. Emblem I's Boreas is drawn at roughly
+1.8× human scale — 3.08 m against a 1.6 m viewpoint, measured from where the horizon
+crosses him. That is Merian monumentalising the wind-god, not a solver error, and it
+is written into the data as an anomaly to preserve so that no later pass can quietly
+normalise it away.</p>
+</div>
+
+<p class="fine" style="margin-top:40px;border-top:1px solid var(--rule);padding-top:14px">
+Full evaluation, the six verified defects in the previous version, and the ordered
+revision plan: <code>REVISIONPROPOSAL.md</code> in the repository.
+</p>
+
+</div>
+</body>
+</html>
