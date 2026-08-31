@@ -247,3 +247,14 @@ canvas { display: block; }
 .rm-btn { font-family: inherit; font-size: 0.82rem; color: #f0e4c2; cursor: pointer; background: rgba(60,42,20,0.7); border: 1px solid rgba(200,160,90,0.4); padding: 0.4rem 0.9rem; border-radius: 3px; }
 .rm-btn:hover { background: rgba(90,62,28,0.85); }
 .rm-step { font-size: 0.78rem; color: #9c8e6e; }
+
+
+/* Phase 5 entry point — same corner-link treatment as the history link,
+   one slot further down. */
+#phase5-link {
+  position: fixed; top: 88px; right: 200px; z-index: 9;
+  font-family: inherit; font-size: 0.75rem; letter-spacing: 0.04em;
+  color: #e8ddc4; text-decoration: none;
+  background: rgba(30,22,12,0.7); border: 1px solid rgba(200,160,90,0.4);
+  padding: 0.4rem 0.8rem; border-radius: 3px;
+}

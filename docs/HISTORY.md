@@ -13,7 +13,8 @@ them live rather than take the description's word for it.
 | 1 | Flagship hand-built environment | [`index.html`](../index.html) |
 | 2 | Flat plane + framed print, primitive props | [`scene-stage2.html`](../scene-stage2.html) — **live snapshot** |
 | 3 | Perspective-armature rooms, primitive props | [`scene-legacy.html`](../scene-legacy.html) — **live snapshot** |
-| 4 | Papercraft tunnel-book, real cutouts | [`scene.html`](../scene.html) — **current** |
+| 4 | Papercraft tunnel-book, real cutouts | [`scene.html`](../scene.html) |
+| 5 | Perspective reconstruction from each plate's own construction | [`site/index.html`](../site/index.html) · [published](https://t3dy.github.io/emblems-in-3d/) — **current** |
 
 ## Stage 0 — broken serving
 
@@ -144,3 +145,26 @@ space when no reliable cutout exists for a given area) combined with Stage
 4's real cutout figures, that hybrid hasn't been built — it's a natural next
 step if the current one-tunnel-per-emblem framing turns out too uniform once
 you've walked all 51.
+
+## Stage 5 — perspective reconstruction (current)
+
+Stage 4 fixed the *content* — real cutouts instead of primitive props — and was right
+to. But it also dropped the only *spatial* model the project had ever had (Stage 3's
+armatures) and replaced it with `depth = vertical_position − category_bias − 0.15·area`,
+which contains no information from the engraving's perspective construction at all.
+
+Stage 5 recovers that construction and derives every depth from it:
+
+    Z = f · eye_height / (y − horizon)
+
+applied to where an element's mask **touches the ground**, not to its bounding-box
+centre. Setting the 3D camera to the same focal length and eye height makes the whole
+thing testable — the reconstruction has to reproject onto the plate it came from. Six
+specific defects in Stage 4 were found by actually running it and reading its data,
+and are documented at
+[What was wrong](https://t3dy.github.io/emblems-in-3d/findings.html): among them, the
+flagship Emblem VIII rendered with a black void through its middle, because its
+backdrop was a destructively holed scan of a whole book page.
+
+Published: <https://t3dy.github.io/emblems-in-3d/>. Full evaluation and revision plan
+in `REVISIONPROPOSAL.md`.

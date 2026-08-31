@@ -1,330 +1,177 @@
 # Emblems in 3D
 
-Turning the emblems of Michael Maier's *Atalanta Fugiens* (1617) into walkable
-3D environments with [three.js](https://threejs.org/), rendered in a
-toon/woodcut style to echo the original engravings.
+Turning the emblems of Michael Maier's *Atalanta Fugiens* (1617) into walkable 3D
+environments with [three.js](https://threejs.org/), rendered in a toon/woodcut style
+to echo the original engravings.
 
-**→ [Development history](history.html) / [`docs/HISTORY.md`](docs/HISTORY.md)**
-— the per-emblem scene system went through several genuinely different
-implementations, including two that were wrong and got replaced after direct
-feedback. That page documents each stage honestly and links a still-running
-snapshot of the previous stage (`scene-legacy.html`) so the "before" can be
-compared against the current site (`scene.html`) directly, not just described.
+## → The live site: **<https://t3dy.github.io/emblems-in-3d/>**
 
-## Gallery of all plates (`gallery.html`)
+**Phase 5 — Reconstruction.** The current phase, published as a static site: the
+three worked examples, all 51 perspective solves drawn back onto their engravings,
+the method, and an honest account of what the previous version got wrong.
 
-Every plate of both books is browsable and gets a generated 3D **carved
-relief**: the engraving drives a displacement map on a finely-subdivided plane,
-so the light paper stands proud and the dark lines are incised — the picture is
-literally carved into geometry, lit by a raking light so the relief reads.
+- **[Overview](https://t3dy.github.io/emblems-in-3d/)**
+- **[The three examples](https://t3dy.github.io/emblems-in-3d/examples.html)** —
+  Emblem VIII (a one-point courtyard with a walkable vault), Emblem I (Boreas, three
+  depth registers), Emblem XXI (a frontal wall carrying its diagram as a decal)
+- **[All 51 plates](https://t3dy.github.io/emblems-in-3d/plates.html)** — every solve,
+  with the numbers, and which ones are weak
+- **[Method](https://t3dy.github.io/emblems-in-3d/method.html)**
+- **[What was wrong](https://t3dy.github.io/emblems-in-3d/findings.html)**
 
-- **51 Atalanta Fugiens** emblem plates (Maier, 1617) + **162 Hypnerotomachia
-  Poliphili** woodcuts (Colonna, 1499) = **213 models**.
-- Grid hub with book filter + title search; click any plate to inspect its
-  relief (orbit, adjustable carve depth, auto-rotate).
-- Emblem VIII also links through to its full bespoke environment (below).
+---
 
-The gallery references the source images from the workspace, so serve the
-**`C:/Dev` root** and open `/EMBLEMSIN3D/gallery.html`:
+## Phase 5 in one paragraph
+
+Merian's engravings are ruled constructions: he worked from a horizon and one or two
+vanishing points, and the paving grids, wall courses and cornices are still in the
+picture. Earlier versions of this project ignored all of that and set each figure's
+depth with `depth = vertical_position − category_bias − 0.15·area`, which contains no
+information about perspective at all. Phase 5 replaces it with the plain pinhole
+relation for a camera of focal length *f* at eye height *E* looking at a flat ground
+plane —
+
+```
+Z = f · E / (y − horizon)
+```
+
+— applied to where an element's mask **touches the ground** rather than to where its
+bounding box happens to be centred. Sizes follow from the same relation, so a card
+always subtends the angle it subtends in the engraving. Setting the 3D camera to the
+same *f* and *E* then makes the result testable: the reconstruction must reproject
+onto the plate it came from. That is the **reprojection gate** (press <kbd>G</kbd>),
+and it is the check this project never had.
+
+Full evaluation of this project and of `../3dprintlab`, with the ordered revision plan
+and a mapping onto the three.js graphics skills, is in
+**[`REVISIONPROPOSAL.md`](REVISIONPROPOSAL.md)**.
+
+## The pipeline
+
+Everything on the published site is generated. Nothing is hand-placed except three
+hand-measured perspective solves, and those live in a reviewable override file.
+
+```bash
+python tools/solve_perspective.py      # -> data/perspective.json
+python tools/build_elements.py         # -> data/elements.json + site/assets/cutouts/
+python tools/build_web_assets.py       # -> site/assets/{plates,ground}/ + manifest.json
+python tools/render_solve_overlay.py   # -> site/assets/solve/   (the review artifact)
+python tools/build_site_pages.py       # -> site/plates.html, site/examples.html
+```
+
+| File | Job |
+|---|---|
+| `tools/solve_perspective.py` | Canny → Hough → RANSAC vanishing points → horizon. Focal length from the orthogonality constraint `f² = −(v₁−c)·(v₂−c)` where two opposed VPs exist; `ASSUMED` and labelled where not. |
+| `tools/build_elements.py` | Foot lines with a confidence and a stated basis, plus the five-way element taxonomy. Re-cuts every cutout from the same plate its mask was made from. |
+| `tools/build_web_assets.py` | Self-contained plates, and an inverse-perspective warp of each ground region into a walkable top-down texture. |
+| `site/js/reconstruct.js` | Station-point camera, angle-preserving pop, taxonomy dispatch, three-state reprojection gate. |
+| `site/js/armatures.js` | The three worked examples, built on one primitive (`plateBand`). |
+
+Hand review lives in `data/perspective.overrides.json` and `data/elements.overrides.json`
+and always wins over the automatic pass.
+
+## The local review app
+
+A full-stack accept / reject / note loop, in the same spirit as EmblemPrintShop's
+review page but with one difference that matters: **it writes to disk**, and the
+writes feed the pipeline rather than sitting beside it.
+
+```bash
+python review/serve.py
+```
+
+Then open <http://localhost:8770/review/>. For each plate you get the perspective solve
+drawn onto the engraving, the live reconstruction in a frame, and the element table.
+
+- **Accept / Reject / Note** → `review/decisions.json`
+- **Change an element's kind** → `data/elements.overrides.json`, then re-run `build_elements.py`
+- **Place the horizon by hand** → `data/perspective.overrides.json`, then re-run `solve_perspective.py`
+
+## Honest status
+
+Three of the 51 solves are hand-measured. The other 48 are automatic and most are
+weak — only 10 reach a confidence of 0.25. The reason is worth stating plainly: dense
+engraved hatching is thousands of short parallel line segments and it swamps a
+Hough-and-RANSAC vanishing-point search. The automatic pass is a first draft that a
+person has to correct, which is exactly what the review app is for.
+
+Wherever a quantity could not be measured, the record says `ASSUMED` and gives the
+reasoning. Emblem VIII's focal length carries both failed attempts to measure it
+rather than a plausible substitute.
+
+---
+
+## Earlier phases (local server only)
+
+The rest of the site — the relief gallery, the Great Work tour, the fugue jukebox, the
+Laboratory experiments, the papercraft scenes — predates Phase 5 and loads its images
+by absolute path from a server rooted at `C:\Dev`, so it does not work on GitHub Pages.
+To run it:
 
 ```bash
 cd C:/Dev && python -m http.server 5184
-# gallery:      http://localhost:5184/EMBLEMSIN3D/gallery.html
-# environment:  http://localhost:5184/EMBLEMSIN3D/index.html
 ```
 
-The catalog is generated by `tools/gen_catalog.py` (re-run if plates change).
+- gallery: <http://localhost:5184/EMBLEMSIN3D/gallery.html>
+- Phase 5: <http://localhost:5184/EMBLEMSIN3D/site/index.html>
+- development history: <http://localhost:5184/EMBLEMSIN3D/history.html>
+
+**→ [Development history](history.html) / [`docs/HISTORY.md`](docs/HISTORY.md)** — the
+per-emblem scene system went through several genuinely different implementations,
+including two that were wrong and got replaced after direct feedback. Phase 5 is the
+fourth correction, and [what it corrected](https://t3dy.github.io/emblems-in-3d/findings.html)
+is documented rather than quietly replaced.
+
+## Gallery of all plates (`gallery.html`)
+
+Every plate of both books is browsable and gets a generated 3D **carved relief**: the
+engraving drives a displacement map on a finely-subdivided plane, so the light paper
+stands proud and the dark lines are incised.
+
+- **51 Atalanta Fugiens** emblem plates (Maier, 1617) + **162 Hypnerotomachia
+  Poliphili** woodcuts (Colonna, 1499) = **213 models**, plus the ~1,300-plate
+  OCCULTIMGDB alchemy family.
+- Grid hub with book filter + title search; click any plate to inspect its relief.
+
+> Known defect, measured: this page creates 1,509 full-resolution `<img>` elements
+> eagerly and is functionally blank on first load. Fix queued — see
+> [What was wrong](https://t3dy.github.io/emblems-in-3d/findings.html) §6.
 
 ## The Great Work — cinematic tour (`grandtour.html`)
 
-A press-play, on-rails flight through the emblems in alchemical order
-(nigredo → albedo → citrinitas → rubedo): glowing carved reliefs in a colour-
-graded void, **UnrealBloom**, drifting embers, per-stage title cards, a rising
-philosopher's-stone finale. As the camera reaches each station it plays **that
-emblem's actual fugue** rendered in 8-bit (see below). Linked from the gallery
-and the environment.
+A press-play, on-rails flight through the emblems in alchemical order (nigredo →
+albedo → citrinitas → rubedo), with UnrealBloom, drifting embers, per-stage title
+cards, and each emblem's actual fugue rendered in 8-bit as the camera reaches it.
 
-## Per-emblem fugue pages — ten game-versions each (`fugue.html?n=NN`)
+## 8-bit fugues (`chiptune.js`, `jukebox.html`, `fugue.html?n=NN`)
 
-Each emblem has a page where its fugue **plays cycling through ten NES "synth
-palettes" as it repeats** — one per iconic game + level, mined from nsfripper's
-CODEXSYNTH bench (`gamesynths.js`): **Mario** *Overworld*, **Zelda** *Overworld*,
-**Metroid** *Brinstar*, **Castlevania** *Vampire Killer*, **Contra** *Jungle*,
-**Final Fantasy** *Prelude*, **Kirby** *Green Greens*, **Bubble Bobble** *Title*,
-**Bionic Commando** *Area 1*, **Wizards & Warriors** *Forest of Elrond*. Each
-palette retunes the engine's channels (duty / ADSR / vibrato / gain) to evoke
-that game.
-
-The page also carries, imported from the **Claudiens DB**
-(`emblem_explanations.js`): an **accordion** that opens from the emblem's short
-main idea (`discourse_summary`) to a deep dive into its symbolism
-(`analysis_html`), and a **synth-credits appendix** naming the game + level of
-every version (highlighting the one currently sounding), with a stage-tinted
-spectrum visualiser. Reachable by clicking any plate in the Jukebox.
-
-## 8-bit fugues (`chiptune.js`, `jukebox.html`)
-
-Maier's *Atalanta Fugiens* is a book of **50 three-voice canons**. Their note
-data (`EmblemRoguelike/assets/fugues.json` — `{bpm, beats, notes:[[startBeat,
-durBeat, midi]]}`) is rendered through an **NES-APU-style synth**: two pulse
-channels (50% / 25% duty via `PeriodicWave`) + a triangle bass + game-shaped
-ADSR — the voice model from nsfripper's CODEXSYNTH. The fugue's three voices map
-straight onto the three NES tonal channels. The **Fugue Jukebox** plays any of
-the 50 with an 8-bit spectrum visualiser; the Great Work tour uses the same
-engine for its soundtrack.
-
-## The occult archive
-
-Beyond the two books, the gallery also ingests the **alchemy-family images of
-OCCULTIMGDB** (alchemy / hermetic / rosicrucian / theosophy traditions — ~1,300
-plates across 69 works: *Philosophia Reformata*, *Viridarium Chymicum*,
-*Splendor Solis*, *Amphitheatrum Sapientiae Aeternae*, Fludd, *Aurora
-Consurgens*, …) plus the **Theosophical Alchemy adept portraits**. Every one
-gets the same carved-relief model and a paired lab-process tour. Filter to it
-with the **Occult archive** button. Total catalogue: **~1,500 plates.**
+*Atalanta Fugiens* is a book of 50 three-voice canons. Their note data is rendered
+through an NES-APU-style synth — two pulse channels plus a triangle bass — so the
+fugue's three voices map straight onto the three NES tonal channels. Each emblem's
+page cycles the fugue through ten NES "synth palettes" mined from nsfripper's
+CODEXSYNTH bench, with an accordion of de Jong's scholarship imported from the
+Claudiens DB.
 
 ## The Laboratory — alchemical experiments (`experiments.html`)
 
-A gallery of small **experiments** that turn an emblem's *call to action* (the
-imperative in Maier's epigram + discourse) into something you watch or play.
-Each is an index card with a 3–5 sentence preview that opens a full page
-(`experiment.html?id=…`) with an essay on the design logic and the working
-artifact (Canvas2D), plus a button to hear that emblem's fugue. Artifacts live
-in `art/<id>.js` (each exports `mount(el)`); data + essays in `experiments.js`.
+Small experiments that turn an emblem's *call to action* into something you watch or
+play, each with an essay on the design logic and a working Canvas2D artifact.
 
-First three:
-- **The Regulated Fire** (Emblem VIII, *game*) — a heat-timing game about the
-  discourse's real lesson, *degree of fire*: raise the heat under the sealed egg
-  and strike only inside the narrow hatching band (too little → inert, too much
-  → the volatile spirit flees).
-- **Solve et Coagula** (the Opus, *animation*) — a contemplative model of the
-  colour clock: one egg cooking through nigredo → albedo → citrinitas → rubedo,
-  with a degree-of-fire dial.
-- **The Dragon That Devours Its Tail** (Emblem XIV, *game*) — a wrapping snake
-  where biting your own tail *completes a circulation* and advances a colour-
-  stage; no walls, because the ouroboros has no edges.
+## The Atalanta Fugiens family
 
-## Cosimo III Feast Engine (`COSIMOIII_FEAST/`)
+| Project | What it does | Local |
+|---|---|---|
+| Emblems in 3D | this project | — |
+| Emblem Papercraft | the same plates as shadow-casting paper pop-ups | `../EmblemPapercraft/` |
+| Emblem Roguelike | a Dragon-Warrior-style RPG made from the extracted engravings | `../EmblemRoguelike/` |
+| Emblem Novel | graphical text adventure built from the emblems | `../EmblemNovel/` |
+| Atalanta Claudiens | DH site on de Jong's scholarship — source of the plates used here | `../Claudiens/` |
+| Emblem Print Shop | the CV pipeline that cut the figure masks | `../EmblemPrintShop/` |
+| 3dprintlab | printable period apparatus, provenance-tracked | `../3dprintlab/` |
 
-A standalone court-banquet simulator inspired by Cosimo III de' Medici and late
-Medici food culture. Tune the course, perfume, entertainment, etiquette,
-political guest, jasmine saturation, pharmacy secrecy, and splendor budget; the
-animated table converts those choices into **prestige**, **debt**, and
-**secrecy**. The central mechanic is Cosimo's jasmine chocolate as a courtly
-technology: cacao, jasmine, pharmacy, and guarded recipe become food, medicine,
-and diplomatic signal at once.
+## Sources
 
-## Lab-process tours (every plate)
-
-Every one of the 213 plates links to a **lab-process tour**: a panel that
-explains the alchemical operation it's paired with — what physically happens,
-the bench steps, the apparatus, the degree of fire, and which laboratory hosts
-it — then offers to **enter that lab**. Sixteen processes are defined in
-`processes.js` (the twelve Ripley *Gates* — Calcination → Projection — plus
-Distillation, Digestion, Fixation and Fusion), grounded in Principe, Newman,
-Moran and Rampling. Each Atalanta emblem is paired by its alchemical stage +
-motto (`tools/gen_emblemdata.py` → `processmap.js`).
-
-Processes that the base lab can't host open a **purpose-built specialized lab**
-(`SPECIALIZED_LABS`): the **Distillation Hall**, **Assay Furnace**,
-**Sublimation Vault**, and **Glasshouse**. Visiting the *base* lab opens the
-Emblem VIII environment; visiting a specialized lab builds that room live.
-
-## Emblem scenes (each Atalanta emblem, generated)
-
-`scene.html?id=af-NN` is a **walk-through papercraft tunnel book**: every
-figure — person, animal, tree, building — is the *actual* engraved cutout
-extracted from that plate, not a synthetic 3D shape. This replaced an earlier
-approach that built rooms out of generic primitives (spheres, cones, boxes)
-standing in for "an egg," "a lion," "a farmhouse" — visually nothing like the
-engravings, however correctly perspective-armatured the rooms were.
-
-The real technique and the real assets come from a sibling project,
-**[EmblemPapercraft](../EmblemPapercraft)**: 743 figures computer-vision-cut
-from the 51 plates (`EmblemPrintShop`), each with a normalized picture-plane
-position (`cx, cy`), size (`nw, nh`), and an inferred pop-forward **depth**
-(`data/layers.json`). EmblemPapercraft renders these as a fixed shadow-box you
-orbit around; `papercards.js` places the *same* cutouts at real room-scale 3D
-depth instead, so you can walk *into* the stack — an antique **tunnel book /
-peepshow box**, not a synthetic diorama:
-
-- The full plate is the flat **backdrop card** at the tunnel's rear wall.
-- Each figure is a **curled paper card** (alpha-tested to its real cutout
-  silhouette, not a bounding rectangle — same `customDepthMaterial` shadow
-  trick as EmblemPapercraft) positioned by its own `(cx, cy)` → world X/Y and
-  `depth` → world Z, so walking reveals genuine parallax between layers.
-- **Walk this scene** spawns you at the tunnel's near end; **operate** (aim +
-  **E**) and the scholarship/music panels work exactly as before, just
-  raycasting real cutout cards instead of synthetic props.
-
-**A real data-quality caveat, not swept under the rug.** About 110 of the 743
-cutouts carry a CV confidence `score` (mean ≈0.32, max ≈0.58 of 1.0) and some
-are visibly wrong — e.g. Emblem VIII's cutout labelled "athanor retort" is
-actually a mis-segmented crop of a robed figure's arm plus doorway masonry.
-`papercards.js` renders only the **unscored** cutouts (figure/animal/
-architecture — reliable in every case checked) by default, with a small
-`KNOWN_BAD` exclusion list for specific confirmed-bad files (add to it as more
-turn up). Equipment-heavy plates where *every* cutout happens to be scored
-(19 of 51) would otherwise pop nothing at all; for those, the single
-highest-scoring cutout is let through anyway so something always pops — one
-item keeps a possible bad segmentation contained and visible rather than
-compounding across several. This is a stopgap, not a fix to the underlying
-extraction; `EmblemPapercraft/scripts/cut_region.py` is the tool for actually
-improving a specific bad cutout.
-
-The `spaces.js`/`bespoke.js`/procedural-texture system from the primitive-prop
-era is retired for the main emblem scenes (kept only for `buildSpecialLab`'s
-generic apparatus-lab interiors, a secondary feature). `locations.js`'s
-per-emblem **setting** classification (farm, kitchen, laboratory, …), read
-from Maier's own epigram text, remains useful context but no longer drives
-room construction.
-
-**Walk this scene** puts the same PointerLockControls first-person rig used
-by the Emblem VIII flagship (WASD + mouse look) into every emblem's diorama,
-and starts that emblem's fugue (`chiptune.js`) looping while you walk it.
-
-**Operate the emblem** (aim + **E**) is the game loop, generalized from
-Emblem VIII's "strike the egg" to all 51 plates: aim at the egg, vessel,
-furnace, or bench and press **E** to advance one authentic bench step of
-*this emblem's own operation* — looked up per-plate via `PROCESS_MAP` into
-the `processes.js` library (after Principe, Newman, Moran, Rampling). Each
-press pulses the object and the accent light and shows the next real step as
-a toast; the final press shows the operation's summary + citation and marks
-it complete. A Calcination emblem's steps differ from a Digestion emblem's —
-the mechanic reads whichever process that plate is actually catalogued
-under, so playing through an emblem means working its real alchemical
-procedure, not a generic animation.
-
-**Read the emblem** opens a de Jong-derived scholarship panel (short summary +
-deep-dive analysis, from `emblem_explanations.js` / the Claudiens DB) for
-whichever emblem is loaded — the same source used by the fugue pages'
-accordion, now surfaced in-scene. Orbit remains the default preview mode; open
-the process tour from either mode; for Emblem VIII, step through to the full
-bespoke environment. (The 162 Hypnerotomachia woodcuts keep their relief model
-+ a paired process tour; promoting them to full walkable scenes, and adding
-location props — farms, kitchens, gold-making apparatus, castles, hills — is
-the next batch.)
-
-## Emblem VIII — "The Fiery Sword & the Egg" (the flagship environment)
-
-> *Accipe ovum & igneo percute gladio.*
-> "Take the egg and strike it with a fiery sword."
-
-A walkable courtyard reconstruction of the engraving, including the full
-townscape that surrounds the adept in the plate:
-
-- **Tiled floor** in deep perspective (the emblem's signature checkerboard)
-- **Crenellated brick walls** with a central **vaulted tunnel** receding to a
-  glowing doorway, and a blind arcade across the back wall
-- **The furnace** at left — masonry block with animated flame, flickering
-  light, rising smoke, and a tall pilaster
-- **The philosophical egg**, faintly luminous, on a wooden bench
-- **The adept** raising a fiery sword over the egg
-- **A right-wall portal** — pedimented doorway and framed roundels
-- **The town beyond the walls**: a Gothic church with a tall spire and corner
-  pinnacles, crow-stepped gable houses, round towers with conical roofs,
-  trees and drifting birds
-- **The source engraving** mounted as a framed plaque on the entry wall
-  (`assets/emblem-08.jpg`)
-
-### Rendering
-- **Toon shading** via a quantized gradient ramp (lifted floor so shadows band
-  to a paper tone rather than black)
-- **Sobel "ink" post-process** that draws dark edge-lines over the toon render
-  for a woodcut/engraving feel (`EdgeInkShader` in `main.js`)
-
-### Intro cut-scenes
-On load a sequence of plates introduces the emblem: the title/motto, the source
-engraving, **Epigram VIII**, and Diogenes Laertius' simile of philosophy as an
-egg (*Stoicorum Veterum Fragmenta* II.38b — shell = logic, white = ethics,
-yolk = physics), ending on the call to action. *(The 1688 Diogenes engraving
-goes at `assets/diogenes-1688.jpg`; until it's added a labelled placeholder
-shows in its slot.)*
-
-### Interaction — the operation
-First **heat the sword**: aim at the furnace and press **F** — the blade glows.
-Then aim at the egg and press **E** for the call to action, *“Take the egg and
-smite it with a fiery sword”*: the adept swings, the egg cracks into two falling
-half-shells with a burst of fire, and a luminous spirit (the *anima* /
-Mercurius) rises and fades. After a few seconds the egg reforms. The heat is
-spent on each blow, so you must reheat to strike again.
-
-### Read the Emblem (press **R**)
-A guided tour panel decodes the emblem's alchemy on a *physical/chemical*
-reading (after de Jong, Sheppard, Newman, Principe), easing the camera to each
-referenced object:
-the egg = the sealed vessel (`vas`); white & yolk = Mercury & Sulphur; the
-fiery sword = controlled applied heat (calcination); *cautiously* = the
-regulation of heat (the athanor); Mars + Vulcan = iron + fire → the star
-regulus of antimony; the bird = the product, shown as the colour sequence. A
-**Discourse** tab gives de Jong's summary of Maier's prose.
-
-### The adjoining laboratory (east, through the portal)
-A 17th-century *chymical* lab modelled from the historiography of **Principe,
-Newman, and Moran/Bilak** plus museum sources: the **athanor** (self-feeding
-tower furnace), a **reverberatory furnace**, a **distillation still**
-(cucurbit + alembic + receiver), **balneum mariae**, **pelican**, **retort**,
-**aludel**, a Hessian **crucible**, bronze **mortar & pestle**, a work table and
-shelves of labelled glassware, dim single-window light and rising vapour.
-
-Two operations you can run (aim + **E**):
-- **Digest the egg** in the athanor — each stoke advances the colour sequence:
-  *prima materia → nigredo → albedo → citrinitas → rubedo*.
-- **Fuse the star regulus** at the crucible — stibnite + iron under fire ("Mars
-  assists Vulcan") cast into the radiant star regulus of antimony.
-
-## Run it
-
-No build step. Because it uses ES-module imports + a CDN, serve it over HTTP
-(opening `index.html` via `file://` is blocked by CORS):
-
-```bash
-# from this folder, any static server works:
-python -m http.server 8000
-# then open http://localhost:8000
-```
-
-## Controls
-
-- **Click** to enter / resume (pointer lock)
-- **WASD** / arrow keys to walk
-- **Mouse** to look around
-- **F** to heat the sword (aim at the furnace)
-- **E** to strike the egg, or to use lab apparatus (aim at it)
-- **R** to open / close *Read the Emblem*
-- **ESC** to release the cursor
-
-## Files
-
-- `index.html`, `style.css` — shell + all UI styling
-- `main.js` — scene, courtyard, town, controls, strike, render pipeline
-- `content.js` — the emblem's texts + the guided-tour data (cited)
-- `cutscene.js` — intro cut-scenes + the Read-the-Emblem panel
-- `lab.js` — the adjoining laboratory + its two operations
-- `assets/emblem-08.jpg` — the source engraving; `diogenes-1688.jpg` — *(add)*
-
-## Stack
-
-- three.js 0.160 (loaded from jsDelivr via import map)
-- `PointerLockControls` for first-person navigation
-- `EffectComposer` + `RenderPass` + a custom `ShaderPass` for the ink edges
-- Procedural canvas textures (checker tiles, brick, window facades)
-
-`window.EMBLEM` exposes `{ scene, camera, renderer, composer, strike, egg,
-tryStrike, stepStrike }` for debugging.
-
-## Roadmap
-
-- [x] More emblems, each its own scene, with a gallery hub — all 51 Atalanta
-      plates are walkable, playable (operate loop), and scholarship-annotated
-- [x] Real papercraft cutouts instead of synthetic 3D props (`papercards.js`,
-      reusing EmblemPapercraft's extraction) — replaced the primitive-prop
-      room system entirely
-- [ ] Extraction quality: more `KNOWN_BAD` exclusions / re-cut specific bad
-      cutouts (`EmblemPapercraft/scripts/cut_region.py`) rather than just
-      filtering by CV confidence score
-- [ ] Depth/normal-based outlines (cleaner silhouettes than luminance Sobel)
-- [ ] Promote the 162 Hypnerotomachia woodcuts from relief-only to the same
-      walkable papercraft treatment
-- [ ] Ambient audio (furnace crackle, courtyard tone)
-- [ ] Mobile / touch controls
+Michael Maier, *Atalanta Fugiens*, Oppenheim 1617, engraved by Matthäus Merian.
+Francesco Colonna, *Hypnerotomachia Poliphili*, Venice 1499. Cutout masks from
+EmblemPrintShop's GroundingDINO + SAM pipeline, re-cut in Phase 5 against the same
+source plates.
