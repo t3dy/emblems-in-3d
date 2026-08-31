@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reconstruction — Emblems in 3D</title>
+<link rel="stylesheet" href="css/site.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body class="viewer">
+
+<canvas id="r-canvas"></canvas>
+
+<header class="bar top">
+  <a class="btn ghost" href="index.html">◂ Phase 5</a>
+  <span id="r-title" class="ttl"></span>
+  <span id="r-badge" class="badge"></span>
+  <span class="spacer"></span>
+  <span id="r-readout" class="readout"></span>
+</header>
+
+<div class="bar bottom">
+  <button class="btn" id="r-walk">Walk in</button>
+  <button class="btn" id="r-gate">Reprojection gate <kbd>G</kbd></button>
+  <button class="btn" id="r-light">Paper light <kbd>L</kbd></button>
+  <label class="slider">
+    open the book
+    <input type="range" id="r-pop" min="0" max="1" step="0.01" value="1" />
+  </label>
+  <span class="hint">drag to orbit · scroll to zoom</span>
+</div>
+
+<aside class="panel" id="r-panel">
+  <h2>What the solve says</h2>
+  <ul id="r-notes"></ul>
+  <p class="fine">Every depth on this page comes from
+    <code>Z = f · eye / (y − horizon)</code> and from nothing else. Sizes follow
+    from the same pinhole, so a card always subtends the angle it subtends in
+    the engraving — which is why the gate can be an actual test.</p>
+</aside>
+
+<div id="r-gate-overlay" class="gate hidden">
+  <img id="r-gate-plate" alt="source plate" />
+  <div class="gate-label">
+    reprojection gate — the source plate at 50% over the render, from the
+    station point. If the reconstruction is right, these are one picture.
+  </div>
+</div>
+
+<div id="r-walk-overlay" class="walk-overlay hidden">
+  <p>click to walk</p>
+  <p class="fine">WASD move · mouse look · Q/E crouch and rise · shift to hurry · ESC to release</p>
+</div>
+
+<div id="r-loading">building the space…</div>
+
+<script type="module" src="js/reconstruct.js"></script>
+</body>
+</html>

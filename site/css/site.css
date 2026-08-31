@@ -1,0 +1,241 @@
+/* Emblems in 3D — Phase 5 site.
+   Paper-and-ink palette taken from the plates themselves: laid paper, iron-gall
+   ink, and the one warm accent the hand-coloured copies use. Light by default,
+   because the subject is a printed page. */
+
+:root {
+  --paper:      #efe7d5;
+  --paper-2:    #e4dac2;
+  --ink:        #221c14;
+  --ink-soft:   #4d4436;
+  --rule:       #c9bda2;
+  --accent:     #8a5a20;
+  --good:       #3f6d3f;
+  --weak:       #9a6a1c;
+  --bad:        #8c3a2c;
+  --shadow:     0 1px 2px rgba(34,28,20,.14), 0 8px 24px rgba(34,28,20,.09);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #16130d; --paper-2: #1e1a12; --ink: #e8dfc9; --ink-soft: #b3a88e;
+    --rule: #3a3327; --accent: #d2a05a; --good: #7fb37f; --weak: #d7a95a; --bad: #d1725f;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); }
+
+/* ---------------------------------------------------------------- hub ---- */
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 22px 80px; }
+
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 30px 0 16px;
+  margin-bottom: 6px;
+}
+.masthead h1 {
+  font-size: clamp(28px, 4.2vw, 44px);
+  margin: 0 0 6px;
+  letter-spacing: -0.015em;
+}
+.masthead .sub { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+
+nav.tabs {
+  display: flex; gap: 2px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule);
+  margin: 18px 0 26px;
+}
+nav.tabs a {
+  padding: 9px 15px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  font-size: 14.5px;
+  position: relative; top: 1px;
+}
+nav.tabs a:hover { background: var(--paper-2); color: var(--ink); }
+nav.tabs a[aria-current="page"] {
+  background: var(--paper);
+  border-color: var(--rule);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.lede { max-width: 68ch; }
+.lede p { margin: 0 0 14px; }
+
+h2 { font-size: 22px; margin: 34px 0 12px; letter-spacing: -0.01em; }
+h3 { font-size: 17px; margin: 22px 0 8px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: var(--paper-2);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+}
+.card img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; background: var(--paper); }
+.card .body { padding: 11px 13px 13px; }
+.card .name { font-weight: 600; font-size: 15px; }
+.card .meta { font-size: 12.5px; color: var(--ink-soft); font-family: var(--mono); margin-top: 4px; }
+
+.badge {
+  display: inline-block; font-family: var(--mono); font-size: 11.5px;
+  padding: 2px 7px; border-radius: 20px; border: 1px solid var(--rule);
+  color: var(--ink-soft); white-space: nowrap;
+}
+.badge.good { color: var(--good); border-color: var(--good); }
+.badge.weak { color: var(--weak); border-color: var(--weak); }
+.badge.bad  { color: var(--bad);  border-color: var(--bad); }
+
+table.data { border-collapse: collapse; width: 100%; font-size: 14px; }
+table.data th, table.data td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); }
+table.data th { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); }
+table.data td.num { font-family: var(--mono); text-align: right; }
+.scroll-x { overflow-x: auto; }
+
+code, kbd { font-family: var(--mono); font-size: .88em; }
+kbd { border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; }
+.fine { font-size: 13px; color: var(--ink-soft); }
+
+/* -------------------------------------------------------------- viewer --- */
+
+body.viewer { overflow: hidden; height: 100vh; }
+#r-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+
+.bar {
+  position: fixed; left: 0; right: 0; z-index: 5;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  padding: 9px 14px;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(7px);
+}
+.bar.top { top: 0; border-bottom: 1px solid var(--rule); }
+.bar.bottom { bottom: 0; border-top: 1px solid var(--rule); }
+.bar .ttl { font-weight: 600; }
+.bar .spacer { flex: 1; }
+.readout { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+.hint { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+
+.btn {
+  font: inherit; font-size: 14px;
+  padding: 6px 12px; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--paper-2); color: var(--ink);
+  cursor: pointer; text-decoration: none;
+}
+.btn:hover { border-color: var(--ink-soft); }
+.btn.ghost { background: transparent; }
+.btn.on { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+.slider { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); }
+.slider input { width: 150px; }
+
+.panel {
+  position: fixed; right: 14px; top: 60px; z-index: 4;
+  width: min(390px, 40vw); max-height: 66vh; overflow: auto;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--paper) 93%, transparent);
+  border: 1px solid var(--rule); border-radius: 7px;
+  box-shadow: var(--shadow);
+}
+.panel h2 { margin: 0 0 8px; font-size: 15px; }
+.panel ul { margin: 0; padding-left: 17px; font-size: 13.5px; }
+.panel li { margin-bottom: 7px; }
+.panel li.meta { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+
+/* No z-index here on purpose: a stacking context between this img and the
+   canvas would make mix-blend-mode blend against the overlay's own (empty)
+   backdrop instead of the render, and the difference test would show nothing. */
+.gate { position: fixed; inset: 0; pointer-events: none; }
+/* The camera's vertical FOV is fixed by the solve, so the plate always fills the
+   canvas HEIGHT exactly and overflows or underflows in width. Matching that here
+   is what makes the overlay a real comparison rather than a rough one. */
+.gate img {
+  position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+  height: 100%; width: auto; max-width: none;
+  opacity: .5; mix-blend-mode: multiply;
+}
+/* Difference without mix-blend-mode. Fixed-position layers get promoted to
+   their own compositing layer in Chrome, and a blended element then has nothing
+   to blend against, so the overlay just sat on top opaque and the "test" always
+   passed. The inverted-half-opacity trick needs no blending at all: overlaying
+   an inverted copy at 50% cancels to a flat mid-grey exactly where the two
+   images agree, and any disagreement stays visible as structure. */
+.gate.diff img { opacity: .5; filter: invert(1); }
+.gate-label {
+  isolation: isolate; mix-blend-mode: normal;
+  position: absolute; left: 50%; bottom: 74px; transform: translateX(-50%);
+  max-width: 62ch; text-align: center; font-size: 13px;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 5px;
+  padding: 7px 12px;
+}
+
+.walk-overlay {
+  position: fixed; inset: 0; z-index: 6; display: grid; place-content: center;
+  text-align: center; background: rgba(20,17,11,.55); color: #f0e7d2; cursor: pointer;
+}
+.walk-overlay p { margin: 4px; }
+.hidden { display: none !important; }
+
+#r-loading {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  z-index: 7; font-family: var(--mono); font-size: 13px; color: var(--ink-soft);
+}
+
+/* -------------------------------------------------------------- review --- */
+
+.rev-layout { display: grid; grid-template-columns: 300px 1fr; min-height: 100vh; }
+.rev-list { border-right: 1px solid var(--rule); overflow-y: auto; max-height: 100vh; background: var(--paper-2); }
+.rev-list .item {
+  padding: 9px 13px; border-bottom: 1px solid var(--rule); cursor: pointer;
+  display: flex; gap: 8px; align-items: center; font-size: 14px;
+}
+.rev-list .item:hover { background: var(--paper); }
+.rev-list .item.sel { background: var(--paper); box-shadow: inset 3px 0 0 var(--accent); font-weight: 600; }
+.rev-list .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rule); flex: none; }
+.dot.accepted { background: var(--good); }
+.dot.rejected { background: var(--bad); }
+.dot.noted    { background: var(--weak); }
+.rev-main { padding: 20px 26px 60px; overflow-y: auto; max-height: 100vh; }
+.rev-actions { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+textarea.note {
+  width: 100%; min-height: 110px; font: inherit; font-size: 14px;
+  padding: 9px 11px; border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--paper); color: var(--ink); resize: vertical;
+}
+.saved { font-family: var(--mono); font-size: 12px; color: var(--good); }
+.rev-figure { border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; background: var(--paper-2); }
+.rev-figure img { width: 100%; display: block; }
+.rev-figure iframe { width: 100%; height: 60vh; border: 0; display: block; background: var(--paper); }
+.two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) {
+  .two-up { grid-template-columns: 1fr; }
+  .rev-layout { grid-template-columns: 1fr; }
+  .rev-list { max-height: 34vh; }
+  .panel { position: static; width: auto; max-height: none; margin: 12px; }
+}

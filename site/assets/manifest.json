@@ -1,0 +1,387 @@
+{
+ "emblem-00": {
+  "plate": "plates/emblem-00.jpg",
+  "src_w": 1600,
+  "src_h": 2136,
+  "web_w": 1200,
+  "web_h": 1602
+ },
+ "emblem-01": {
+  "plate": "plates/emblem-01.jpg",
+  "src_w": 1600,
+  "src_h": 1499,
+  "web_w": 1200,
+  "web_h": 1124,
+  "ground": {
+   "z_near_m": 4.678,
+   "z_far_m": 23.661,
+   "x_half_m": 10.044,
+   "coverage": 0.598,
+   "file": "ground/emblem-01.jpg"
+  }
+ },
+ "emblem-02": {
+  "plate": "plates/emblem-02.jpg",
+  "src_w": 1600,
+  "src_h": 1485,
+  "web_w": 1200,
+  "web_h": 1114
+ },
+ "emblem-03": {
+  "plate": "plates/emblem-03.jpg",
+  "src_w": 1600,
+  "src_h": 1415,
+  "web_w": 1200,
+  "web_h": 1061
+ },
+ "emblem-04": {
+  "plate": "plates/emblem-04.jpg",
+  "src_w": 1600,
+  "src_h": 1416,
+  "web_w": 1200,
+  "web_h": 1062
+ },
+ "emblem-05": {
+  "plate": "plates/emblem-05.jpg",
+  "src_w": 1600,
+  "src_h": 1401,
+  "web_w": 1200,
+  "web_h": 1051
+ },
+ "emblem-06": {
+  "plate": "plates/emblem-06.jpg",
+  "src_w": 1600,
+  "src_h": 1383,
+  "web_w": 1200,
+  "web_h": 1037
+ },
+ "emblem-07": {
+  "plate": "plates/emblem-07.jpg",
+  "src_w": 1600,
+  "src_h": 1400,
+  "web_w": 1200,
+  "web_h": 1050
+ },
+ "emblem-08": {
+  "plate": "plates/emblem-08.jpg",
+  "src_w": 1600,
+  "src_h": 1373,
+  "web_w": 1200,
+  "web_h": 1030,
+  "ground": {
+   "z_near_m": 4.041,
+   "z_far_m": 8.31,
+   "x_half_m": 2.397,
+   "coverage": 0.741,
+   "file": "ground/emblem-08.jpg"
+  }
+ },
+ "emblem-09": {
+  "plate": "plates/emblem-09.jpg",
+  "src_w": 1600,
+  "src_h": 1510,
+  "web_w": 1200,
+  "web_h": 1132
+ },
+ "emblem-10": {
+  "plate": "plates/emblem-10.jpg",
+  "src_w": 1600,
+  "src_h": 1400,
+  "web_w": 1200,
+  "web_h": 1050
+ },
+ "emblem-11": {
+  "plate": "plates/emblem-11.jpg",
+  "src_w": 1600,
+  "src_h": 1511,
+  "web_w": 1200,
+  "web_h": 1133
+ },
+ "emblem-12": {
+  "plate": "plates/emblem-12.jpg",
+  "src_w": 1600,
+  "src_h": 1501,
+  "web_w": 1200,
+  "web_h": 1126
+ },
+ "emblem-13": {
+  "plate": "plates/emblem-13.jpg",
+  "src_w": 1600,
+  "src_h": 1418,
+  "web_w": 1200,
+  "web_h": 1064
+ },
+ "emblem-14": {
+  "plate": "plates/emblem-14.jpg",
+  "src_w": 1600,
+  "src_h": 1392,
+  "web_w": 1200,
+  "web_h": 1044
+ },
+ "emblem-15": {
+  "plate": "plates/emblem-15.jpg",
+  "src_w": 1600,
+  "src_h": 1442,
+  "web_w": 1200,
+  "web_h": 1082
+ },
+ "emblem-16": {
+  "plate": "plates/emblem-16.jpg",
+  "src_w": 1600,
+  "src_h": 1499,
+  "web_w": 1200,
+  "web_h": 1124
+ },
+ "emblem-17": {
+  "plate": "plates/emblem-17.jpg",
+  "src_w": 1600,
+  "src_h": 1511,
+  "web_w": 1200,
+  "web_h": 1133
+ },
+ "emblem-18": {
+  "plate": "plates/emblem-18.jpg",
+  "src_w": 1600,
+  "src_h": 1414,
+  "web_w": 1200,
+  "web_h": 1060
+ },
+ "emblem-19": {
+  "plate": "plates/emblem-19.jpg",
+  "src_w": 1600,
+  "src_h": 1396,
+  "web_w": 1200,
+  "web_h": 1047
+ },
+ "emblem-20": {
+  "plate": "plates/emblem-20.jpg",
+  "src_w": 1600,
+  "src_h": 1429,
+  "web_w": 1200,
+  "web_h": 1072
+ },
+ "emblem-21": {
+  "plate": "plates/emblem-21.jpg",
+  "src_w": 1600,
+  "src_h": 1496,
+  "web_w": 1200,
+  "web_h": 1122,
+  "ground": {
+   "z_near_m": 2.823,
+   "z_far_m": 3.847,
+   "x_half_m": 1.633,
+   "coverage": 0.863,
+   "file": "ground/emblem-21.jpg"
+  }
+ },
+ "emblem-22": {
+  "plate": "plates/emblem-22.jpg",
+  "src_w": 1600,
+  "src_h": 1395,
+  "web_w": 1200,
+  "web_h": 1046
+ },
+ "emblem-23": {
+  "plate": "plates/emblem-23.jpg",
+  "src_w": 1600,
+  "src_h": 1392,
+  "web_w": 1200,
+  "web_h": 1044
+ },
+ "emblem-24": {
+  "plate": "plates/emblem-24.jpg",
+  "src_w": 1600,
+  "src_h": 1408,
+  "web_w": 1200,
+  "web_h": 1056
+ },
+ "emblem-25": {
+  "plate": "plates/emblem-25.jpg",
+  "src_w": 1599,
+  "src_h": 1378,
+  "web_w": 1200,
+  "web_h": 1034
+ },
+ "emblem-26": {
+  "plate": "plates/emblem-26.jpg",
+  "src_w": 1600,
+  "src_h": 1512,
+  "web_w": 1200,
+  "web_h": 1134
+ },
+ "emblem-27": {
+  "plate": "plates/emblem-27.jpg",
+  "src_w": 1600,
+  "src_h": 1494,
+  "web_w": 1200,
+  "web_h": 1120
+ },
+ "emblem-28": {
+  "plate": "plates/emblem-28.jpg",
+  "src_w": 1600,
+  "src_h": 1495,
+  "web_w": 1200,
+  "web_h": 1121
+ },
+ "emblem-29": {
+  "plate": "plates/emblem-29.jpg",
+  "src_w": 1600,
+  "src_h": 1504,
+  "web_w": 1200,
+  "web_h": 1128
+ },
+ "emblem-30": {
+  "plate": "plates/emblem-30.jpg",
+  "src_w": 1600,
+  "src_h": 1474,
+  "web_w": 1200,
+  "web_h": 1106
+ },
+ "emblem-31": {
+  "plate": "plates/emblem-31.jpg",
+  "src_w": 1600,
+  "src_h": 1425,
+  "web_w": 1200,
+  "web_h": 1069
+ },
+ "emblem-32": {
+  "plate": "plates/emblem-32.jpg",
+  "src_w": 1600,
+  "src_h": 1493,
+  "web_w": 1200,
+  "web_h": 1120
+ },
+ "emblem-33": {
+  "plate": "plates/emblem-33.jpg",
+  "src_w": 1600,
+  "src_h": 1501,
+  "web_w": 1200,
+  "web_h": 1126
+ },
+ "emblem-34": {
+  "plate": "plates/emblem-34.jpg",
+  "src_w": 1600,
+  "src_h": 1508,
+  "web_w": 1200,
+  "web_h": 1131
+ },
+ "emblem-35": {
+  "plate": "plates/emblem-35.jpg",
+  "src_w": 1600,
+  "src_h": 1425,
+  "web_w": 1200,
+  "web_h": 1069
+ },
+ "emblem-36": {
+  "plate": "plates/emblem-36.jpg",
+  "src_w": 1600,
+  "src_h": 1519,
+  "web_w": 1200,
+  "web_h": 1139
+ },
+ "emblem-37": {
+  "plate": "plates/emblem-37.jpg",
+  "src_w": 1600,
+  "src_h": 1545,
+  "web_w": 1200,
+  "web_h": 1159
+ },
+ "emblem-38": {
+  "plate": "plates/emblem-38.jpg",
+  "src_w": 1600,
+  "src_h": 1507,
+  "web_w": 1200,
+  "web_h": 1130
+ },
+ "emblem-39": {
+  "plate": "plates/emblem-39.jpg",
+  "src_w": 1600,
+  "src_h": 1513,
+  "web_w": 1200,
+  "web_h": 1135
+ },
+ "emblem-40": {
+  "plate": "plates/emblem-40.jpg",
+  "src_w": 1600,
+  "src_h": 1501,
+  "web_w": 1200,
+  "web_h": 1126
+ },
+ "emblem-41": {
+  "plate": "plates/emblem-41.jpg",
+  "src_w": 1600,
+  "src_h": 1520,
+  "web_w": 1200,
+  "web_h": 1140
+ },
+ "emblem-42": {
+  "plate": "plates/emblem-42.jpg",
+  "src_w": 1600,
+  "src_h": 1513,
+  "web_w": 1200,
+  "web_h": 1135
+ },
+ "emblem-43": {
+  "plate": "plates/emblem-43.jpg",
+  "src_w": 1600,
+  "src_h": 1526,
+  "web_w": 1200,
+  "web_h": 1144
+ },
+ "emblem-44": {
+  "plate": "plates/emblem-44.jpg",
+  "src_w": 1600,
+  "src_h": 1505,
+  "web_w": 1200,
+  "web_h": 1129
+ },
+ "emblem-45": {
+  "plate": "plates/emblem-45.jpg",
+  "src_w": 1600,
+  "src_h": 1534,
+  "web_w": 1200,
+  "web_h": 1150,
+  "ground": {
+   "z_near_m": 2.256,
+   "z_far_m": 37.599,
+   "x_half_m": 15.96,
+   "coverage": 0.529,
+   "file": "ground/emblem-45.jpg"
+  }
+ },
+ "emblem-46": {
+  "plate": "plates/emblem-46.jpg",
+  "src_w": 1600,
+  "src_h": 1506,
+  "web_w": 1200,
+  "web_h": 1130
+ },
+ "emblem-47": {
+  "plate": "plates/emblem-47.jpg",
+  "src_w": 1600,
+  "src_h": 1541,
+  "web_w": 1200,
+  "web_h": 1156
+ },
+ "emblem-48": {
+  "plate": "plates/emblem-48.jpg",
+  "src_w": 1600,
+  "src_h": 1500,
+  "web_w": 1200,
+  "web_h": 1125
+ },
+ "emblem-49": {
+  "plate": "plates/emblem-49.jpg",
+  "src_w": 1600,
+  "src_h": 1552,
+  "web_w": 1200,
+  "web_h": 1164
+ },
+ "emblem-50": {
+  "plate": "plates/emblem-50.jpg",
+  "src_w": 1600,
+  "src_h": 1507,
+  "web_w": 1200,
+  "web_h": 1130
+ }
+}

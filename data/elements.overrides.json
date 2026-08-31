@@ -1,0 +1,7 @@
+{
+ "emblem-08/furnace.webp": {
+  "kind": "architecture",
+  "kind_basis": "hand review: this detection is a mis-segmentation of the hearth arch and its masonry, not a free-standing furnace. As `standing` it popped a 2.65 m card at 17.9 m on a weak (0.35) contact; as `architecture` it stays on the backdrop where it reads correctly.",
+  "reviewed_at": "2026-08-31T15:39:28+00:00"
+ }
+}

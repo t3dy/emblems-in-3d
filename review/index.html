@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Review — Emblems in 3D, Phase 5</title>
+<link rel="stylesheet" href="../site/css/site.css" />
+</head>
+<body>
+<div class="rev-layout">
+
+  <div class="rev-list">
+    <div style="padding:12px 13px;border-bottom:1px solid var(--rule)">
+      <strong style="font-size:15px">Phase 5 review</strong>
+      <div class="fine" id="progress">loading…</div>
+      <div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap">
+        <button class="btn" data-filter="all" style="font-size:12px;padding:3px 8px">all</button>
+        <button class="btn" data-filter="unreviewed" style="font-size:12px;padding:3px 8px">to do</button>
+        <button class="btn" data-filter="reviewed" style="font-size:12px;padding:3px 8px">done</button>
+      </div>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <div class="rev-main">
+    <div id="detail"><p class="fine">Pick a plate on the left.</p></div>
+  </div>
+
+</div>
+<script type="module" src="review.js"></script>
+</body>
+</html>

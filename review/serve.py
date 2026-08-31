@@ -1,0 +1,197 @@
+#!/usr/bin/env python
+"""
+Local review server for the Phase 5 reconstructions.
+
+Same shape as EmblemPrintShop's prototype/serve.py — stdlib only, project root
+as the file root, a couple of POST endpoints that write real files — but with one
+difference that matters: EmblemPrintShop's review page has a working
+/api/save-review endpoint that the page never calls, so its decisions live in
+browser localStorage and die with the profile. This one writes to disk on every
+click, and the writes feed the pipeline rather than sitting beside it.
+
+Endpoints
+  GET  /api/decisions            -> review/decisions.json
+  POST /api/decisions            {key, status, note}       -> review/decisions.json
+  POST /api/element-kind         {file, kind}              -> data/elements.overrides.json
+  POST /api/horizon              {key, horizon_ny, note}   -> data/perspective.overrides.json
+  GET  /api/progress             -> counts by status
+
+The last two write into the SAME override files the pipeline reads, so a
+correction made here changes the next build. Re-run:
+    python tools/build_elements.py        (after element-kind changes)
+    python tools/solve_perspective.py     (after horizon changes)
+    python tools/render_solve_overlay.py && python tools/build_web_assets.py
+
+Usage:
+    python review/serve.py
+    -> http://localhost:8770/review/
+"""
+import http.server
+import json
+import socketserver
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+PORT = 8770
+ROOT = Path(__file__).resolve().parent.parent
+DECISIONS = ROOT / "review" / "decisions.json"
+ELEM_OVERRIDES = ROOT / "data" / "elements.overrides.json"
+PERSP_OVERRIDES = ROOT / "data" / "perspective.overrides.json"
+
+VALID_STATUS = {"unreviewed", "accepted", "rejected", "noted"}
+VALID_KINDS = {"standing", "attached", "architecture", "ornament", "furniture"}
+
+
+def load(path, default):
+    if path.exists():
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            print(f"  ! {path.name} is not valid JSON; refusing to clobber it")
+            raise
+    return default
+
+
+def save(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
+    tmp.replace(path)          # atomic-ish: never leave a half-written decision file
+
+
+def stamp():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *a, **kw):
+        super().__init__(*a, directory=str(ROOT), **kw)
+
+    def log_message(self, fmt, *args):
+        if len(args) > 1 and str(args[1]) not in ("200", "304"):
+            super().log_message(fmt, *args)
+
+    def _json(self, code, payload):
+        body = json.dumps(payload).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
+    # ---------------------------------------------------------------- GET ---
+    def do_GET(self):
+        if self.path.startswith("/api/decisions"):
+            return self._json(200, load(DECISIONS, {}))
+        if self.path.startswith("/api/progress"):
+            d = load(DECISIONS, {})
+            counts = {s: 0 for s in VALID_STATUS}
+            for v in d.values():
+                counts[v.get("status", "unreviewed")] = counts.get(v.get("status", "unreviewed"), 0) + 1
+            return self._json(200, counts)
+        if self.path in ("/review", "/review/"):
+            self.send_response(302)
+            self.send_header("Location", "/review/index.html")
+            self.end_headers()
+            return
+        return super().do_GET()
+
+    # --------------------------------------------------------------- POST ---
+    def do_POST(self):
+        try:
+            n = int(self.headers.get("Content-Length", 0))
+            data = json.loads(self.rfile.read(n))
+        except Exception:
+            return self._json(400, {"error": "bad JSON body"})
+
+        if self.path == "/api/decisions":
+            return self._save_decision(data)
+        if self.path == "/api/element-kind":
+            return self._save_kind(data)
+        if self.path == "/api/horizon":
+            return self._save_horizon(data)
+        return self._json(404, {"error": f"unknown endpoint {self.path}"})
+
+    def _save_decision(self, data):
+        key = str(data.get("key", "")).strip()
+        status = data.get("status", "unreviewed")
+        if not key:
+            return self._json(400, {"error": "missing key"})
+        if status not in VALID_STATUS:
+            return self._json(400, {"error": f"status must be one of {sorted(VALID_STATUS)}"})
+        d = load(DECISIONS, {})
+        entry = d.get(key, {})
+        entry["status"] = status
+        if "note" in data:
+            entry["note"] = str(data["note"])
+        entry["updated"] = stamp()
+        d[key] = entry
+        save(DECISIONS, d)
+        print(f"  {key}: {status}" + ("  +note" if entry.get("note") else ""))
+        return self._json(200, {"ok": True, "key": key, "entry": entry})
+
+    def _save_kind(self, data):
+        """Write a corrected element kind straight into the pipeline's override file."""
+        f = str(data.get("file", "")).strip()
+        kind = data.get("kind")
+        if not f:
+            return self._json(400, {"error": "missing file"})
+        if kind not in VALID_KINDS:
+            return self._json(400, {"error": f"kind must be one of {sorted(VALID_KINDS)}"})
+        ov = load(ELEM_OVERRIDES, {})
+        base = f
+        rec = ov.get(base, {})
+        rec["kind"] = kind
+        rec["kind_basis"] = "hand review in the local review app"
+        rec["reviewed_at"] = stamp()
+        ov[base] = rec
+        save(ELEM_OVERRIDES, ov)
+        print(f"  element {base}: kind -> {kind}")
+        return self._json(200, {"ok": True, "file": base, "kind": kind,
+                                "rerun": "python tools/build_elements.py"})
+
+    def _save_horizon(self, data):
+        key = str(data.get("key", "")).strip()
+        try:
+            ny = float(data.get("horizon_ny"))
+        except (TypeError, ValueError):
+            return self._json(400, {"error": "horizon_ny must be a number"})
+        if not key or not (0.0 < ny < 1.0):
+            return self._json(400, {"error": "need key and 0 < horizon_ny < 1"})
+        ov = load(PERSP_OVERRIDES, {})
+        rec = ov.get(key, {})
+        rec["horizon_ny"] = round(ny, 5)
+        rec["horizon_basis"] = str(data.get("note") or "placed by hand in the local review app")
+        rec["reviewed_by"] = f"review app {stamp()}"
+        rec["confidence"] = max(float(rec.get("confidence", 0) or 0), 0.6)
+        # solve_perspective.py works in pixels; it recomputes horizon_ny from
+        # horizon_y, so the pixel value is the one that has to be written
+        persp = load(ROOT / "data" / "perspective.json", {})
+        H = (persp.get(key) or {}).get("height")
+        if H:
+            rec["horizon_y"] = round(ny * H, 1)
+        ov[key] = rec
+        save(PERSP_OVERRIDES, ov)
+        print(f"  {key}: horizon_ny -> {ny}")
+        return self._json(200, {"ok": True, "key": key, "horizon_ny": ny,
+                                "rerun": "python tools/solve_perspective.py"})
+
+
+class Server(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
+if __name__ == "__main__":
+    try:
+        load(DECISIONS, {}); load(ELEM_OVERRIDES, {}); load(PERSP_OVERRIDES, {})
+    except json.JSONDecodeError:
+        sys.exit(1)
+    print(f"Emblems in 3D — review server\n  root: {ROOT}\n  open: http://localhost:{PORT}/review/\n")
+    with Server(("127.0.0.1", PORT), Handler) as httpd:
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nstopped")
