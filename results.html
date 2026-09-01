@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Results · Emblems in 3D</title>
+<meta name="description" content="Two experiments against hand-measured ground truth, and what they changed: an existence test for vanishing points, and reading shape from the burin strokes." />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <h1>Results</h1>
+  <p class="sub">Two experiments against hand-measured ground truth, and what they changed: an existence test for vanishing points, and reading shape from the burin strokes.</p>
+</header>
+<nav class="tabs">
+  <a href="index.html">Overview</a>
+  <a href="examples.html">The three examples</a>
+  <a href="plates.html">All 51 plates</a>
+  <a href="results.html" aria-current="page">Results</a>
+  <a href="relief.html">Relief Lab</a>
+  <a href="method.html">Method</a>
+  <a href="findings.html">What was wrong</a>
+</nav>
+
+<div class="lede">
+  <p>Two experiments, run against plates whose answers were measured by hand first, so
+  that a method could be shown to be wrong rather than argued about. Both changed what
+  the pipeline does.</p>
+</div>
+
+<h2>1 · Hatching really was swamping the solver — on the plates that have a construction</h2>
+<div class="lede">
+  <p>Three ways of getting the burin hatching out of the way before detecting lines,
+  scored against the hand measurement. <em>Coarse ¼-scale</em> simply detects on a
+  downsampled plate: hatching is fine and high-frequency, construction lines are long
+  and survive.</p>
+</div>
+<div class="scroll-x"><table class="data">
+<thead><tr><th>plate</th><th>truth</th><th>baseline</th><th>coarse ¼-scale</th><th>texture-suppressed</th></tr></thead>
+<tbody>
+<tr><td><strong>Emblem VIII</strong><div class='fine'>ruled courtyard</div></td><td class='num'>0.455</td><td class='num'>0.274<div class='fine' style='color:var(--bad)'>err 0.181</div></td><td class='num'>0.469<div class='fine' style='color:var(--good)'>err 0.014</div></td><td class='num'>0.390<div class='fine' style='color:var(--weak)'>err 0.065</div></td></tr>
+<tr><td><strong>Emblem XXI</strong><div class='fine'>frontoparallel wall</div></td><td class='num'>0.286</td><td class='num'>0.602<div class='fine' style='color:var(--bad)'>err 0.316</div></td><td class='num'>0.877<div class='fine' style='color:var(--bad)'>err 0.591</div></td><td class='num'>0.531<div class='fine' style='color:var(--bad)'>err 0.245</div></td></tr>
+<tr><td><strong>Emblem I</strong><div class='fine'>figure landscape</div></td><td class='num'>0.57</td><td class='num'>0.678<div class='fine' style='color:var(--weak)'>err 0.108</div></td><td class='num'>0.145<div class='fine' style='color:var(--bad)'>err 0.425</div></td><td class='num'>0.749<div class='fine' style='color:var(--bad)'>err 0.179</div></td></tr>
+</tbody></table></div>
+<div class="lede">
+  <p>Read the halves separately, because they say opposite things.</p>
+  <p><strong>On the ruled plate, scale space essentially solves it.</strong> Emblem
+  VIII's horizon error falls from 0.181 to <strong>0.014</strong> — within a hair of the
+  hand measurement — for the cost of one <code>resize</code>.</p>
+  <p><strong>On the other two, every variant fails, and it is not the detector's
+  fault.</strong> Emblem XXI's wall is frontoparallel: it has no vanishing point, which
+  is exactly why its great circle reads as a true circle. Emblem I is a landscape with
+  no architecture. The solver was confidently answering a question those plates do not
+  pose, and better line detection made it worse, not better.</p>
+</div>
+
+<h2>2 · An existence test: does this plate <em>have</em> a vanishing point?</h2>
+<div class="lede">
+  <p>A real ruled construction is scale-invariant. Solve the vanishing point
+  independently at ⅙, ¼ and ⅓ scale and the three answers should agree, because the
+  construction lines are long and survive every scale. Hatching noise does not: which
+  "vanishing point" it produces depends on which frequency band you happen to look at.
+  So the <em>spread</em> of the three answers is a test of whether there is anything
+  there to find.</p>
+</div>
+<div class="scroll-x"><table class="data">
+<thead><tr><th>plate</th><th>scale spread</th><th>verdict</th><th>what it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Emblem XLV</strong></td><td class='num'>0.006</td><td><span class='badge good'>ruled</span></td><td class='fine'>a real construction, and the test says so</td></tr>
+<tr><td><strong>Emblem I</strong></td><td class='num'>0.125</td><td><span class='badge weak'>open</span></td><td class='fine'>landscape; nothing to converge</td></tr>
+<tr><td><strong>Emblem VIII</strong></td><td class='num'>0.284</td><td><span class='badge weak'>open</span></td><td class='fine'>construction present but half-occluded by the swordsman. The 1/4-scale solve is right to 0.014, the others disagree, and the test correctly declines to confirm it unattended</td></tr>
+<tr><td><strong>Emblem XXI</strong></td><td class='num'>0.358</td><td><span class='badge weak'>open</span></td><td class='fine'>frontoparallel wall: no vanishing point exists</td></tr>
+<tr><td><strong>Emblem V</strong></td><td class='num'>0.456</td><td><span class='badge weak'>open</span></td><td class='fine'>figures and drapery only</td></tr>
+</tbody></table></div>
+
+<h2>3 · What that did to the corpus</h2>
+<div class="lede">
+  <p>Applying the test to all 51 plates:</p>
+</div>
+<div class="scroll-x"><table class="data">
+<thead><tr><th>class</th><th>plates</th><th>meaning</th></tr></thead>
+<tbody>
+<tr><td><span class="badge good">ruled</span></td><td class="num">2</td>
+    <td>a construction confirmed at three scales; the vanishing point is meaningful</td></tr>
+<tr><td><span class="badge weak">uncertain</span></td><td class="num">6</td>
+    <td>probably a construction, but not trustworthy unattended — usually architecture
+        partly occluded by figures</td></tr>
+<tr><td><span class="badge">frontal</span></td><td class="num">1</td>
+    <td>built parallel to the picture plane; there is nothing to converge</td></tr>
+<tr><td><span class="badge">open</span></td><td class="num">42</td>
+    <td>foliage, terrain, drapery and figures — which is most of this book</td></tr>
+</tbody></table></div>
+
+<div class="lede">
+  <p><strong>The corpus now carries 5 horizons instead of 51.</strong>
+  3 hand-measured, 2 confirmed automatically, and <strong>46 plates
+  where the record is deliberately blank</strong> and says why.</p>
+  <p>That is a much smaller number than before and it is a better one. Every plate used
+  to carry a horizon and a confidence score; most of those horizons were wrong, and the
+  score made them look considered. A blank field that explains itself is more useful to
+  work from than a number that has to be checked before it can be trusted.</p>
+  <p>It is also a finding about Merian rather than about the software. Only a couple of
+  plates in <em>Atalanta Fugiens</em> are built on a ruled perspective construction at
+  all. It is overwhelmingly a book of figures in landscape — which is why the estimator
+  that matters next is the one that reads the horizon off a standing figure, and why the
+  thing blocking it is that the extraction pipeline has found five figures in fifty-one
+  plates.</p>
+</div>
+
+<h2>4 · Reading the marks as shape</h2>
+<div class="lede">
+  <p>The gallery's 213 "carved relief" models drive a displacement map from the plate's
+  luminance — light paper proud, dark ink incised. That is semantically inverted. Ink
+  density in an engraving is <em>tone</em>, and tone is shading: the darkest part of a
+  drawn sphere is its shadowed side, not a groove, and the darkest part of Emblem VIII
+  is the inside of the vault, the furthest thing away.</p>
+  <p>The burin follows the form, so stroke <em>direction</em> is evidence about surface
+  orientation and stroke <em>density</em> is tone. A structure tensor recovers the
+  stroke field; the height gradient is taken across the strokes, signed by which way the
+  tone increases; that field is integrated to a surface. Below is the recovered stroke
+  field for each plate processed so far — every one of these is read off the engraving,
+  not drawn.</p>
+  <p><a class="btn" href="relief.html">Open the Relief Lab ▸</a>
+     &nbsp;<span class="fine">sweep a raking light across both surfaces and compare</span></p>
+</div>
+<div class="grid">
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-00-flow.jpg" alt="recovered stroke field for emblem-00" loading="lazy" />
+    <div class="body"><div class="name">Frontispiece</div>
+    <div class="meta">stroke field coherent over 75% ·
+      47% stroke-driven</div></div>
+  </a>
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-01-flow.jpg" alt="recovered stroke field for emblem-01" loading="lazy" />
+    <div class="body"><div class="name">I</div>
+    <div class="meta">stroke field coherent over 86% ·
+      62% stroke-driven</div></div>
+  </a>
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-05-flow.jpg" alt="recovered stroke field for emblem-05" loading="lazy" />
+    <div class="body"><div class="name">V</div>
+    <div class="meta">stroke field coherent over 88% ·
+      70% stroke-driven</div></div>
+  </a>
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-08-flow.jpg" alt="recovered stroke field for emblem-08" loading="lazy" />
+    <div class="body"><div class="name">VIII</div>
+    <div class="meta">stroke field coherent over 89% ·
+      71% stroke-driven</div></div>
+  </a>
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-21-flow.jpg" alt="recovered stroke field for emblem-21" loading="lazy" />
+    <div class="body"><div class="name">XXI</div>
+    <div class="meta">stroke field coherent over 83% ·
+      61% stroke-driven</div></div>
+  </a>
+  <a class="card" href="relief.html">
+    <img src="assets/relief/emblem-45-flow.jpg" alt="recovered stroke field for emblem-45" loading="lazy" />
+    <div class="body"><div class="name">XLV</div>
+    <div class="meta">stroke field coherent over 90% ·
+      77% stroke-driven</div></div>
+  </a>
+</div>
+
+<p class="fine" style="margin-top:40px;border-top:1px solid var(--rule);padding-top:14px">
+Both experiments are reproducible: <code>tools/classify_armature.py</code> for the
+existence test, <code>tools/hatching_relief.py</code> for the relief. The full research
+survey and the ordered plan built on these results are in
+<code>PROPOSAL_PHASE6.md</code>, with companion proposals for EmblemPrintShop,
+EmblemPapercraft and 3dprintlab.
+</p>
+
+</div>
+</body>
+</html>

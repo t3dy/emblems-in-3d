@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Relief Lab · Emblems in 3D</title>
+<meta name="description" content="Recovering surface shape from the direction of Merian's burin strokes, and comparing it against driving displacement from luminance." />
+<link rel="stylesheet" href="css/site.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body class="viewer">
+
+<canvas id="rl-canvas"></canvas>
+
+<header class="bar top">
+  <a class="btn ghost" href="index.html">◂ Phase 5</a>
+  <span class="ttl">The Relief Lab</span>
+  <span id="rl-badge" class="badge"></span>
+  <span class="spacer"></span>
+  <span id="rl-readout" class="readout"></span>
+</header>
+
+<div class="bar bottom">
+  <label class="slider">plate
+    <select id="rl-plate" class="btn" style="padding:5px 8px"></select>
+  </label>
+  <div class="seg" id="rl-method">
+    <button class="btn on" data-m="hatching">hatching</button>
+    <button class="btn" data-m="luminance">luminance</button>
+  </div>
+  <div class="seg" id="rl-surface">
+    <button class="btn on" data-s="ink">inked</button>
+    <button class="btn" data-s="plaster">plaster</button>
+  </div>
+  <label class="slider">relief
+    <input type="range" id="rl-depth" min="0" max="1" step="0.01" value="0.42" />
+  </label>
+  <button class="btn on" id="rl-sweep">sweep the light</button>
+  <span class="hint">drag the canvas to move the light · drag with right button to orbit</span>
+</div>
+
+<aside class="panel" id="rl-panel">
+  <h2>What you are looking at</h2>
+  <p class="fine" id="rl-explain"></p>
+  <div id="rl-maps" class="mapstrip"></div>
+  <p class="fine" id="rl-stats"></p>
+</aside>
+
+<div id="rl-loading">reading the strokes…</div>
+
+<script type="module" src="js/relief-lab.js"></script>
+</body>
+</html>
