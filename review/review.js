@@ -135,7 +135,7 @@ function select(key) {
     <p class="fine">Kind decides what an element becomes. Changing it writes to
       data/elements.overrides.json — then re-run <code>python tools/build_elements.py</code>.</p>
     <div class="scroll-x"><table class="data" id="etable">
-      <thead><tr><th>cutout</th><th>label</th><th>kind</th><th>contact</th><th>depth</th><th>score</th></tr></thead>
+      <thead><tr><th>cutout</th><th>label</th><th>kind</th><th title="Cutouts of things that stood behind something else come out with holes — the engraver never drew what the figure was covering. Tick to queue that hole for an AI fill; the fill is kept as its own labelled layer, never painted into the source.">AI fill</th><th>contact</th><th>depth</th><th>score</th></tr></thead>
       <tbody></tbody>
     </table></div>
 
@@ -173,6 +173,32 @@ function select(key) {
     const td2 = el("td"); td2.append(sel);
     if (!e.kind_reviewed) td2.append(el("span", "badge weak", " guessed"));
     tr.append(td2);
+
+    // --- "fill in with AI later" -------------------------------------------
+    // Pre-ticked for elements the extractor already knows have occlusion holes
+    // (something stood in front of them), so the common case is one glance
+    // rather than one click per card.
+    const tdF = el("td");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = !!e.needs_ai_fill;
+    cb.title = e.occluded_by && e.occluded_by.length
+      ? `hole left by: ${e.occluded_by.join(", ")}`
+      : "no occlusion hole detected — tick only if something else is missing";
+    cb.onchange = async () => {
+      try {
+        await post("/api/ai-fill", {
+          file: e.file, needs_ai_fill: cb.checked, note: $("#note").value || "",
+        });
+        e.needs_ai_fill = cb.checked;
+        flash($("#saved"), `${e.label || e.file}: AI fill ${cb.checked ? "queued" : "cleared"}`);
+      } catch (err) { cb.checked = !cb.checked; flash($("#saved"), err.message, false); }
+    };
+    tdF.append(cb);
+    if (e.occluded_frac) {
+      tdF.append(el("div", "fine", `${Math.round(e.occluded_frac * 100)}% hidden`));
+    }
+    tr.append(tdF);
 
     const cc = e.contact_confidence;
     const tdc = el("td");

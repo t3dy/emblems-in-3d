@@ -110,9 +110,38 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._save_decision(data)
         if self.path == "/api/element-kind":
             return self._save_kind(data)
+        if self.path == "/api/ai-fill":
+            return self._save_ai_fill(data)
         if self.path == "/api/horizon":
             return self._save_horizon(data)
         return self._json(404, {"error": f"unknown endpoint {self.path}"})
+
+    def _save_ai_fill(self, data):
+        """Flag an element as 'fill the missing part in with AI later'.
+
+        Cutouts of things that stood BEHIND something else come out with holes:
+        the engraver never drew the wall behind the figure, so there is nothing
+        to extract there. That is an absence of evidence, and this flag is a
+        queue of those absences — not a licence to quietly invent pixels.
+
+        Anything generated to fill one of these holes must stay distinguishable
+        from the engraved source (see docs/AI_FILL.md): the fill is a separate
+        layer with its own provenance, never painted into the extracted asset.
+        """
+        f = str(data.get("file", "")).strip()
+        if not f:
+            return self._json(400, {"error": "missing file"})
+        want = bool(data.get("needs_ai_fill"))
+        ov = load(ELEM_OVERRIDES, {})
+        rec = ov.get(f, {})
+        rec["needs_ai_fill"] = want
+        rec["ai_fill_note"] = str(data.get("note") or "")
+        rec["ai_fill_status"] = "queued" if want else "not-needed"
+        rec["ai_fill_flagged_at"] = stamp()
+        ov[f] = rec
+        save(ELEM_OVERRIDES, ov)
+        print(f"  element {f}: needs_ai_fill -> {want}")
+        return self._json(200, {"ok": True, "file": f, "needs_ai_fill": want})
 
     def _save_decision(self, data):
         key = str(data.get("key", "")).strip()
