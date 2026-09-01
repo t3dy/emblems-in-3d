@@ -1,0 +1,74 @@
+{
+ "emblem-08": {
+  "height": "relief/emblem-08-height.webp",
+  "normal": "relief/emblem-08-normal.webp",
+  "flow": "relief/emblem-08-flow.jpg",
+  "tone": "relief/emblem-08-tone.jpg",
+  "luminance": "relief/emblem-08-luminance.webp",
+  "luminance_normal": "relief/emblem-08-luminance-normal.webp",
+  "w": 900,
+  "h": 772,
+  "coherent_fraction": 0.891,
+  "stroke_driven_fraction": 0.717
+ },
+ "emblem-01": {
+  "height": "relief/emblem-01-height.webp",
+  "normal": "relief/emblem-01-normal.webp",
+  "flow": "relief/emblem-01-flow.jpg",
+  "tone": "relief/emblem-01-tone.jpg",
+  "luminance": "relief/emblem-01-luminance.webp",
+  "luminance_normal": "relief/emblem-01-luminance-normal.webp",
+  "w": 900,
+  "h": 843,
+  "coherent_fraction": 0.863,
+  "stroke_driven_fraction": 0.629
+ },
+ "emblem-21": {
+  "height": "relief/emblem-21-height.webp",
+  "normal": "relief/emblem-21-normal.webp",
+  "flow": "relief/emblem-21-flow.jpg",
+  "tone": "relief/emblem-21-tone.jpg",
+  "luminance": "relief/emblem-21-luminance.webp",
+  "luminance_normal": "relief/emblem-21-luminance-normal.webp",
+  "w": 900,
+  "h": 841,
+  "coherent_fraction": 0.831,
+  "stroke_driven_fraction": 0.61
+ },
+ "emblem-45": {
+  "height": "relief/emblem-45-height.webp",
+  "normal": "relief/emblem-45-normal.webp",
+  "flow": "relief/emblem-45-flow.jpg",
+  "tone": "relief/emblem-45-tone.jpg",
+  "luminance": "relief/emblem-45-luminance.webp",
+  "luminance_normal": "relief/emblem-45-luminance-normal.webp",
+  "w": 900,
+  "h": 862,
+  "coherent_fraction": 0.903,
+  "stroke_driven_fraction": 0.771
+ },
+ "emblem-05": {
+  "height": "relief/emblem-05-height.webp",
+  "normal": "relief/emblem-05-normal.webp",
+  "flow": "relief/emblem-05-flow.jpg",
+  "tone": "relief/emblem-05-tone.jpg",
+  "luminance": "relief/emblem-05-luminance.webp",
+  "luminance_normal": "relief/emblem-05-luminance-normal.webp",
+  "w": 900,
+  "h": 788,
+  "coherent_fraction": 0.884,
+  "stroke_driven_fraction": 0.708
+ },
+ "emblem-00": {
+  "height": "relief/emblem-00-height.webp",
+  "normal": "relief/emblem-00-normal.webp",
+  "flow": "relief/emblem-00-flow.jpg",
+  "tone": "relief/emblem-00-tone.jpg",
+  "luminance": "relief/emblem-00-luminance.webp",
+  "luminance_normal": "relief/emblem-00-luminance-normal.webp",
+  "w": 674,
+  "h": 900,
+  "coherent_fraction": 0.753,
+  "stroke_driven_fraction": 0.47
+ }
+}

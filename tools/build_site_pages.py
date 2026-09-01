@@ -38,7 +38,8 @@ def esc(s):
 
 def shell(title, current, body, desc=""):
     tabs = [("index.html", "Overview"), ("examples.html", "The three examples"),
-            ("plates.html", "All 51 plates"), ("method.html", "Method"),
+            ("plates.html", "All 51 plates"), ("results.html", "Results"),
+            ("relief.html", "Relief Lab"), ("method.html", "Method"),
             ("findings.html", "What was wrong")]
     nav = "\n".join(
         f'  <a href="{h}"{" aria-current=\"page\"" if h == current else ""}>{t}</a>'

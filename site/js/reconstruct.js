@@ -60,10 +60,15 @@ const plateInfo = MANIFEST[KEY];
 const elements = (ELEMS[KEY] || { elements: [] }).elements;
 if (!solve || !plateInfo) throw new Error(`no solve/plate for ${KEY}`);
 
+// Since the armature router ran, a plate may honestly carry NO horizon: 46 of the
+// 51 do. That is the point of the router, so this page has to show that state as a
+// first-class result rather than fall over on a null.
+const RECOVERABLE = solve.horizon_recoverable !== false && solve.horizon_y != null;
+
 const W = solve.width, H = solve.height;
 const F = solve.focal_px;                       // px
 const EYE = solve.eye_height_m || 1.6;          // m
-const YH = solve.horizon_y;                     // px
+const YH = RECOVERABLE ? solve.horizon_y : H * 0.5;   // px
 
 // vertical field of view of a pinhole with this focal length and this plate
 const VFOV = 2 * Math.atan(H / (2 * F)) * (180 / Math.PI);
@@ -378,11 +383,39 @@ function tick() {
 // ---------------------------------------------------------------------------
 // go
 // ---------------------------------------------------------------------------
-els.title.textContent = `${KEY} — ${solve.type}`;
-els.badge.textContent = solve.reviewed ? "hand-reviewed solve" : `auto solve · confidence ${solve.confidence}`;
-els.badge.className = solve.reviewed ? "badge good" : "badge weak";
+els.title.textContent = `${KEY} — ${solve.armature_class || solve.type}`;
+els.badge.textContent = solve.reviewed
+  ? "hand-reviewed solve"
+  : RECOVERABLE ? `auto solve · confidence ${solve.confidence}`
+                : "no horizon recoverable";
+els.badge.className = solve.reviewed ? "badge good" : RECOVERABLE ? "badge" : "badge bad";
 
-const built = await build();
+let built;
+if (!RECOVERABLE) {
+  // Show the plate, flat, at the picture plane, and say plainly why there is no
+  // space to walk into. An empty scene with an explanation beats a confident
+  // reconstruction built on a horizon nobody can defend.
+  const plateTex = await loadTex(ASSET + plateInfo.plate);
+  const h = 2 * BACKDROP_Z * Math.tan((VFOV * Math.PI) / 360);
+  const back = new THREE.Mesh(new THREE.PlaneGeometry((h * W) / H, h),
+                              cardMaterial(plateTex, false));
+  back.position.set(0, EYE, -BACKDROP_Z);
+  world.add(back);
+  built = [
+    `NO RECONSTRUCTION. This plate has no horizon this project is willing to claim, ` +
+    `so there is no ground plane, and without a ground plane there are no depths.`,
+    solve.horizon_basis || "no basis recorded",
+    solve.horizon_candidate_ny != null
+      ? `The strongest long horizontal edge sits at ny ${solve.horizon_candidate_ny} — ` +
+        `a candidate for a person to accept or reject in the review app, not an answer.`
+      : "",
+    `Class: ${solve.armature_class || "unclassified"} — ${solve.class_meaning || ""}`,
+  ].filter(Boolean);
+  document.getElementById("r-walk").disabled = true;
+  els.pop.disabled = true;
+} else {
+  built = await build();
+}
 els.loading.style.display = "none";
 document.getElementById("r-notes").innerHTML =
   built.map((n) => `<li>${n}</li>`).join("") +

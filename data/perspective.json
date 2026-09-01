@@ -3,31 +3,37 @@
   "width": 1600,
   "height": 2136,
   "segments_considered": 19,
-  "vps": [
-   {
-    "x": 514.2,
-    "y": 1531.2,
-    "inliers": 3,
-    "weight": 624.7
-   },
-   {
-    "x": 1480.0,
-    "y": 269.4,
-    "inliers": 4,
-    "weight": 527.3
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 1157.8,
+  "horizon_y": null,
   "focal_px": 751.2,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.391,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": -52.57,
-  "horizon_ny": 0.54204,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "frontal",
+  "stability": 0.1343,
+  "scale_vps_ny": [
+   0.63,
+   0.694,
+   0.473
+  ],
+  "oblique_energy": 0.175,
+  "coarse_vp": [
+   694.4,
+   1345.6
+  ],
+  "horizon_band_ny": 0.187,
+  "horizon_band_strength": 1.39,
+  "segments": 957,
+  "class_meaning": "built from horizontals and verticals parallel to the picture plane. There is no vanishing point to find, and that is a fact about the picture rather than a failure of the solver. Horizon must come from a figure of known height, or by hand.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: built from horizontals and verticals parallel to the picture plane. There is no vanishing point to find, and that is a fact about the picture rather than a failure of the solver. Horizon must come from a figure of known height, or by hand. (scale spread 0.1343, oblique energy 0.175). Nearest strong horizontal edge is at ny 0.187 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.187
  },
  "emblem-01": {
   "width": 1600,
@@ -78,187 +84,240 @@
   "ornament_basis": "Merian's rolled cloud-scrolls are an engraver's convention for sky, not weather at a distance. They belong on a parallax-free band and must never be given a depth. The old pipeline's CAT_BIAS gave category 'sky' a recession of 0.42, i.e. it treated them as objects standing somewhere.",
   "reviewed_by": "hand review 2026-08-31, measured on a 0.05 normalised grid",
   "ground_far_ny": 0.655,
-  "ground_far_basis": "the near bank of the river at ny 0.655; beyond it the ground is water and then a different, far band"
+  "ground_far_basis": "the near bank of the river at ny 0.655; beyond it the ground is water and then a different, far band",
+  "armature_class": "open",
+  "stability": 0.2936,
+  "scale_vps_ny": [
+   0.131,
+   0.308,
+   0.122
+  ],
+  "oblique_energy": 0.798,
+  "coarse_vp": [
+   240.2,
+   197.1
+  ],
+  "horizon_band_ny": 0.602,
+  "horizon_band_strength": 1.61,
+  "segments": 648,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": true
  },
  "emblem-02": {
   "width": 1600,
   "height": 1485,
   "segments_considered": 351,
-  "vps": [
-   {
-    "x": 283.6,
-    "y": 1251.8,
-    "inliers": 63,
-    "weight": 12033.5
-   },
-   {
-    "x": 656.0,
-    "y": 856.0,
-    "inliers": 14,
-    "weight": 2249.6
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1251.8,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.177,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.84296,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3495,
+  "scale_vps_ny": [
+   0.886,
+   0.864,
+   0.143
+  ],
+  "oblique_energy": 0.779,
+  "coarse_vp": [
+   1356.3,
+   1283.1
+  ],
+  "horizon_band_ny": 0.79,
+  "horizon_band_strength": 1.35,
+  "segments": 470,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3495, oblique energy 0.779). Nearest strong horizontal edge is at ny 0.79 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.79
  },
  "emblem-03": {
   "width": 1600,
   "height": 1415,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 542.0,
-    "y": 956.2,
-    "inliers": 47,
-    "weight": 10199.5
-   },
-   {
-    "x": 1042.8,
-    "y": 1124.7,
-    "inliers": 43,
-    "weight": 10040.8
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 956.2,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.119,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.67576,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2282,
+  "scale_vps_ny": [
+   0.505,
+   0.161,
+   0.174
+  ],
+  "oblique_energy": 0.828,
+  "coarse_vp": [
+   1218.2,
+   246.2
+  ],
+  "horizon_band_ny": 0.802,
+  "horizon_band_strength": 1.88,
+  "segments": 656,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2282, oblique energy 0.828). Nearest strong horizontal edge is at ny 0.802 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.802
  },
  "emblem-04": {
   "width": 1600,
   "height": 1416,
   "segments_considered": 318,
-  "vps": [
-   {
-    "x": 1009.0,
-    "y": 628.5,
-    "inliers": 67,
-    "weight": 15035.1
-   },
-   {
-    "x": 751.4,
-    "y": 666.6,
-    "inliers": 30,
-    "weight": 5697.1
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 628.5,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.23,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.44386,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3421,
+  "scale_vps_ny": [
+   0.132,
+   0.159,
+   0.843
+  ],
+  "oblique_energy": 0.793,
+  "coarse_vp": [
+   245.9,
+   224.8
+  ],
+  "horizon_band_ny": 0.37,
+  "horizon_band_strength": 1.39,
+  "segments": 623,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3421, oblique energy 0.793). Nearest strong horizontal edge is at ny 0.37 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.37
  },
  "emblem-05": {
   "width": 1600,
   "height": 1401,
   "segments_considered": 396,
-  "vps": [
-   {
-    "x": 385.4,
-    "y": 1036.1,
-    "inliers": 79,
-    "weight": 18960.0
-   },
-   {
-    "x": 961.6,
-    "y": 932.3,
-    "inliers": 50,
-    "weight": 7870.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1036.1,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.236,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.73954,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.456,
+  "scale_vps_ny": [
+   0.876,
+   0.11,
+   0.555
+  ],
+  "oblique_energy": 0.74,
+  "coarse_vp": [
+   199.1,
+   777.0
+  ],
+  "horizon_band_ny": 0.669,
+  "horizon_band_strength": 1.57,
+  "segments": 483,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.456, oblique energy 0.74). Nearest strong horizontal edge is at ny 0.669 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.669
  },
  "emblem-06": {
   "width": 1600,
   "height": 1383,
   "segments_considered": 298,
-  "vps": [
-   {
-    "x": 912.1,
-    "y": 588.6,
-    "inliers": 52,
-    "weight": 13333.1
-   },
-   {
-    "x": 1365.2,
-    "y": 1179.2,
-    "inliers": 15,
-    "weight": 2386.6
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 588.6,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.197,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.4256,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2547,
+  "scale_vps_ny": [
+   0.546,
+   0.114,
+   0.39
+  ],
+  "oblique_energy": 0.801,
+  "coarse_vp": [
+   1107.2,
+   539.8
+  ],
+  "horizon_band_ny": 0.751,
+  "horizon_band_strength": 1.5,
+  "segments": 597,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2547, oblique energy 0.801). Nearest strong horizontal edge is at ny 0.751 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.751
  },
  "emblem-07": {
   "width": 1600,
   "height": 1400,
   "segments_considered": 141,
-  "vps": [
-   {
-    "x": 1150.3,
-    "y": 618.3,
-    "inliers": 15,
-    "weight": 2353.1
-   },
-   {
-    "x": 1066.8,
-    "y": 1050.5,
-    "inliers": 15,
-    "weight": 2248.5
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 618.3,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.111,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.44164,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2526,
+  "scale_vps_ny": [
+   0.784,
+   0.813,
+   0.281
+  ],
+  "oblique_energy": 0.725,
+  "coarse_vp": [
+   288.6,
+   1097.1
+  ],
+  "horizon_band_ny": 0.877,
+  "horizon_band_strength": 1.31,
+  "segments": 511,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2526, oblique energy 0.725). Nearest strong horizontal edge is at ny 0.877 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.877
  },
  "emblem-08": {
   "width": 1600,
@@ -294,367 +353,456 @@
   "horizon_basis": "MEASURED. The barrel vault's ceiling and floor lines and the courtyard's orthogonals all converge on the small lit doorway at the far end of the tunnel, at nx 0.365 / ny 0.455. That doorway IS the vanishing point; it is the single most legible construction point in the whole book.",
   "reviewed_by": "hand review 2026-08-31, measured on a 0.05 normalised grid",
   "ground_far_ny": 0.72,
-  "ground_far_basis": "base of the tunnel's outer wall, where the courtyard pavement stops being visible (ny 0.72)"
+  "ground_far_basis": "base of the tunnel's outer wall, where the courtyard pavement stops being visible (ny 0.72)",
+  "armature_class": "open",
+  "stability": 0.3054,
+  "scale_vps_ny": [
+   0.868,
+   0.472,
+   0.324
+  ],
+  "oblique_energy": 0.568,
+  "coarse_vp": [
+   836.3,
+   647.7
+  ],
+  "horizon_band_ny": 0.825,
+  "horizon_band_strength": 1.58,
+  "segments": 513,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": true
  },
  "emblem-09": {
   "width": 1600,
   "height": 1510,
   "segments_considered": 188,
-  "vps": [
-   {
-    "x": 793.2,
-    "y": 833.6,
-    "inliers": 24,
-    "weight": 5312.0
-   },
-   {
-    "x": 545.1,
-    "y": 372.0,
-    "inliers": 14,
-    "weight": 2513.9
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 833.6,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.148,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.55205,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.4342,
+  "scale_vps_ny": [
+   0.826,
+   0.871,
+   0.153
+  ],
+  "oblique_energy": 0.422,
+  "coarse_vp": [
+   317.1,
+   1247.8
+  ],
+  "horizon_band_ny": 0.212,
+  "horizon_band_strength": 1.37,
+  "segments": 606,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.4342, oblique energy 0.422). Nearest strong horizontal edge is at ny 0.212 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.212
  },
  "emblem-10": {
   "width": 1600,
   "height": 1400,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 94.4,
-    "y": 1213.6,
-    "inliers": 51,
-    "weight": 14034.4
-   },
-   {
-    "x": 1412.8,
-    "y": 1106.0,
-    "inliers": 18,
-    "weight": 5429.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1213.6,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.145,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.86686,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2044,
+  "scale_vps_ny": [
+   0.154,
+   0.452,
+   0.406
+  ],
+  "oblique_energy": 0.748,
+  "coarse_vp": [
+   679.7,
+   567.8
+  ],
+  "horizon_band_ny": 0.623,
+  "horizon_band_strength": 1.4,
+  "segments": 635,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2044, oblique energy 0.748). Nearest strong horizontal edge is at ny 0.623 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.623
  },
  "emblem-11": {
   "width": 1600,
   "height": 1511,
   "segments_considered": 93,
-  "vps": [
-   {
-    "x": 1167.9,
-    "y": 480.1,
-    "inliers": 16,
-    "weight": 2897.5
-   },
-   {
-    "x": 699.8,
-    "y": 815.1,
-    "inliers": 8,
-    "weight": 1448.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 480.1,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.181,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.31774,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.4296,
+  "scale_vps_ny": [
+   0.292,
+   0.841,
+   0.25
+  ],
+  "oblique_energy": 0.781,
+  "coarse_vp": [
+   1109.6,
+   440.9
+  ],
+  "horizon_band_ny": 0.857,
+  "horizon_band_strength": 1.45,
+  "segments": 608,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.4296, oblique energy 0.781). Nearest strong horizontal edge is at ny 0.857 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.857
  },
  "emblem-12": {
   "width": 1600,
   "height": 1501,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1376.3,
-    "y": 1330.6,
-    "inliers": 45,
-    "weight": 8524.1
-   },
-   {
-    "x": 591.0,
-    "y": 775.9,
-    "inliers": 35,
-    "weight": 7033.4
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1330.6,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.106,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.88648,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.4684,
+  "scale_vps_ny": [
+   0.864,
+   0.13,
+   0.215
+  ],
+  "oblique_energy": 0.79,
+  "coarse_vp": [
+   504.2,
+   322.6
+  ],
+  "horizon_band_ny": 0.827,
+  "horizon_band_strength": 1.34,
+  "segments": 641,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.4684, oblique energy 0.79). Nearest strong horizontal edge is at ny 0.827 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.827
  },
  "emblem-13": {
   "width": 1600,
   "height": 1418,
   "segments_considered": 292,
-  "vps": [
-   {
-    "x": 769.6,
-    "y": 883.2,
-    "inliers": 59,
-    "weight": 13501.8
-   },
-   {
-    "x": 1286.0,
-    "y": 314.9,
-    "inliers": 19,
-    "weight": 3271.7
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 883.2,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.225,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.62285,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.1636,
+  "scale_vps_ny": [
+   0.41,
+   0.136,
+   0.171
+  ],
+  "oblique_energy": 0.79,
+  "coarse_vp": [
+   566.3,
+   243.2
+  ],
+  "horizon_band_ny": 0.398,
+  "horizon_band_strength": 1.29,
+  "segments": 646,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.1636, oblique energy 0.79). Nearest strong horizontal edge is at ny 0.398 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.398
  },
  "emblem-14": {
   "width": 1600,
   "height": 1392,
   "segments_considered": 274,
-  "vps": [
-   {
-    "x": 1419.9,
-    "y": 134.9,
-    "inliers": 39,
-    "weight": 8158.4
-   },
-   {
-    "x": 676.2,
-    "y": 702.3,
-    "inliers": 17,
-    "weight": 3354.4
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 134.9,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.157,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.09691,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2575,
+  "scale_vps_ny": [
+   0.203,
+   0.271,
+   0.455
+  ],
+  "oblique_energy": 0.751,
+  "coarse_vp": [
+   1058.1,
+   377.0
+  ],
+  "horizon_band_ny": 0.466,
+  "horizon_band_strength": 1.41,
+  "segments": 695,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2575, oblique energy 0.751). Nearest strong horizontal edge is at ny 0.466 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.466
  },
  "emblem-15": {
   "width": 1600,
   "height": 1442,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 261.8,
-    "y": 1053.8,
-    "inliers": 46,
-    "weight": 21498.2
-   },
-   {
-    "x": 1180.6,
-    "y": 1100.3,
-    "inliers": 45,
-    "weight": 19680.1
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 1081.0,
+  "horizon_y": null,
   "focal_px": 280.4,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.244,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 2.9,
-  "horizon_ny": 0.74965,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.355,
+  "scale_vps_ny": [
+   0.74,
+   0.844,
+   0.722
+  ],
+  "oblique_energy": 0.786,
+  "coarse_vp": [
+   1216.4,
+   1066.5
+  ],
+  "horizon_band_ny": 0.692,
+  "horizon_band_strength": 1.28,
+  "segments": 613,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.355, oblique energy 0.786). Nearest strong horizontal edge is at ny 0.692 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.692
  },
  "emblem-16": {
   "width": 1600,
   "height": 1499,
   "segments_considered": 306,
-  "vps": [
-   {
-    "x": 232.9,
-    "y": 1292.8,
-    "inliers": 35,
-    "weight": 6884.1
-   },
-   {
-    "x": 807.9,
-    "y": 1031.9,
-    "inliers": 29,
-    "weight": 5173.7
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1292.8,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.121,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.86244,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3617,
+  "scale_vps_ny": [
+   0.878,
+   0.642,
+   0.117
+  ],
+  "oblique_energy": 0.8,
+  "coarse_vp": [
+   1311.9,
+   962.3
+  ],
+  "horizon_band_ny": 0.719,
+  "horizon_band_strength": 1.3,
+  "segments": 695,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3617, oblique energy 0.8). Nearest strong horizontal edge is at ny 0.719 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.719
  },
  "emblem-17": {
   "width": 1600,
   "height": 1511,
   "segments_considered": 317,
-  "vps": [
-   {
-    "x": 805.4,
-    "y": 710.5,
-    "inliers": 42,
-    "weight": 8196.7
-   },
-   {
-    "x": 1303.5,
-    "y": 980.5,
-    "inliers": 11,
-    "weight": 1804.1
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 710.5,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.139,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.47022,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2829,
+  "scale_vps_ny": [
+   0.567,
+   0.125,
+   0.375
+  ],
+  "oblique_energy": 0.763,
+  "coarse_vp": [
+   1077.2,
+   566.6
+  ],
+  "horizon_band_ny": 0.615,
+  "horizon_band_strength": 1.3,
+  "segments": 559,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2829, oblique energy 0.763). Nearest strong horizontal edge is at ny 0.615 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.615
  },
  "emblem-18": {
   "width": 1600,
   "height": 1414,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1487.0,
-    "y": 1261.3,
-    "inliers": 48,
-    "weight": 14557.0
-   },
-   {
-    "x": 319.8,
-    "y": 1110.6,
-    "inliers": 39,
-    "weight": 9791.9
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1261.3,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.131,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.89201,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3386,
+  "scale_vps_ny": [
+   0.669,
+   0.854,
+   0.116
+  ],
+  "oblique_energy": 0.721,
+  "coarse_vp": [
+   1211.0,
+   946.5
+  ],
+  "horizon_band_ny": 0.561,
+  "horizon_band_strength": 1.51,
+  "segments": 573,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3386, oblique energy 0.721). Nearest strong horizontal edge is at ny 0.561 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.561
  },
  "emblem-19": {
   "width": 1600,
   "height": 1396,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1103.1,
-    "y": 453.1,
-    "inliers": 39,
-    "weight": 8182.1
-   },
-   {
-    "x": 288.7,
-    "y": 440.3,
-    "inliers": 27,
-    "weight": 4967.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 453.1,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.106,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.32457,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3968,
+  "scale_vps_ny": [
+   0.174,
+   0.882,
+   0.455
+  ],
+  "oblique_energy": 0.833,
+  "coarse_vp": [
+   745.2,
+   635.3
+  ],
+  "horizon_band_ny": 0.37,
+  "horizon_band_strength": 1.29,
+  "segments": 601,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3968, oblique energy 0.833). Nearest strong horizontal edge is at ny 0.37 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.37
  },
  "emblem-20": {
   "width": 1600,
   "height": 1429,
   "segments_considered": 345,
-  "vps": [
-   {
-    "x": 230.0,
-    "y": 1249.6,
-    "inliers": 51,
-    "weight": 9004.5
-   },
-   {
-    "x": 1271.4,
-    "y": 987.2,
-    "inliers": 27,
-    "weight": 6839.4
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 1105.9,
+  "horizon_y": null,
   "focal_px": 350.4,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.25,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": -14.14,
-  "horizon_ny": 0.7739,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.0736,
+  "scale_vps_ny": [
+   0.738,
+   0.884,
+   0.888
+  ],
+  "oblique_energy": 0.801,
+  "coarse_vp": [
+   340.8,
+   1263.5
+  ],
+  "horizon_band_ny": 0.852,
+  "horizon_band_strength": 1.54,
+  "segments": 602,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.0736, oblique energy 0.801). Nearest strong horizontal edge is at ny 0.852 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.852
  },
  "emblem-21": {
   "width": 1600,
@@ -701,67 +849,96 @@
   ],
   "reviewed_by": "hand review 2026-08-31, measured on a 0.05 normalised grid",
   "ground_far_ny": 0.81,
-  "ground_far_basis": "base of the brick wall at ny 0.81"
+  "ground_far_basis": "base of the brick wall at ny 0.81",
+  "armature_class": "open",
+  "stability": 0.3581,
+  "scale_vps_ny": [
+   0.148,
+   0.876,
+   0.89
+  ],
+  "oblique_energy": 0.721,
+  "coarse_vp": [
+   356.0,
+   1310.2
+  ],
+  "horizon_band_ny": 0.735,
+  "horizon_band_strength": 1.47,
+  "segments": 881,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": true
  },
  "emblem-22": {
   "width": 1600,
   "height": 1395,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1314.4,
-    "y": 136.9,
-    "inliers": 45,
-    "weight": 13030.4
-   },
-   {
-    "x": 1325.2,
-    "y": 1197.0,
-    "inliers": 35,
-    "weight": 7850.9
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 136.9,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.129,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.09814,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.4742,
+  "scale_vps_ny": [
+   0.249,
+   0.891,
+   0.124
+  ],
+  "oblique_energy": 0.697,
+  "coarse_vp": [
+   1234.9,
+   347.4
+  ],
+  "horizon_band_ny": 0.833,
+  "horizon_band_strength": 1.44,
+  "segments": 614,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.4742, oblique energy 0.697). Nearest strong horizontal edge is at ny 0.833 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.833
  },
  "emblem-23": {
   "width": 1600,
   "height": 1392,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1043.0,
-    "y": 1046.6,
-    "inliers": 67,
-    "weight": 17597.5
-   },
-   {
-    "x": 426.8,
-    "y": 827.3,
-    "inliers": 51,
-    "weight": 13447.1
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 960.1,
+  "horizon_y": null,
   "focal_px": 211.3,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.306,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": -160.41,
-  "horizon_ny": 0.68973,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.1361,
+  "scale_vps_ny": [
+   0.255,
+   0.311,
+   0.554
+  ],
+  "oblique_energy": 0.834,
+  "coarse_vp": [
+   986.3,
+   432.8
+  ],
+  "horizon_band_ny": 0.509,
+  "horizon_band_strength": 1.54,
+  "segments": 613,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.1361, oblique energy 0.834). Nearest strong horizontal edge is at ny 0.509 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.509
  },
  "emblem-24": {
   "width": 1600,
@@ -769,629 +946,759 @@
   "segments_considered": 362,
   "vps": [
    {
-    "x": 607.9,
-    "y": 716.9,
-    "inliers": 53,
-    "weight": 14956.5
-   },
-   {
-    "x": 1023.8,
-    "y": 1016.4,
-    "inliers": 38,
-    "weight": 8225.0
+    "x": 460.2,
+    "y": 1045.2
    }
   ],
   "type": "two-point",
-  "horizon_y": 855.2,
+  "horizon_y": 1045.2,
   "focal_px": 197.4,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.293,
+  "confidence": 0.514,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 35.75,
-  "horizon_ny": 0.60739,
+  "horizon_ny": 0.74233,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "ruled",
+  "stability": 0.0486,
+  "scale_vps_ny": [
+   0.752,
+   0.732,
+   0.742
+  ],
+  "oblique_energy": 0.743,
+  "coarse_vp": [
+   460.2,
+   1045.2
+  ],
+  "horizon_band_ny": 0.46,
+  "horizon_band_strength": 1.45,
+  "segments": 497,
+  "class_meaning": "a ruled perspective construction, confirmed by three independent scale solves agreeing. The vanishing point is meaningful and depth follows from it.",
+  "horizon_recoverable": true,
+  "horizon_basis": "multi-scale vanishing point, confirmed by three independent solves agreeing to 0.0486 of plate size (threshold 0.05). Hatching is suppressed by scale, not by filtering."
  },
  "emblem-25": {
   "width": 1599,
   "height": 1378,
   "segments_considered": 122,
-  "vps": [
-   {
-    "x": 966.2,
-    "y": 808.8,
-    "inliers": 33,
-    "weight": 6133.8
-   },
-   {
-    "x": 1098.8,
-    "y": 433.0,
-    "inliers": 16,
-    "weight": 2974.6
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 808.8,
+  "horizon_y": null,
   "focal_px": 1883.5,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.283,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.58694,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.1148,
+  "scale_vps_ny": [
+   0.19,
+   0.42,
+   0.256
+  ],
+  "oblique_energy": 0.808,
+  "coarse_vp": [
+   352.6,
+   352.4
+  ],
+  "horizon_band_ny": 0.32,
+  "horizon_band_strength": 1.37,
+  "segments": 542,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.1148, oblique energy 0.808). Nearest strong horizontal edge is at ny 0.32 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.32
  },
  "emblem-26": {
   "width": 1600,
   "height": 1512,
   "segments_considered": 181,
-  "vps": [
-   {
-    "x": 567.7,
-    "y": 629.2,
-    "inliers": 20,
-    "weight": 3756.0
-   },
-   {
-    "x": 1269.1,
-    "y": 306.9,
-    "inliers": 20,
-    "weight": 3606.2
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 522.5,
+  "horizon_y": null,
   "focal_px": 228.1,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.22,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": -24.68,
-  "horizon_ny": 0.34557,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3617,
+  "scale_vps_ny": [
+   0.886,
+   0.116,
+   0.141
+  ],
+  "oblique_energy": 0.827,
+  "coarse_vp": [
+   245.1,
+   212.9
+  ],
+  "horizon_band_ny": 0.722,
+  "horizon_band_strength": 1.19,
+  "segments": 846,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3617, oblique energy 0.827). Nearest strong horizontal edge is at ny 0.722 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.722
  },
  "emblem-27": {
   "width": 1600,
   "height": 1494,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1033.3,
-    "y": 410.5,
-    "inliers": 85,
-    "weight": 33624.4
-   },
-   {
-    "x": 1455.6,
-    "y": 1409.1,
-    "inliers": 23,
-    "weight": 7732.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 410.5,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.259,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.27477,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.1815,
+  "scale_vps_ny": [
+   0.182,
+   0.131,
+   0.421
+  ],
+  "oblique_energy": 0.759,
+  "coarse_vp": [
+   155.8,
+   272.4
+  ],
+  "horizon_band_ny": 0.308,
+  "horizon_band_strength": 1.44,
+  "segments": 654,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.1815, oblique energy 0.759). Nearest strong horizontal edge is at ny 0.308 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.308
  },
  "emblem-28": {
   "width": 1600,
   "height": 1495,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 499.0,
-    "y": 1019.0,
-    "inliers": 22,
-    "weight": 9148.7
-   },
-   {
-    "x": 1107.5,
-    "y": 960.4,
-    "inliers": 19,
-    "weight": 7316.3
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1019.0,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.065,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.68161,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3523,
+  "scale_vps_ny": [
+   0.874,
+   0.885,
+   0.829
+  ],
+  "oblique_energy": 0.758,
+  "coarse_vp": [
+   157.6,
+   1307.2
+  ],
+  "horizon_band_ny": 0.654,
+  "horizon_band_strength": 1.36,
+  "segments": 640,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3523, oblique energy 0.758). Nearest strong horizontal edge is at ny 0.654 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.654
  },
  "emblem-29": {
   "width": 1600,
   "height": 1504,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 481.5,
-    "y": 1063.2,
-    "inliers": 48,
-    "weight": 9494.0
-   },
-   {
-    "x": 250.1,
-    "y": 211.8,
-    "inliers": 38,
-    "weight": 7288.0
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1063.2,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.119,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.70691,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.47,
+  "scale_vps_ny": [
+   0.104,
+   0.855,
+   0.186
+  ],
+  "oblique_energy": 0.818,
+  "coarse_vp": [
+   298.6,
+   279.7
+  ],
+  "horizon_band_ny": 0.697,
+  "horizon_band_strength": 1.47,
+  "segments": 625,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.47, oblique energy 0.818). Nearest strong horizontal edge is at ny 0.697 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.697
  },
  "emblem-30": {
   "width": 1600,
   "height": 1474,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 548.5,
-    "y": 1252.7,
-    "inliers": 38,
-    "weight": 9493.7
-   },
-   {
-    "x": 951.1,
-    "y": 591.3,
-    "inliers": 27,
-    "weight": 5958.5
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1252.7,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.104,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.84986,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.391,
+  "scale_vps_ny": [
+   0.129,
+   0.812,
+   0.261
+  ],
+  "oblique_energy": 0.737,
+  "coarse_vp": [
+   612.1,
+   385.2
+  ],
+  "horizon_band_ny": 0.655,
+  "horizon_band_strength": 1.28,
+  "segments": 463,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.391, oblique energy 0.737). Nearest strong horizontal edge is at ny 0.655 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.655
  },
  "emblem-31": {
   "width": 1600,
   "height": 1425,
   "segments_considered": 302,
-  "vps": [
-   {
-    "x": 480.5,
-    "y": 987.9,
-    "inliers": 46,
-    "weight": 9357.3
-   },
-   {
-    "x": 799.4,
-    "y": 843.6,
-    "inliers": 35,
-    "weight": 6790.2
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 987.9,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.166,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.69326,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3768,
+  "scale_vps_ny": [
+   0.164,
+   0.11,
+   0.146
+  ],
+  "oblique_energy": 0.847,
+  "coarse_vp": [
+   1386.7,
+   207.6
+  ],
+  "horizon_band_ny": 0.789,
+  "horizon_band_strength": 1.46,
+  "segments": 521,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3768, oblique energy 0.847). Nearest strong horizontal edge is at ny 0.789 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.789
  },
  "emblem-32": {
   "width": 1600,
   "height": 1493,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 559.1,
-    "y": 830.5,
-    "inliers": 32,
-    "weight": 12331.2
-   },
-   {
-    "x": 1046.6,
-    "y": 730.0,
-    "inliers": 28,
-    "weight": 9203.8
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 830.5,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.097,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.55626,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2775,
+  "scale_vps_ny": [
+   0.546,
+   0.712,
+   0.142
+  ],
+  "oblique_energy": 0.711,
+  "coarse_vp": [
+   534.7,
+   814.9
+  ],
+  "horizon_band_ny": 0.445,
+  "horizon_band_strength": 1.52,
+  "segments": 654,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2775, oblique energy 0.711). Nearest strong horizontal edge is at ny 0.445 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.445
  },
  "emblem-33": {
   "width": 1600,
   "height": 1501,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 537.2,
-    "y": 1070.7,
-    "inliers": 51,
-    "weight": 12931.5
-   },
-   {
-    "x": 929.1,
-    "y": 936.2,
-    "inliers": 30,
-    "weight": 8051.8
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1070.7,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.126,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.71332,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2808,
+  "scale_vps_ny": [
+   0.123,
+   0.21,
+   0.531
+  ],
+  "oblique_energy": 0.857,
+  "coarse_vp": [
+   750.0,
+   315.2
+  ],
+  "horizon_band_ny": 0.789,
+  "horizon_band_strength": 1.26,
+  "segments": 701,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2808, oblique energy 0.857). Nearest strong horizontal edge is at ny 0.789 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.789
  },
  "emblem-34": {
   "width": 1600,
   "height": 1508,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1138.0,
-    "y": 367.2,
-    "inliers": 30,
-    "weight": 7839.1
-   },
-   {
-    "x": 701.6,
-    "y": 921.9,
-    "inliers": 28,
-    "weight": 7623.5
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 367.2,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.078,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.2435,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3503,
+  "scale_vps_ny": [
+   0.371,
+   0.161,
+   0.136
+  ],
+  "oblique_energy": 0.754,
+  "coarse_vp": [
+   1012.3,
+   242.3
+  ],
+  "horizon_band_ny": 0.846,
+  "horizon_band_strength": 1.4,
+  "segments": 553,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3503, oblique energy 0.754). Nearest strong horizontal edge is at ny 0.846 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.846
  },
  "emblem-35": {
   "width": 1600,
   "height": 1425,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 756.4,
-    "y": 794.4,
-    "inliers": 64,
-    "weight": 17166.3
-   },
-   {
-    "x": 1560.0,
-    "y": 1257.9,
-    "inliers": 39,
-    "weight": 8388.8
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 794.4,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.184,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.55747,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.1758,
+  "scale_vps_ny": [
+   0.727,
+   0.852,
+   0.592
+  ],
+  "oblique_energy": 0.83,
+  "coarse_vp": [
+   407.2,
+   1036.2
+  ],
+  "horizon_band_ny": 0.73,
+  "horizon_band_strength": 1.44,
+  "segments": 593,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.1758, oblique energy 0.83). Nearest strong horizontal edge is at ny 0.73 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.73
  },
  "emblem-36": {
   "width": 1600,
   "height": 1519,
   "segments_considered": 399,
-  "vps": [
-   {
-    "x": 712.8,
-    "y": 677.8,
-    "inliers": 38,
-    "weight": 8026.3
-   },
-   {
-    "x": 314.9,
-    "y": 1308.4,
-    "inliers": 34,
-    "weight": 6485.3
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 677.8,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.105,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.44621,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3086,
+  "scale_vps_ny": [
+   0.582,
+   0.129,
+   0.454
+  ],
+  "oblique_energy": 0.838,
+  "coarse_vp": [
+   625.0,
+   689.4
+  ],
+  "horizon_band_ny": 0.609,
+  "horizon_band_strength": 1.32,
+  "segments": 680,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3086, oblique energy 0.838). Nearest strong horizontal edge is at ny 0.609 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.609
  },
  "emblem-37": {
   "width": 1600,
   "height": 1545,
   "segments_considered": 358,
-  "vps": [
-   {
-    "x": 446.5,
-    "y": 442.4,
-    "inliers": 35,
-    "weight": 7339.2
-   },
-   {
-    "x": 640.9,
-    "y": 902.0,
-    "inliers": 35,
-    "weight": 6092.9
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 442.4,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.105,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.28634,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3349,
+  "scale_vps_ny": [
+   0.874,
+   0.147,
+   0.182
+  ],
+  "oblique_energy": 0.787,
+  "coarse_vp": [
+   259.1,
+   281.7
+  ],
+  "horizon_band_ny": 0.469,
+  "horizon_band_strength": 1.37,
+  "segments": 726,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3349, oblique energy 0.787). Nearest strong horizontal edge is at ny 0.469 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.469
  },
  "emblem-38": {
   "width": 1600,
   "height": 1507,
   "segments_considered": 329,
-  "vps": [
-   {
-    "x": 362.9,
-    "y": 1093.7,
-    "inliers": 73,
-    "weight": 16050.3
-   },
-   {
-    "x": 973.0,
-    "y": 966.1,
-    "inliers": 19,
-    "weight": 3579.5
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1093.7,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.229,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.72575,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.1049,
+  "scale_vps_ny": [
+   0.15,
+   0.265,
+   0.309
+  ],
+  "oblique_energy": 0.793,
+  "coarse_vp": [
+   1166.9,
+   399.1
+  ],
+  "horizon_band_ny": 0.699,
+  "horizon_band_strength": 1.36,
+  "segments": 567,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.1049, oblique energy 0.793). Nearest strong horizontal edge is at ny 0.699 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.699
  },
  "emblem-39": {
   "width": 1600,
   "height": 1513,
   "segments_considered": 304,
-  "vps": [
-   {
-    "x": 460.0,
-    "y": 959.0,
-    "inliers": 44,
-    "weight": 9820.0
-   },
-   {
-    "x": 661.9,
-    "y": 769.7,
-    "inliers": 24,
-    "weight": 4605.2
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 959.0,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.166,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.63384,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.1902,
+  "scale_vps_ny": [
+   0.124,
+   0.327,
+   0.116
+  ],
+  "oblique_energy": 0.831,
+  "coarse_vp": [
+   1359.7,
+   187.2
+  ],
+  "horizon_band_ny": 0.86,
+  "horizon_band_strength": 1.39,
+  "segments": 782,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.1902, oblique energy 0.831). Nearest strong horizontal edge is at ny 0.86 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.86
  },
  "emblem-40": {
   "width": 1600,
   "height": 1501,
   "segments_considered": 244,
-  "vps": [
-   {
-    "x": 667.1,
-    "y": 598.3,
-    "inliers": 33,
-    "weight": 6599.2
-   },
-   {
-    "x": 1189.4,
-    "y": 304.9,
-    "inliers": 21,
-    "weight": 3912.1
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 598.3,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.14,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.3986,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.193,
+  "scale_vps_ny": [
+   0.227,
+   0.607,
+   0.453
+  ],
+  "oblique_energy": 0.814,
+  "coarse_vp": [
+   793.5,
+   680.4
+  ],
+  "horizon_band_ny": 0.763,
+  "horizon_band_strength": 1.29,
+  "segments": 678,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.193, oblique energy 0.814). Nearest strong horizontal edge is at ny 0.763 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.763
  },
  "emblem-41": {
   "width": 1600,
   "height": 1520,
   "segments_considered": 254,
-  "vps": [
-   {
-    "x": 238.6,
-    "y": 215.8,
-    "inliers": 33,
-    "weight": 6022.2
-   },
-   {
-    "x": 286.5,
-    "y": 1344.2,
-    "inliers": 19,
-    "weight": 4261.4
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 215.8,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.127,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.14197,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.1057,
+  "scale_vps_ny": [
+   0.834,
+   0.871,
+   0.653
+  ],
+  "oblique_energy": 0.818,
+  "coarse_vp": [
+   1396.8,
+   1267.2
+  ],
+  "horizon_band_ny": 0.5,
+  "horizon_band_strength": 1.35,
+  "segments": 732,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.1057, oblique energy 0.818). Nearest strong horizontal edge is at ny 0.5 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.5
  },
  "emblem-42": {
   "width": 1600,
   "height": 1513,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 236.0,
-    "y": 1297.6,
-    "inliers": 77,
-    "weight": 25598.5
-   },
-   {
-    "x": 1902.2,
-    "y": 1640.5,
-    "inliers": 29,
-    "weight": 9807.6
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1297.6,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.202,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.85763,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2767,
+  "scale_vps_ny": [
+   0.875,
+   0.248,
+   0.546
+  ],
+  "oblique_energy": 0.763,
+  "coarse_vp": [
+   253.4,
+   826.4
+  ],
+  "horizon_band_ny": 0.87,
+  "horizon_band_strength": 1.3,
+  "segments": 566,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2767, oblique energy 0.763). Nearest strong horizontal edge is at ny 0.87 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.87
  },
  "emblem-43": {
   "width": 1600,
   "height": 1526,
   "segments_considered": 294,
-  "vps": [
-   {
-    "x": 475.2,
-    "y": 1013.0,
-    "inliers": 57,
-    "weight": 12942.9
-   },
-   {
-    "x": 1373.0,
-    "y": 1349.7,
-    "inliers": 21,
-    "weight": 3970.4
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1013.0,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.222,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.66383,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.4191,
+  "scale_vps_ny": [
+   0.862,
+   0.507,
+   0.126
+  ],
+  "oblique_energy": 0.739,
+  "coarse_vp": [
+   822.2,
+   773.2
+  ],
+  "horizon_band_ny": 0.202,
+  "horizon_band_strength": 1.43,
+  "segments": 616,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.4191, oblique energy 0.739). Nearest strong horizontal edge is at ny 0.202 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.202
  },
  "emblem-44": {
   "width": 1600,
   "height": 1505,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 999.2,
-    "y": 901.5,
-    "inliers": 70,
-    "weight": 30399.4
-   },
-   {
-    "x": 1041.4,
-    "y": 555.4,
-    "inliers": 24,
-    "weight": 7722.2
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 901.5,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.202,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.599,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3294,
+  "scale_vps_ny": [
+   0.287,
+   0.845,
+   0.662
+  ],
+  "oblique_energy": 0.756,
+  "coarse_vp": [
+   581.8,
+   996.8
+  ],
+  "horizon_band_ny": 0.846,
+  "horizon_band_strength": 1.54,
+  "segments": 605,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3294, oblique energy 0.756). Nearest strong horizontal edge is at ny 0.846 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.846
  },
  "emblem-45": {
   "width": 1600,
@@ -1399,178 +1706,218 @@
   "segments_considered": 384,
   "vps": [
    {
-    "x": 203.9,
-    "y": 197.3,
-    "inliers": 276,
-    "weight": 59799.5
-   },
-   {
-    "x": 289.0,
-    "y": 202.7,
-    "inliers": 45,
-    "weight": 10231.5
+    "x": 199.3,
+    "y": 196.7
    }
   ],
   "type": "one-point",
-  "horizon_y": 197.3,
+  "horizon_y": 196.7,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.723,
+  "confidence": 0.941,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.12862,
+  "horizon_ny": 0.12823,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "ruled",
+  "stability": 0.0059,
+  "scale_vps_ny": [
+   0.127,
+   0.128,
+   0.13
+  ],
+  "oblique_energy": 0.605,
+  "coarse_vp": [
+   199.3,
+   196.7
+  ],
+  "horizon_band_ny": 0.146,
+  "horizon_band_strength": 1.41,
+  "segments": 643,
+  "class_meaning": "a ruled perspective construction, confirmed by three independent scale solves agreeing. The vanishing point is meaningful and depth follows from it.",
+  "horizon_recoverable": true,
+  "horizon_basis": "multi-scale vanishing point, confirmed by three independent solves agreeing to 0.0059 of plate size (threshold 0.05). Hatching is suppressed by scale, not by filtering."
  },
  "emblem-46": {
   "width": 1600,
   "height": 1506,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": -493.6,
-    "y": 2296.9,
-    "inliers": 33,
-    "weight": 10413.9
-   },
-   {
-    "x": 290.5,
-    "y": 296.5,
-    "inliers": 18,
-    "weight": 4314.8
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 2296.9,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
   "confidence": 0.0,
   "reviewed": false,
   "notes": "horizon fell outside plausible range; treat as unsolved.",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 1.52517,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.317,
+  "scale_vps_ny": [
+   0.167,
+   0.243,
+   0.123
+  ],
+  "oblique_energy": 0.787,
+  "coarse_vp": [
+   1090.6,
+   250.8
+  ],
+  "horizon_band_ny": 0.189,
+  "horizon_band_strength": 1.2,
+  "segments": 616,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.317, oblique energy 0.787). Nearest strong horizontal edge is at ny 0.189 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.189
  },
  "emblem-47": {
   "width": 1600,
   "height": 1541,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 147.1,
-    "y": 1381.3,
-    "inliers": 72,
-    "weight": 24236.8
-   },
-   {
-    "x": -9.5,
-    "y": 187.4,
-    "inliers": 64,
-    "weight": 18953.1
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 1381.3,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.217,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.89637,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "uncertain",
+  "stability": 0.1138,
+  "scale_vps_ny": [
+   0.209,
+   0.264,
+   0.407
+  ],
+  "oblique_energy": 0.773,
+  "coarse_vp": [
+   1183.5,
+   406.1
+  ],
+  "horizon_band_ny": 0.769,
+  "horizon_band_strength": 1.22,
+  "segments": 647,
+  "class_meaning": "there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: there is probably a construction here, but the scales do not agree well enough to trust it unattended. Usually means the architecture is partly occluded by figures. Needs a person. (scale spread 0.1138, oblique energy 0.773). Nearest strong horizontal edge is at ny 0.769 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.769
  },
  "emblem-48": {
   "width": 1600,
   "height": 1500,
   "segments_considered": 400,
-  "vps": [
-   {
-    "x": 1410.5,
-    "y": 1333.0,
-    "inliers": 41,
-    "weight": 12818.2
-   },
-   {
-    "x": 254.1,
-    "y": 1148.1,
-    "inliers": 43,
-    "weight": 11626.8
-   }
-  ],
+  "vps": [],
   "type": "two-point",
-  "horizon_y": 1235.4,
+  "horizon_y": null,
   "focal_px": 318.1,
   "focal_basis": "orthogonality of two vanishing points",
-  "confidence": 0.224,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": -170.92,
-  "horizon_ny": 0.8236,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3863,
+  "scale_vps_ny": [
+   0.127,
+   0.795,
+   0.43
+  ],
+  "oblique_energy": 0.676,
+  "coarse_vp": [
+   781.4,
+   644.9
+  ],
+  "horizon_band_ny": 0.509,
+  "horizon_band_strength": 1.6,
+  "segments": 631,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3863, oblique energy 0.676). Nearest strong horizontal edge is at ny 0.509 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.509
  },
  "emblem-49": {
   "width": 1600,
   "height": 1552,
   "segments_considered": 164,
-  "vps": [
-   {
-    "x": 813.7,
-    "y": 765.1,
-    "inliers": 21,
-    "weight": 4004.1
-   },
-   {
-    "x": 253.0,
-    "y": 485.1,
-    "inliers": 16,
-    "weight": 2743.6
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 765.1,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.127,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.49298,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.3899,
+  "scale_vps_ny": [
+   0.115,
+   0.147,
+   0.151
+  ],
+  "oblique_energy": 0.776,
+  "coarse_vp": [
+   1287.2,
+   228.5
+  ],
+  "horizon_band_ny": 0.353,
+  "horizon_band_strength": 1.3,
+  "segments": 635,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.3899, oblique energy 0.776). Nearest strong horizontal edge is at ny 0.353 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.353
  },
  "emblem-50": {
   "width": 1600,
   "height": 1507,
   "segments_considered": 269,
-  "vps": [
-   {
-    "x": 1154.7,
-    "y": 433.0,
-    "inliers": 31,
-    "weight": 6189.2
-   },
-   {
-    "x": 620.5,
-    "y": 593.7,
-    "inliers": 26,
-    "weight": 5343.5
-   }
-  ],
+  "vps": [],
   "type": "one-point",
-  "horizon_y": 433.0,
+  "horizon_y": null,
   "focal_px": 1884.7,
   "focal_basis": "ASSUMED 46.0 deg horizontal FOV (one VP only)",
-  "confidence": 0.115,
+  "confidence": 0.0,
   "reviewed": false,
   "notes": "",
   "horizon_tilt_deg": 0.0,
-  "horizon_ny": 0.28733,
+  "horizon_ny": null,
   "eye_height_m": 1.6,
-  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate."
+  "eye_height_basis": "ASSUMED standing adult viewer; not measured. Needs a hand review against a figure in the plate.",
+  "armature_class": "open",
+  "stability": 0.2514,
+  "scale_vps_ny": [
+   0.253,
+   0.62,
+   0.673
+  ],
+  "oblique_energy": 0.753,
+  "coarse_vp": [
+   932.6,
+   934.6
+  ],
+  "horizon_band_ny": 0.455,
+  "horizon_band_strength": 1.34,
+  "segments": 690,
+  "class_meaning": "no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height.",
+  "horizon_recoverable": false,
+  "horizon_basis": "NOT RECOVERABLE from line convergence: no perspective construction recoverable from line convergence: foliage, terrain, drapery and figures, which is most of this book. Horizon from the ground/water boundary or from a figure of known height. (scale spread 0.2514, oblique energy 0.753). Nearest strong horizontal edge is at ny 0.455 \u2014 a candidate for review, not an answer.",
+  "horizon_candidate_ny": 0.455
  }
 }
