@@ -5,3 +5,6 @@ Thumbs.db
 
 # stray personal note, not project content
 p july 25.txt
+
+# review contact sheets are regenerated on demand, not published
+site/assets/hp/contact.png

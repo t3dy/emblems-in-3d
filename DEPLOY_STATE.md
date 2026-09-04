@@ -52,6 +52,10 @@ So the mapping is:
 | `site/assets/hatch/tam.png` | `…/assets/hatch/tam.png` |
 | `site/assets/audio/fugues.json` | `…/assets/audio/fugues.json` |
 | `site/js/world/vendor/chiptune.js` | `…/js/world/vendor/chiptune.js` |
+| `site/data/worlds/atalanta.json` | `…/data/worlds/atalanta.json` |
+| `site/data/worlds/poliphilo.json` | `…/data/worlds/poliphilo.json` |
+| `site/assets/hp/plates/` (129 leaves, 39 MB) | `…/assets/hp/plates/` |
+| `site/v1/world.html` (the frozen v1) | `…/v1/world.html` |
 
 **Every path inside `site/` must therefore be relative to `site/`**, never to
 the repository root and never absolute from `C:\Dev`. The Phase 5 pages, the
@@ -93,10 +97,16 @@ python tools/build_web_assets.py       # -> site/assets/{plates,ground}/ + manif
 python tools/render_solve_overlay.py   # -> site/assets/solve/
 python tools/build_site_pages.py       # -> site/plates.html, site/examples.html
 python tools/build_hatch_tam.py        # -> site/assets/hatch/tam.png + tam.json
-python tools/build_world.py            # -> site/data/world.json
+python tools/build_world.py            # -> site/data/worlds/atalanta.json
+python tools/build_hp_assets.py        # -> site/assets/hp/  (129 whole 1499 leaves)
+python tools/build_hp_world.py         # -> site/data/worlds/poliphilo.json
+python tools/archive_version.py --version vN --label "..."   # freeze a version
 ```
 
-`build_world.py` reads **`C:/Dev/Claudiens/db/atalanta.db`**, which is *not* in
+`build_hp_assets.py` and `build_hp_world.py` read
+**`C:/Dev/hypnerotomachia polyphili/`** (its `db/hp.db` and its
+`site/images/woodcuts_1499/`), and `build_world.py` reads
+**`C:/Dev/Claudiens/db/atalanta.db`**, none of which is in
 this repository. That is deliberate — the scholarship lives in Claudiens and is
 cited from here — but it means the world's text cannot be regenerated on a
 machine that does not have the Claudiens checkout. `site/data/world.json` is
@@ -132,6 +142,9 @@ committed for exactly that reason: it is the published artefact, not a cache.
   `site/js/world/vendor/` holds copies and `main.js` passes
   `assets/audio/fugues.json` explicitly. If the fugue data changes in
   EmblemRoguelike, re-copy it.
+- **Versions share assets on purpose.** `site/vN/` copies the code and the
+  content but rewrites its asset base to `../assets`. Deleting or renaming an
+  asset therefore breaks every archived version at once. Add, never replace.
 - **GPU memory.** The world streams plate textures (nearest eleven stations
   resident). Do not "simplify" that by loading all 51: it is ~250 MB.
 

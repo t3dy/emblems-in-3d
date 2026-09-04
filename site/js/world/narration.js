@@ -30,6 +30,15 @@ const esc = (s) =>
 const lines = (s) => esc(s).replace(/\n/g, "<br>");
 
 export const ARCHETYPE_LABEL = {
+  // Poliphilo
+  title: "The cut",
+  narrative: "In the dream",
+  scholarship: "Scholarship",
+  influence: "Afterlife",
+  elements: "Depicted",
+  term: "Dictionary",
+  marginalia: "A reader's hand",
+  // Atalanta
   motto: "Motto",
   epigram: "Epigram",
   image: "The engraving",
@@ -43,8 +52,9 @@ export const ARCHETYPE_LABEL = {
 };
 
 export const ARCHETYPE_ORDER = [
-  "motto", "epigram", "image", "discourse", "dejong",
-  "historical", "alchemical", "myth", "register",
+  "motto", "epigram", "title", "image", "narrative", "discourse", "dejong",
+  "historical", "scholarship", "alchemical", "myth", "term", "elements",
+  "influence", "marginalia", "register",
 ];
 
 /** One commentary box. The archetype drives its colour, and the colour is the
@@ -79,11 +89,16 @@ export function stationHTML(st, { only = null } = {}) {
   const out = [];
 
   out.push(`<div class="w-head">
-    <span class="w-num">${esc(st.roman ? "Emblema " + st.roman : "Title page")}</span>
-    <span class="w-stage w-${esc((st.stage || "").toLowerCase())}">${esc(st.stage || "")}</span>
+    <span class="w-num">${esc(st.roman ? "Emblema " + st.roman
+      : (st.title || (st.section_label ? st.section_label : "Title page")))}</span>
+    <span class="w-stage w-${esc((st.stage || "").toLowerCase())}">${esc(st.section_label || st.stage || "")}</span>
+    ${st.signature ? `<span class="w-sig">sig. ${esc(st.signature)} · p. ${esc(st.page)}</span>` : ""}
     <span class="w-setting">${esc(st.setting)}</span>
     ${st.process ? `<span class="w-proc">${esc(st.process)}</span>` : ""}
-    <span class="w-tier w-tier-${tier}">${tier === "measured" ? "solved" : "no horizon recoverable"}</span>
+    <span class="w-tier w-tier-${tier}">${
+      tier === "measured" ? "solved"
+      : tier === "leaf" ? "whole leaf"
+      : "no horizon recoverable"}</span>
   </div>`);
 
   const boxes = (st.commentary || []).filter((b) => !only || only.has(b.archetype));
@@ -91,7 +106,16 @@ export function stationHTML(st, { only = null } = {}) {
 
   // --- the geometry, stated -------------------------------------------------
   const solve = [];
-  if (tier === "measured") {
+  if (tier === "leaf") {
+    solve.push(`<li>The <b>whole 1499 leaf</b> stands here, uncropped. There are no
+      perspective solves for this corpus and none is pretended.</li>`);
+    solve.push(st.geometry.cards.length
+      ? `<li>The woodcut was <b>located on the page</b> and pops forward off it in
+         <b>parallel projection</b> — apparent size never changes, so no depth is
+         claimed. ${lines(p.detector_note || "")}</li>`
+      : `<li>The detector did <b>not</b> find the woodcut confidently on this leaf, so
+         nothing pops and the page stands flat. ${lines(p.detector_note || "")}</li>`);
+  } else if (tier === "measured") {
     solve.push(`<li><b>horizon</b> row ${p.horizon_y} of ${p.h} px</li>`);
     solve.push(`<li><b>focal length</b> ${Math.round(p.focal_px)} px</li>`);
     solve.push(`<li><b>eye height</b> ${p.eye_height_m} m</li>`);
@@ -114,15 +138,22 @@ export function stationHTML(st, { only = null } = {}) {
     </header><ul class="w-solve">${solve.join("")}</ul></article>`);
 
   const pr = st.provenance || {};
-  out.push(`<p class="w-prov">Text assembled from the Claudiens corpus extraction
-    (${esc(pr.source_method || "unknown method")}, ${esc(pr.review_status || "status unrecorded")},
-    confidence ${esc(pr.confidence || "unrecorded")}). Not reviewed by a human scholar.</p>`);
+  out.push(`<p class="w-prov">Text assembled by corpus extraction from the project's
+    scholarly database (${esc(pr.source_method || "unknown method")},
+    ${esc(pr.review_status || "status unrecorded")},
+    confidence ${esc(pr.confidence || "unrecorded")}).
+    ${(pr.review_status || "").toUpperCase() === "REVIEWED"
+      ? "Marked reviewed in the database."
+      : "Not reviewed by a human scholar."}</p>`);
 
   return out.join("\n");
 }
 
 /** The one-line thing the HUD shows as you walk past. */
 export function stationLabel(st) {
-  const n = st.roman ? st.roman : "Title";
-  return `${n} · ${st.motto?.en || st.motto?.la || ""}`;
+  if (st.motto?.en || st.motto?.la) {
+    return `${st.roman || "Title"} · ${st.motto.en || st.motto.la}`;
+  }
+  // Poliphilo: the leaf's own title, and where in the dream it stands
+  return `${st.title || st.slug || st.key}${st.section_label ? " · " + st.section_label : ""}`;
 }

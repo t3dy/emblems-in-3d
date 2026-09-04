@@ -173,6 +173,14 @@ kbd {
 .w-a-myth       { --hue: #6a3f78; }
 .w-a-register   { --hue: #1f6f6a; }
 .w-a-solve      { --hue: #8a6a2a; }
+/* Poliphilo's levels */
+.w-a-title       { --hue: #241d16; }
+.w-a-narrative   { --hue: #4a3c2a; }
+.w-a-scholarship { --hue: #2f5f7a; }
+.w-a-influence   { --hue: #3f6b45; }
+.w-a-elements    { --hue: #6d6455; }
+.w-a-term        { --hue: #1f6f6a; }
+.w-a-marginalia  { --hue: #8a3a3a; }
 
 .w-latin { font-style: italic; font-size: 1.05rem; }
 .w-verse { font-style: italic; padding-left: .8rem; border-left: 2px solid var(--w-rule); white-space: normal; }
@@ -185,6 +193,23 @@ kbd {
   text-transform: uppercase; color: var(--hue); margin-top: .45rem;
 }
 .w-regs dd { margin: 0; line-height: 1.5; }
+
+.w-sig {
+  font: .66rem/1.6 ui-monospace, monospace; color: var(--w-ink-soft);
+  border: 1px solid var(--w-rule); padding: 0 .45em;
+}
+.w-worldbar {
+  position: fixed; top: 2.9rem; right: .8rem; z-index: 22;
+  display: flex; align-items: center; gap: .35rem;
+  background: rgba(236,228,210,.92); border: 1px solid var(--w-rule);
+  padding: .3rem .45rem;
+}
+.w-worldbar .lbl {
+  font: .64rem/1.7 ui-monospace, monospace; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--w-ink-soft); margin-right: .2rem;
+}
+.w-worldbar .btn { padding: 3px 9px; font-size: 13px; }
+body.world.panel-open .w-worldbar { right: calc(min(30rem, 40vw) + .8rem); }
 
 .w-proc {
   font: .68rem/1.6 ui-monospace, monospace; letter-spacing: .06em;

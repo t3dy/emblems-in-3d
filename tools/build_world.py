@@ -41,7 +41,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DB = Path(r"C:/Dev/Claudiens/db/atalanta.db")
-OUT = ROOT / "site" / "data" / "world.json"
+OUT = ROOT / "site" / "data" / "worlds" / "atalanta.json"
 
 # --- the conjectural constants, named so they can be argued with -------------
 FLAT_HEIGHT_M = 4.40   # CONJECTURE: a plate hung as a cut sheet stands this tall
@@ -575,6 +575,12 @@ def main():
         route.append(key)
 
     world = {
+        "id": "atalanta",
+        "title": "The Fugitive World",
+        "subtitle": "Michael Maier, Atalanta Fugiens (Oppenheim, 1617) - all "
+                    "fifty-one emblems on one course, walked in the order he "
+                    "printed them",
+        "audio": "fugues",
         "generated": date.today().isoformat(),
         "generator": "tools/build_world.py",
         "sources": {
@@ -598,6 +604,17 @@ def main():
             "length_m": round(BAY_SPACING_M * 50, 1),
         },
         "stage_order": STAGE_ORDER,
+        # The alchemical stages, high-key on purpose: an engraving is ink on a
+        # light sheet even at its blackest, and a NIGREDO that reads as night
+        # stops reading as a print.
+        "stage_colours": {
+            "NIGREDO": {"tint": 0xc3bbad, "sky": 0x9a938a},
+            "ALBEDO": {"tint": 0xf7f3e9, "sky": 0xeee9dc},
+            "CITRINITAS": {"tint": 0xeedfab, "sky": 0xe2d09a},
+            "RUBEDO": {"tint": 0xe3b79c, "sky": 0xd3a184},
+        },
+        "path": [[st["world"]["road"][0], st["world"]["road"][2]]
+                 for st in (stations[k] for k in route)],
         "tier_counts": counts,
         "route": route,
         "routes": build_routes(route, stations, procs),

@@ -36,6 +36,20 @@ const STAGE_SKY = {
   RUBEDO: 0xd3a184,
 };
 
+// A world may bring its own stage colours (the Poliphilo world dreams in
+// thirteen precincts, not four alchemical stages), in which case those win and
+// the alchemical table above is only the Atalanta default.
+function stageTables(world) {
+  const c = world.stage_colours;
+  if (!c) return [STAGE_TINT, STAGE_SKY];
+  const tint = {}, sky = {};
+  for (const [k, v] of Object.entries(c)) {
+    tint[k] = v.tint ?? 0xd8d0bc;
+    sky[k] = v.sky ?? 0xc8c1ae;
+  }
+  return [tint, sky];
+}
+
 function skyGradient() {
   const c = document.createElement("canvas");
   c.width = 4; c.height = 256;
@@ -62,10 +76,18 @@ export class Course {
     this.group = new THREE.Group();
     this.group.name = "course";
 
-    const pts = world.route.map((k) => {
-      const [x, , z] = world.stations[k].world.road;
-      return new THREE.Vector3(x, 0, z);
-    });
+    [this.TINT, this.SKY] = stageTables(world);
+
+    // The path. A world may give one explicitly as a polyline (Poliphilo's
+    // dream threads thirteen precincts and its stations stand in arcs off it);
+    // otherwise the stations' own road points are the path, which is what the
+    // Atalanta course is.
+    const pts = world.path
+      ? world.path.map(([x, z]) => new THREE.Vector3(x, 0, z))
+      : world.route.map((k) => {
+          const [x, , z] = world.stations[k].world.road;
+          return new THREE.Vector3(x, 0, z);
+        });
     // extend a little past both ends so the road does not stop at the first
     // and last cartouche
     const first = pts[0].clone().add(new THREE.Vector3(0, 0, 34));
@@ -78,14 +100,20 @@ export class Course {
     this._buildHorizon(materials);
     this._buildSky();
 
-    // the stage of each station, in road order, for the gradient
-    this._stageAt = world.route.map((k) => world.stations[k].stage || "NIGREDO");
-    this._zAt = pts.map((p) => p.z);
+    // The colour gradient follows the walker's z. Sample it from the
+    // precincts when a world has them, and from the stations otherwise.
+    if (world.precincts) {
+      this._stageAt = world.precincts.map((p) => p.id);
+      this._zAt = world.precincts.map((p) => p.centre[2]);
+    } else {
+      this._stageAt = world.route.map((k) => world.stations[k].stage || "NIGREDO");
+      this._zAt = world.route.map((k) => world.stations[k].world.road[2]);
+    }
   }
 
   _buildGround(M) {
-    const minZ = Math.min(...this.stops.map((p) => p.z)) - 70;
-    const maxZ = Math.max(...this.stops.map((p) => p.z)) + 70;
+    const minZ = Math.min(...this.stops.map((p) => p.z)) - 90;
+    const maxZ = Math.max(...this.stops.map((p) => p.z)) + 90;
     const w = 420, d = maxZ - minZ;
     const g = new THREE.PlaneGeometry(w, d, 1, 1);
     g.rotateX(-Math.PI / 2);
@@ -236,15 +264,15 @@ export class Course {
   /** The stage colour where the walker is standing. */
   tintAt(z, out = new THREE.Color()) {
     const [a, b, t] = this._bracket(z);
-    const ca = new THREE.Color(STAGE_TINT[this._stageAt[a]] ?? 0xffffff);
-    const cb = new THREE.Color(STAGE_TINT[this._stageAt[b]] ?? 0xffffff);
+    const ca = new THREE.Color(this.TINT[this._stageAt[a]] ?? 0xd8d0bc);
+    const cb = new THREE.Color(this.TINT[this._stageAt[b]] ?? 0xd8d0bc);
     return out.copy(ca).lerp(cb, t);
   }
 
   skyAt(z, out = new THREE.Color()) {
     const [a, b, t] = this._bracket(z);
-    const ca = new THREE.Color(STAGE_SKY[this._stageAt[a]] ?? 0xffffff);
-    const cb = new THREE.Color(STAGE_SKY[this._stageAt[b]] ?? 0xffffff);
+    const ca = new THREE.Color(this.SKY[this._stageAt[a]] ?? 0xc8c1ae);
+    const cb = new THREE.Color(this.SKY[this._stageAt[b]] ?? 0xc8c1ae);
     return out.copy(ca).lerp(cb, t);
   }
 
@@ -255,12 +283,19 @@ export class Course {
 
   /** Nearest station index to a world position, and its distance. */
   nearest(p) {
+    const pts = this.stationPoints || this.stops;
     let best = -1, bd = Infinity;
-    for (let i = 0; i < this.stops.length; i++) {
-      const d = this.stops[i].distanceToSquared(p);
+    for (let i = 0; i < pts.length; i++) {
+      const d = pts[i].distanceToSquared(p);
       if (d < bd) { bd = d; best = i; }
     }
     return { index: best, distance: Math.sqrt(bd) };
+  }
+
+  /** Where the stations actually are, which is not the path when a world
+   *  arranges them in arcs. Set once by main.js after the stations exist. */
+  setStationPoints(pts) {
+    this.stationPoints = pts;
   }
 }
 

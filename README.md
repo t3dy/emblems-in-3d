@@ -1,54 +1,48 @@
 # Emblems in 3D
 
-Turning the emblems of Michael Maier's *Atalanta Fugiens* (1617) into walkable 3D
-environments with [three.js](https://threejs.org/), rendered in a toon/woodcut style
-to echo the original engravings.
+Turning early modern illustrated books into walkable 3D worlds with
+[three.js](https://threejs.org/), rendered in a woodcut style cut from the books
+themselves.
 
 ## → The live site: **<https://t3dy.github.io/emblems-in-3d/>**
 
-**Phase 7 — The Fugitive World.** All fifty-one emblems in **one** walkable world:
-a single road walked in emblem order, fifty-one stations along it, free walking and a
-guided tour, carrying Maier's motto and epigram, de Jong's readings, and the alchemical
-and classical sources each discourse draws upon.
+**Two worlds, one engine.**
 
-- **[The Fugitive World](site/world.html)** — the world itself
-  (`?station=8` to start at a given emblem, `&tour=1` to begin the tour there,
-  `&route=process` to walk it in the order of the work, `&sound=1` for the fugues)
-- **[`docs/WORLD.md`](docs/WORLD.md)** — how it is built and what it refuses to claim
+| | |
+|---|---|
+| **[The Fugitive World](https://t3dy.github.io/emblems-in-3d/world.html?world=atalanta)** | Michael Maier, *Atalanta Fugiens* (Oppenheim, 1617). Fifty-one emblems on one race course, walked in the order he printed them. The book is a race but not a place, so the connective tissue is invented — and is marked as invented at every threshold. |
+| **[The Dream of Poliphilo](https://t3dy.github.io/emblems-in-3d/world.html?world=poliphilo)** | Francesco Colonna, *Hypnerotomachia Poliphili* (Venice: Aldus Manutius, 1499). A hundred and twenty-nine leaves in the thirteen precincts of Poliphilo's dream — dark wood, pyramid, dragon's tunnel, palace, three doors, Polyandrion, fountain, temple, triumphs, voyage, Cythera. This book *is* a place, so nothing about the route is ours. |
+| **[Versions](https://t3dy.github.io/emblems-in-3d/versions.html)** | Every earlier version stays visitable at its own URL. **[v1](https://t3dy.github.io/emblems-in-3d/v1/world.html)** is the Atalanta world as it stood before the engine learned a second book. |
 
-The book *is* a race, so the connective tissue is a course you walk rather than a
-gallery you browse. Each station's threshold arch is the visible boundary between the
-invented world outside it and the reconstruction inside it, and the two tiers of
-station are visibly different:
+Free walking and a guided tour share one camera. Deep links: `?world=`,
+`?station=`, `&tour=1`, `&route=process`, `&sound=1`.
 
-- the **4 plates with an admissible solve** (three of them hand-measured) are rooms —
-  every depth from that plate's own pinhole, and the reprojection gate (<kbd>G</kbd>)
-  still a real test from inside the world, because the camera takes that plate's focal
-  length and eye height;
-- the **47 without one** are flats — the plate as a cut sheet whose cutouts pop in
-  *parallel* projection, so no depth is claimed at all.
+**What both worlds refuse to do.** Where a plate's perspective can be measured,
+every depth comes from it and nothing else; where it cannot, the world says so
+and claims nothing. In Atalanta that is the four solved plates (rooms you walk
+into, with the reprojection gate on <kbd>G</kbd>) against forty-seven that have
+no recoverable horizon (cut sheets whose cutouts pop in *parallel* projection).
+In Poliphilo it is the whole 1499 leaf, never cropped, with the woodcut popped
+off it only where the detector was confident. A bad crop, like an invented
+horizon, is invisible once made — so neither is made.
 
-Building it produced a finding of its own: Emblem XXIV's automatic solve implies a 149°
-vertical field of view, which is not a perspective construction but a spurious
-orthogonality fit, so the world rejects it — out loud, in the station's panel — rather
-than clamping the number quietly.
+**Both are shaded with the books' own marks.** A tonal art map whose six hatch
+tiles are the most orientation-coherent passages of burin work in the fifty-one
+Atalanta plates, at six ink densities, with the plate and pixel window of each
+recorded in `site/assets/hatch/tam.json`. A built wall and a cut figure are
+therefore the same substance.
 
-Three ways through: **emblem order** (the book as Maier printed it), **order of the
-work** (the same fifty-one stations regrouped by the operation each stages, sequenced
-by Ripley's twelve gates — the road does not move, only the reading does), and **free
-explore**. The commentary arrives in nine colour-coded levels — Maier's motto and
-epigram, what Merian engraved, Maier's discourse, de Jong's analysis, the other
-scholars, the alchemical text being cited, the myth being alluded to, and the same
-figure unpacked in four registers at once: in the laboratory, in the body, in the
-soul, in the heavens. And each station plays its own three-voice canon through an
-NES-APU synth, because the book is fugues for the ears as much as emblems for the
-eyes.
+**Commentary arrives in colour-coded levels** — Maier's motto and epigram, de
+Jong's analysis, the alchemical text being cited, the myth being alluded to, the
+same figure unpacked in four registers at once; Colonna's chapter context,
+narrative placement, scholarship, afterlife, and the leaves an alchemist wrote
+on. Nothing is composed by the renderer; every box comes out of a database with
+its citation.
 
-Built geometry is shaded with a tonal art map whose six hatch tiles are **cut out of
-Merian's own plates** — the most orientation-coherent passage of burin work in the
-whole book at each of six ink densities, with the plate and pixel window of each
-recorded in `site/assets/hatch/tam.json`. A wall and a cutout are therefore the same
-substance.
+Documentation: **[`docs/WORLD.md`](docs/WORLD.md)** (the Atalanta world and the
+engine), **[`docs/POLIPHILO.md`](docs/POLIPHILO.md)** (the second world),
+**[`DECISIONS.md`](DECISIONS.md)** (why any of it is the way it is),
+**[`DEPLOY_STATE.md`](DEPLOY_STATE.md)** (read before touching hosting).
 
 ---
 
@@ -108,6 +102,10 @@ python tools/build_site_pages.py       # -> site/plates.html, site/examples.html
 python tools/build_hatch_tam.py        # -> site/assets/hatch/   (the TAM + provenance)
 python tools/build_world.py            # -> site/data/world.json (the walkable world)
 python tools/equal_height_horizon.py   # marked figures -> horizons (add --write)
+python tools/build_hp_assets.py        # -> site/assets/hp/   (129 whole 1499 leaves)
+python tools/build_hp_world.py         # -> site/data/worlds/poliphilo.json
+python tools/archive_version.py --version vN --label "..."   # freeze a version
+python tools/publish_pages.py          # site/ -> the gh-pages branch
 ```
 
 | File | Job |
@@ -120,7 +118,11 @@ python tools/equal_height_horizon.py   # marked figures -> horizons (add --write
 | `tools/build_hatch_tam.py` | Scans all 51 plates for the most orientation-coherent passage of burin work in each of six tone bins, and writes them as a tileable tonal art map with a provenance record. |
 | `tools/build_world.py` | Joins the Claudiens DB (mottos, epigrams, discourses, de Jong's readings, the cited authorities) to the solves and the cutouts, precomputes each station's metric placement, and emits one `world.json`. |
 | `tools/equal_height_horizon.py` | The Criminisi/Reid/Zisserman equal-height construction: two figures of the same height on one ground plane fix the horizon with no assumption about how tall anyone is. Reads the marks a person makes in the review app. |
-| `site/js/world/` | The Fugitive World — see [`docs/WORLD.md`](docs/WORLD.md). |
+| `site/js/world/` | The world engine, corpus-agnostic — see [`docs/WORLD.md`](docs/WORLD.md). |
+| `tools/build_hp_assets.py` | The 129 Hypnerotomachia leaves at web size, whole and uncropped, each with the woodcut *located* on it (longest gap-free run of inked rows — set type returns to paper between lines, a woodcut does not) so the world can pop the cut off its own page. |
+| `tools/build_hp_world.py` | The Poliphilo world: thirteen precincts in the order the dream reaches them, with seven levels of commentary out of `hp.db`. |
+| `tools/archive_version.py` | Freezes the current world into `site/vN/` so it stays visitable forever. |
+| `tools/publish_pages.py` | Copies `site/` onto the `gh-pages` branch, which is what is actually served. |
 
 Hand review lives in `data/perspective.overrides.json` and `data/elements.overrides.json`
 and always wins over the automatic pass.

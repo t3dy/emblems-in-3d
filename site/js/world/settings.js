@@ -233,6 +233,48 @@ function vessels(x, z, r) {
   return merge(parts);
 }
 
+/** A stepped mass: the Hypnerotomachia's great pyramid is 1,410 steps in the
+ *  text, which is Colonna being Colonna. Fourteen reads at this distance. */
+function stepped(base, h, steps, x, z) {
+  const parts = [];
+  for (let i = 0; i < steps; i++) {
+    const t = i / steps;
+    const w = base * (1 - t * 0.92);
+    parts.push(box(w, h / steps, w, x, (h / steps) * (i + 0.5), z));
+  }
+  return merge(parts);
+}
+
+function obelisk(h, r, x, z, y0 = 0) {
+  return merge([
+    box(r * 3.2, h * 0.06, r * 3.2, x, y0 + h * 0.03, z),
+    cyl(r * 0.42, r, h * 0.82, x, y0 + h * 0.06 + h * 0.41, z, 4),
+    cone(r * 0.6, h * 0.12, x, y0 + h * 0.94, z, 4),
+  ]);
+}
+
+function sarcophagus(x, z, ry = 0) {
+  const g = merge([
+    box(2.6, 0.9, 1.15, 0, 0.45, 0),
+    box(2.9, 0.18, 1.4, 0, 0.98, 0),
+    box(2.4, 0.42, 1.0, 0, 1.25, 0),
+    box(0.3, 0.5, 0.3, -1.1, 0.25, 0),
+    box(0.3, 0.5, 0.3, 1.1, 0.25, 0),
+  ]);
+  if (ry) g.rotateY(ry);
+  g.translate(x, 0, z);
+  return g;
+}
+
+function basin(x, z, r = 3.2) {
+  return merge([
+    cyl(r, r * 1.08, 0.5, x, 0.25, z, 16),
+    cyl(r * 0.92, r * 0.92, 0.12, x, 0.52, z, 16),
+    cyl(r * 0.22, r * 0.3, 1.1, x, 1.05, z, 10),
+    cyl(r * 0.55, r * 0.2, 0.28, x, 1.72, z, 12),
+  ]);
+}
+
 function rocks(x, z, r, n = 5, scale = 1) {
   const parts = [];
   for (let i = 0; i < n; i++) {
@@ -403,6 +445,131 @@ export function planSetting(archetype, seed) {
       M("rocks", "stone", { x: 6.5, z: BACK + 3.0, n: 6, scale: 1.2 });
       break;
     }
+    // --- the Hypnerotomachia precincts ------------------------------------
+    // These are authored at PRECINCT scale, not bay scale: a precinct is a
+    // place you stand in the middle of and turn around inside, with its leaves
+    // on arcs out to about 25 m. So everything built here rings a clear middle
+    // at radius 32 and beyond, and main.js does not scale it.
+    case "forest": {
+      const rf = rng(seed * 7919 + 13);
+      for (let i = 0; i < 34; i++) {
+        const a = (i / 34) * Math.PI * 2 + rr(rf, -0.06, 0.06);
+        const R = rr(rf, 33, 52);
+        M("tree", "green", { x: Math.sin(a) * R, z: Math.cos(a) * R, h: rr(rf, 7, 13) });
+      }
+      for (let i = 0; i < 5; i++) {
+        M("rocks", "stone", { x: rr(rf, -40, 40), z: rr(rf, -44, 30), n: 3, scale: 1.1 });
+      }
+      M("mound", "green", { x: -46, z: -30, r: 22, h: 11 });
+      M("mound", "green", { x: 44, z: -34, r: 19, h: 9 });
+      break;
+    }
+    case "pyramid": {
+      // 1,410 steps in Colonna's text, which is Colonna being Colonna.
+      M("stepped", "stone", { base: 46, h: 27, steps: 16, x: 0, z: -62 });
+      M("obelisk", "stone", { h: 22, r: 1.5, x: 0, z: -62, y: 27 });
+      M("archWall", "stone", { len: 18, h: 9.5, bays: 1, x: 0, z: -40, thickness: 2.0 });
+      M("crenel", "stone", { len: 40, h: 5.6, x: -34, z: -30 });
+      M("crenel", "stone", { len: 40, h: 5.6, x: 34, z: -30 });
+      M("sarcophagus", "stone", { x: -33, z: -8, ry: 0.3 });
+      M("sarcophagus", "stone", { x: 34, z: -12, ry: -0.4 });
+      M("column", "stone", { h: 8.5, r: 0.7, x: -36, z: 8 });
+      M("column", "stone", { h: 6.2, r: 0.7, x: 37, z: 6 });
+      M("rocks", "stone", { x: -40, z: -46, n: 6, scale: 2.2 });
+      M("rocks", "stone", { x: 41, z: -44, n: 6, scale: 2.0 });
+      break;
+    }
+    case "portal": {
+      M("archWall", "stone", { len: 52, h: 22, bays: 1, x: 0, z: -44, thickness: 6.5, headFrac: 0.52 });
+      M("crenel", "stone", { len: 52, h: 22.5, x: 0, z: -48 });
+      M("rocks", "stone", { x: -38, z: -20, n: 7, scale: 2.6 });
+      M("rocks", "stone", { x: 38, z: -20, n: 7, scale: 2.6 });
+      M("rocks", "stone", { x: -34, z: 14, n: 5, scale: 2.0 });
+      M("rocks", "stone", { x: 35, z: 12, n: 5, scale: 2.0 });
+      break;
+    }
+    case "palace": {
+      M("archWall", "stone", { len: 56, h: 15, bays: 13, x: 0, z: -46 });
+      M("cornice", "stone", { len: 58, h: 15, z: -46 });
+      M("archWall", "stone", { len: 40, h: 13, bays: 9, x: -33, z: -24, ry: Math.PI / 2 });
+      M("archWall", "stone", { len: 40, h: 13, bays: 9, x: 33, z: -24, ry: Math.PI / 2 });
+      M("steps", "stone", { w: 26, d: 5, z: -38, n: 4 });
+      M("pavement", "stone", { w: 62, d: 60, z: -18 });
+      break;
+    }
+    case "doors": {
+      // Gloria Dei, Gloria Mundi, Mater Amoris - and he takes the third.
+      for (let i = -1; i <= 1; i++) {
+        M("archWall", "stone", { len: 15, h: 13, bays: 1, x: i * 19, z: -42, thickness: 2.4 });
+        M("entablature", "stone", { w: 16, z: -42, y: 13 });
+        M("pediment", "stone", { w: 16, z: -42, y: 13.7 });
+      }
+      M("pavement", "stone", { w: 62, d: 46, z: -20 });
+      M("column", "stone", { h: 7, r: 0.6, x: -34, z: -6 });
+      M("column", "stone", { h: 7, r: 0.6, x: 34, z: -6 });
+      break;
+    }
+    case "tomb": {
+      const rt = rng(seed * 104729 + 5);
+      for (let i = 0; i < 16; i++) {
+        const a = (i / 16) * Math.PI * 2;
+        const R = rr(rt, 32, 47);
+        M("sarcophagus", "stone", { x: Math.sin(a) * R, z: Math.cos(a) * R, ry: -a });
+      }
+      M("crenel", "stone", { len: 54, h: 6.5, x: 0, z: -50 });
+      for (let i = 0; i < 6; i++) {
+        M("column", "stone", { h: rr(rt, 3.5, 9), r: 0.55,
+                               x: rr(rt, -44, 44), z: rr(rt, -44, 24) });
+      }
+      break;
+    }
+    case "fountain": {
+      M("basin", "stone", { x: 0, z: -40, r: 9 });
+      M("water", "water", { w: 19, d: 19, z: -40 });
+      for (let i = 0; i < 9; i++) {
+        M("column", "stone", { h: 9.5, r: 0.62, x: -32 + i * 8, z: -52 });
+      }
+      M("entablature", "stone", { w: 70, z: -52, y: 9.5 });
+      for (let i = 0; i < 10; i++) {
+        const a = (i / 10) * Math.PI * 2;
+        M("tree", "green", { x: Math.sin(a) * 42, z: Math.cos(a) * 42, h: rr(rng(seed + i), 6, 9) });
+      }
+      break;
+    }
+    case "processionway": {
+      M("pavement", "stone", { w: 46, d: 96, z: -14 });
+      for (let i = 0; i < 9; i++) {
+        M("column", "stone", { h: 11, r: 0.72, x: -30, z: -54 + i * 11 });
+        M("column", "stone", { h: 11, r: 0.72, x: 30, z: -54 + i * 11 });
+      }
+      M("archWall", "stone", { len: 30, h: 15, bays: 1, x: 0, z: -58, thickness: 3.0 });
+      M("entablature", "stone", { w: 31, z: -58, y: 15 });
+      break;
+    }
+    case "shore": {
+      M("water", "water", { w: 130, d: 70, z: -78 });
+      M("shore", "green", { w: 130, d: 16, z: -38 });
+      M("rocks", "stone", { x: -44, z: -30, n: 7, scale: 2.2 });
+      M("rocks", "stone", { x: 45, z: -32, n: 7, scale: 2.0 });
+      M("column", "stone", { h: 9, r: 0.6, x: -12, z: -36 });
+      M("column", "stone", { h: 9, r: 0.6, x: 12, z: -36 });
+      break;
+    }
+    case "cythera": {
+      // The island is twenty concentric zones around the amphitheatre of
+      // Venus, measured to the foot. Three rings read at this scale.
+      M("ringwall", "stone", { r: 46, h: 2.4, z: 0 });
+      M("ringwall", "stone", { r: 36, h: 1.8, z: 0 });
+      M("basin", "stone", { x: 0, z: -52, r: 8 });
+      M("water", "water", { w: 17, d: 17, z: -52 });
+      const rc = rng(seed * 31337 + 3);
+      for (let i = 0; i < 20; i++) {
+        const a = (i / 20) * Math.PI * 2;
+        M("tree", "green", { x: Math.sin(a) * 41, z: Math.cos(a) * 41, h: rr(rc, 5, 8) });
+      }
+      break;
+    }
+
     case "hillside":
     default: {
       M("mound", "green", { x: -8, z: BACK - 2, r: 7.5, h: 4.5 });
@@ -509,6 +676,22 @@ const BUILDERS = {
     return merge(parts);
   },
   pavement: (p) => box(p.w, 0.1, p.d, 0, 0.05, p.z),
+  stepped: (p) => stepped(p.base, p.h, p.steps, p.x, p.z),
+  obelisk: (p) => obelisk(p.h, p.r, p.x, p.z, p.y ?? 0),
+  sarcophagus: (p) => sarcophagus(p.x, p.z, p.ry ?? 0),
+  basin: (p) => basin(p.x, p.z, p.r ?? 3.2),
+  ringwall: (p) => {
+    const parts = [];
+    const n = 28;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const g = box(p.r * 0.24, p.h, 0.4,
+                    Math.sin(a) * p.r, p.h / 2, p.z + Math.cos(a) * p.r);
+      g.rotateY(0);
+      parts.push(g);
+    }
+    return merge(parts);
+  },
   parterre: (p) => {
     const parts = [];
     for (let i = -1; i <= 1; i += 2) for (let j = -1; j <= 1; j += 2) {
@@ -590,7 +773,11 @@ export function compileSetting(plan, materials) {
 }
 
 export const ARCHETYPES = [
+  // Atalanta: the settings locations.js reads off Maier's own epigrams
   "courtyard", "temple", "castle", "laboratory", "workshop", "kitchen",
   "library", "cottage", "farm", "garden", "riverside", "bathhouse",
   "seaside", "cave", "hillside",
+  // Poliphilo: the precincts his dream walks through
+  "forest", "pyramid", "portal", "palace", "doors", "tomb", "fountain",
+  "processionway", "shore", "cythera",
 ];

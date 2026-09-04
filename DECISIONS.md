@@ -192,3 +192,77 @@ So instead: **the estimator, and the instrument for marking.**
 This is the estimator PROPOSAL_PHASE6 §1 said the corpus needs and could not
 have, because the extractor finds five figures across fifty-one plates. Marking
 them by hand is the way round that, and it is now a two-click job per figure.
+
+
+### 13. Versions are frozen and stay visitable
+
+**2026-09-04, at Ted's direction.** A version that exists only in git history is
+a version nobody can visit. So each time the world changes shape enough to
+matter it is frozen into `site/vN/` by `tools/archive_version.py` and keeps its
+own URL forever, with a banner saying what it is and linking to the current one.
+`site/versions.html` lists them.
+
+What a frozen version keeps: the page, both stylesheets, the whole renderer and
+**all of its content** &mdash; so the numbers, the text and the geometry it
+shipped with are exactly what you get back.
+
+What it does **not** copy: the image assets. The 1617 plates and the 1499 leaves
+are scans of paper; they are facts rather than code and they do not change when
+the world does. The archived copy's asset base is rewritten to `../assets` on the
+way out. A future version that needs to *change* an asset rather than add one has
+to copy it and say so in its manifest &mdash; that rule is written into the
+archive tool's docstring and into each `MANIFEST.json`.
+
+**v1 = The Fugitive World**, frozen at commit 7b020af: Atalanta alone, on its
+race course, before the engine learned a second book.
+
+### 14. A second world, and why it needed no invented connective tissue
+
+**2026-09-04.** The *Hypnerotomachia Poliphili* (Colonna, Aldus 1499) is the
+next world, and it is structurally the opposite of the first. Atalanta Fugiens
+is a race but not a place, so the Fugitive World had to *invent* a course and
+then mark the invention. The Hypnerotomachia **is already a place**: Poliphilo
+falls asleep, wakes lost in a dark wood, and walks &mdash; pyramid, dragon's
+tunnel, the Queen's palace, the five senses, the three doors, the Polyandrion,
+the fountain and temple of Venus, the triumphs, the voyage, Cythera, and then
+Polia telling it all again. Nothing about the route is ours.
+
+So it is built as **thirteen precincts, not a road**: places you stand in the
+middle of and turn around inside, with their leaves on arcs (two concentric
+rings once a precinct holds more than fourteen), and a path threading them.
+The `narrative_section` column of `hp.db` gives the thirteen and their order.
+
+**One engine, two worlds.** `world.html?world=atalanta|poliphilo` loads
+`data/worlds/<id>.json`. A world file brings its own stations, path, colours,
+commentary archetypes and station tiers; `main.js`, `course.js`, `station.js`
+and `settings.js` know nothing about either book. That refactor is the actual
+deliverable here &mdash; a third world is now a builder script and a set of
+archetypes.
+
+### 15. The leaf is never cropped
+
+**2026-09-04.** The HP sources are whole Aldine pages: a block of roman type
+with a woodcut set into it. The obvious move is to crop to the cut, and it is
+the wrong one, for the same reason Phase 5 refused to invent depth: **a bad crop
+is invisible once made.** You cannot tell from the result that half a cut was
+thrown away.
+
+So the page is never cropped. `tools/build_hp_assets.py` instead *locates* the
+woodcut and records the rectangle, and the world uses it to **pop the cut
+forward off its own leaf** &mdash; the papercraft move the Atalanta stations
+already make &mdash; with the page whole behind it. Where the detector is not
+confident there is simply no pop and the leaf stands flat. Nothing is hidden
+either way, and the panel says which happened.
+
+The detector: set type leaves a band of leading between every line, so a text
+block's row ink profile returns to bare paper twenty or thirty times a page; a
+woodcut's ink runs continuously. The cut is therefore the longest *gap-free*
+run of inked rows, and it has to beat the page's own line height by a wide
+margin. The profile must not be smoothed first &mdash; smoothing over a line
+pitch fills the leading in and makes a dense text block look exactly like a
+woodcut, which is how the first version of the tool found only the four
+full-page cuts in twenty-four leaves.
+
+Measured on 24 hand-checked leaves, gating the pop on all three of confidence,
+ink ratio and row variation keeps 10 of 12 true cuts and admits 1 false one.
+Across all 129: 93 located, 44 confident enough to pop.
