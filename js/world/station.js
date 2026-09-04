@@ -109,14 +109,22 @@ export class Station {
 
     const g = new THREE.Group();
     g.name = st.key;
-    const [x, , z] = st.world.road;
-    const side = st.world.bay_side;
-    const heading = THREE.MathUtils.degToRad(st.world.heading_deg);
 
-    // Bays alternate sides of the road, set back and turned to face it.
-    const off = st.world.bay_offset_m;
-    g.position.set(x + Math.cos(heading) * off * side, 0, z - Math.sin(heading) * off * side);
-    g.rotation.y = heading + (side > 0 ? -Math.PI / 2 : Math.PI / 2);
+    if (st.world.pos) {
+      // A world may place a station outright and say which way it faces. The
+      // Poliphilo precincts do: their leaves stand on an arc, each turned to
+      // face the middle of the place you are standing in.
+      g.position.set(st.world.pos[0], st.world.pos[1] || 0, st.world.pos[2]);
+      g.rotation.y = THREE.MathUtils.degToRad(st.world.face_deg || 0);
+    } else {
+      const [x, , z] = st.world.road;
+      const side = st.world.bay_side;
+      const heading = THREE.MathUtils.degToRad(st.world.heading_deg);
+      // Bays alternate sides of the road, set back and turned to face it.
+      const off = st.world.bay_offset_m;
+      g.position.set(x + Math.cos(heading) * off * side, 0, z - Math.sin(heading) * off * side);
+      g.rotation.y = heading + (side > 0 ? -Math.PI / 2 : Math.PI / 2);
+    }
     this.group = g;
 
     this.eye = this.tier === "measured" ? st.plate.eye_height_m : 1.62;
@@ -129,8 +137,15 @@ export class Station {
     this.diorama.name = "diorama";
     g.add(this.diorama);
     this._buildPlaceholders();
-    this._buildSetting();
-    this._buildThreshold();
+    // A leaf stands in a precinct that is built once for the whole place, so
+    // it gets neither its own setting nor its own arch: fifty-one arches on a
+    // road is a colonnade, a hundred and twenty-nine would be a fence.
+    if (this.tier !== "leaf") {
+      this._buildSetting();
+      this._buildThreshold();
+    } else {
+      this.diagnostics = { moduleCount: 0, triangles: 0, drawCalls: 0, zones: {} };
+    }
   }
 
   // -- the place -----------------------------------------------------------
@@ -223,6 +238,29 @@ export class Station {
       color: 0xded5c0, transparent: true, opacity: 0.92, side: THREE.DoubleSide,
     });
 
+    if (this.tier === "leaf") {
+      // The whole 1499 leaf, standing. Nothing is cropped and nothing is
+      // claimed about depth; where the detector found the woodcut on the page
+      // it pops forward off its own sheet in parallel projection.
+      const s = st.geometry.sheet;
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(s.w_m, s.h_m), mat());
+      back.position.set(0, s.h_m / 2, 0);
+      back.name = "leaf";
+      this.backdrop = back;
+      this.diorama.add(back);
+      this.backdropSpec = { w: s.w_m, h: s.h_m, y: s.h_m / 2, z: 0 };
+
+      for (const c of st.geometry.cards) {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(c.w_m, c.h_m), mat());
+        m.position.set(c.x_m, c.y_center_m, c.pop_m);
+        m.name = c.label;
+        m.userData.card = c;
+        this.diorama.add(m);
+        this.cards.push(m);
+      }
+      return;
+    }
+
     if (this.tier === "measured") {
       const p = st.plate;
       const zBack = Math.max(
@@ -291,6 +329,23 @@ export class Station {
       map: plateTex, side: THREE.DoubleSide,
     });
 
+    if (this.tier === "leaf") {
+      // The popped cut is a window onto the SAME texture: no second file, and
+      // by construction it can never disagree with the leaf behind it.
+      for (const m of this.cards) {
+        const uv = m.userData.card.uv;
+        const t = plateTex.clone();
+        t.needsUpdate = true;
+        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+        t.repeat.set(uv[2] - uv[0], uv[3] - uv[1]);
+        t.offset.set(uv[0], 1 - uv[3]);
+        m.material.dispose();
+        m.material = new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide });
+      }
+      this._cardUrls = [];
+      return;
+    }
+
     this._cardUrls = [];
     for (const m of this.cards) {
       const url = `${base}/cutouts/${m.userData.card.file}`;
@@ -322,8 +377,19 @@ export class Station {
     this._cardUrls = [];
   }
 
-  /** Where a viewer stands to see this station as its plate was drawn. */
+  /** Where a viewer stands to see this station as its plate was drawn from.
+   *  For a leaf there is no station point to recover, so the viewer simply
+   *  stands far enough back that the sheet fills the frame. */
   viewPose() {
+    if (this.tier === "leaf") {
+      const h = this.backdropSpec.h;
+      const d = (h * 1.12) / (2 * Math.tan((62 * Math.PI / 180) / 2));
+      const pos = new THREE.Vector3(0, Math.min(this.eye, h * 0.45), d);
+      const look = new THREE.Vector3(0, h * 0.45, 0);
+      this.group.localToWorld(pos);
+      this.group.localToWorld(look);
+      return { pos, look };
+    }
     const pos = new THREE.Vector3(0, this.eye, 0);
     const look = new THREE.Vector3(0, this.eye, -6);
     this.group.localToWorld(pos);
@@ -344,7 +410,9 @@ export class Station {
   setPop(t) {
     for (const m of this.cards) {
       const c = m.userData.card;
-      if (this.tier === "measured") {
+      if (this.tier === "leaf") {
+        m.position.z = c.pop_m * t;
+      } else if (this.tier === "measured") {
         const zBack = this.backdropSpec.z;
         m.position.z = -THREE.MathUtils.lerp(zBack, c.z_m, t);
         const s = THREE.MathUtils.lerp(zBack / c.z_m, 1, t);

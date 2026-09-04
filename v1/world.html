@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v1 &mdash; The Fugitive World — Emblems in 3D</title>
+<meta name="description" content="One walkable world of all fifty-one emblems of Michael Maier's Atalanta Fugiens (1617), with a guided tour carrying Maier's text, de Jong's readings, and the sources each emblem draws upon." />
+<link rel="stylesheet" href="css/site.css" />
+<link rel="stylesheet" href="css/world.css?v=1" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body class="world">
+
+<canvas id="w-canvas"></canvas>
+<div class="w-archived">
+  <b>The Fugitive World &mdash; archived v1.</b> The first walkable world: all fifty-one emblems of Atalanta Fugiens on one race course, with the reprojection gate, the Merian tonal art map, three routes, nine levels of commentary and the fugues.
+  This copy is frozen and will not change.   <a href="../world.html">Go to the current world</a> &middot;   <a href="../versions.html">all versions</a>
+</div>
+
+
+<div id="w-loading" class="w-loading">
+  <p class="w-loading-ttl">The Fugitive World</p>
+  <p>cutting fifty-one stations out of the plates…</p>
+</div>
+
+<header id="w-hud" class="w-hud">
+  <a class="btn ghost" href="index.html">◂ Phase 5</a>
+  <span id="w-title" class="w-hud-ttl"></span>
+  <span id="w-sub" class="w-hud-sub"></span>
+  <span class="spacer"></span>
+  <button class="btn" id="w-tour-start">Guided tour <kbd>T</kbd></button>
+  <button class="btn ghost" id="w-tour-here">Tour from here</button>
+  <button class="btn ghost" id="w-read">Read <kbd>P</kbd></button>
+  <button class="btn ghost" id="w-sound" title="Maier's canon for this emblem, through an NES-APU synth">Fugues: off <kbd>M</kbd></button>
+</header>
+
+<div class="w-routebar" id="w-routebar">
+  <span class="lbl">route</span>
+  <button class="btn on" id="w-route-emblem">Emblem order</button>
+  <button class="btn ghost" id="w-route-process">Order of the work</button>
+  <button class="btn ghost" id="w-route-free">Free explore</button>
+  <p class="w-routegloss" id="w-routegloss"></p>
+</div>
+
+<div id="w-progress-rail" class="w-progress-rail"><div id="w-progress" class="w-progress"></div></div>
+
+<div id="w-prompt" class="w-prompt">
+  <p><b>click to walk</b></p>
+  <p class="fine">WASD move · mouse look · shift hurry · Q/E stoop and rise · ESC release</p>
+  <p class="fine"><kbd>F</kbd> stand at the station point · <kbd>G</kbd> reprojection gate ·
+     <kbd>T</kbd> guided tour · <kbd>P</kbd> panel · <kbd>M</kbd> the fugues ·
+     <kbd>[</kbd> <kbd>]</kbd> close and open the book · <kbd>`</kbd> diagnostics</p>
+</div>
+
+<div id="w-tourbar" class="w-tourbar hidden">
+  <button class="btn ghost" id="w-tour-prev">‹ back</button>
+  <span id="w-tourpos" class="w-tourpos"></span>
+  <button class="btn ghost" id="w-tour-next">on ›</button>
+  <span class="fine"><kbd>space</kbd> hold · <kbd>esc</kbd> step off the tour</span>
+  <button class="btn" id="w-tour-stop">Walk freely</button>
+</div>
+
+<aside id="w-panel" class="w-panel hidden">
+  <button class="w-panel-close" id="w-panel-close" aria-label="close">×</button>
+  <div id="w-body" class="w-body"></div>
+</aside>
+
+<div id="w-gate" class="w-gate hidden">
+  <img id="w-gate-img" alt="source plate" />
+  <div id="w-gate-label" class="w-gate-caption"></div>
+</div>
+
+<pre id="w-debug" class="w-debug hidden"></pre>
+
+<script type="module" src="js/world/main.js"></script>
+</body>
+</html>

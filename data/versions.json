@@ -1,0 +1,24 @@
+{
+ "versions": [
+  {
+   "version": "v1",
+   "label": "The Fugitive World",
+   "note": "The first walkable world: all fifty-one emblems of Atalanta Fugiens on one race course, with the reprojection gate, the Merian tonal art map, three routes, nine levels of commentary and the fugues.",
+   "archived": "2026-09-04",
+   "from_commit": "7b020af29bb517cd2c7935cf56c0ea3662d7f183",
+   "commit_subject": "Correct DEPLOY_STATE: Pages serves a gh-pages branch, and add the publish script",
+   "url": "v1/world.html",
+   "frozen": [
+    "world.html",
+    "css/world.css",
+    "css/site.css",
+    "js/world/**",
+    "data/**"
+   ],
+   "shared_with_current": [
+    "assets/**"
+   ],
+   "why_shared": "Assets are scans of 1617 and 1499 sheets: facts, not code. They do not change when the world does. A version that needs to CHANGE an asset must copy it and say so here."
+  }
+ ]
+}

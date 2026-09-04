@@ -2,12 +2,31 @@ import * as THREE from "three";
 import { loadTam, makeHatchMaterial, HatchRegistry } from "./hatch.js";
 import { Course } from "./course.js";
 import { Station } from "./station.js";
+import { planSetting, compileSetting } from "./settings.js";
 import { CameraDirector, WORLD_FOV, WALK_EYE } from "./camera.js";
 import { stationHTML, stationLabel } from "./narration.js";
 import { ChipPlayer } from "./vendor/chiptune.js";
 import { GAME_PALETTES } from "./vendor/gamesynths.js";
 
 // ===========================================================================
+// main.js — the world engine. Two worlds run on it.
+//
+//   ?world=atalanta   The Fugitive World. Fifty-one emblems of Maier's
+//                     Atalanta Fugiens (1617) on one race course, because the
+//                     book is a race but not a place, so the connective
+//                     tissue had to be invented and is marked as invented.
+//   ?world=poliphilo  The Dream of Poliphilo. A hundred and twenty-nine
+//                     leaves of Colonna's Hypnerotomachia (Aldus, 1499) in
+//                     thirteen precincts, because that book IS a place and
+//                     needs nothing invented at all: he walks from the dark
+//                     wood to Cythera and we follow him.
+//
+// A world is a JSON file under data/worlds/. It brings its own stations, its
+// own path, its own colours, its own commentary archetypes and its own
+// station tiers; the engine below brings geometry, camera and streaming and
+// knows nothing about either book.
+// ===========================================================================
+// (the original header follows)
 // main.js — The Fugitive World.
 //
 // One walkable course, fifty-one stations, in the order Maier printed them.
@@ -34,7 +53,20 @@ const els = {
 };
 
 // ---------------------------------------------------------------------------
-const world = await fetch("data/world.json").then((r) => r.json());
+const qs0 = new URLSearchParams(location.search);
+const WORLD_ID = (qs0.get("world") || "atalanta").replace(/[^a-z0-9_-]/gi, "");
+
+async function loadWorld(id) {
+  for (const url of [`data/worlds/${id}.json`, "data/world.json"]) {
+    try {
+      const r = await fetch(url);
+      if (r.ok) return await r.json();
+    } catch (e) { /* try the next */ }
+  }
+  throw new Error(`no world file for "${id}"`);
+}
+const world = await loadWorld(WORLD_ID);
+document.title = `${world.title || "The Fugitive World"} — Emblems in 3D`;
 
 const renderer = new THREE.WebGLRenderer({ canvas: els.canvas, antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -79,18 +111,78 @@ const contactMat = new THREE.MeshBasicMaterial({
   map: contactTex, transparent: true, depthWrite: false,
 });
 
+// --- the precincts, where a world has them -------------------------------------
+// The Atalanta course builds a setting per station because each emblem is set
+// somewhere of its own. Poliphilo's dream is thirteen PLACES that hold many
+// leaves each, so the setting is built once per precinct and the leaves stand
+// inside it.
+const precinctGroups = [];
+for (const [i, p] of (world.precincts || []).entries()) {
+  const plan = planSetting(p.setting, i + 101);
+  const grp = compileSetting(plan, materials);
+  // The precinct archetypes in settings.js are authored at precinct scale
+  // already: a place you stand in the middle of, with a clear centre out
+  // to about 32 m. Nothing is scaled here.
+  grp.position.set(p.centre[0], 0, p.centre[2]);
+  scene.add(grp);
+
+  const patch = new THREE.Mesh(
+    new THREE.PlaneGeometry(p.radius_m * 3.2, p.radius_m * 3.2), contactMat);
+  patch.rotation.x = -Math.PI / 2;
+  patch.position.set(p.centre[0], 0.012, p.centre[2]);
+  scene.add(patch);
+
+  const sign = precinctSign(p);
+  sign.position.set(p.centre[0], 0, p.centre[2] + p.radius_m * 0.82);
+  scene.add(sign);
+  precinctGroups.push({ spec: p, group: grp, sign, diagnostics: grp.userData.diagnostics });
+}
+
+/** A letterpress board naming the place, standing where you arrive in it. */
+function precinctSign(p) {
+  const c = document.createElement("canvas");
+  c.width = 1024; c.height = 220;
+  const g = c.getContext("2d");
+  g.fillStyle = "#e7dfcb"; g.fillRect(0, 0, 1024, 220);
+  g.strokeStyle = "#241d16"; g.lineWidth = 4; g.strokeRect(14, 14, 996, 192);
+  g.strokeRect(22, 22, 980, 176);
+  g.fillStyle = "#241d16"; g.textAlign = "center";
+  g.font = 'bold 52px "Iowan Old Style", "Palatino Linotype", Georgia, serif';
+  g.fillText(p.label, 512, 96, 940);
+  g.font = '26px "Iowan Old Style", "Palatino Linotype", Georgia, serif';
+  g.fillText(`${p.stations.length} leaves`, 512, 148, 940);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+
+  const grp = new THREE.Group();
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 6.4 * 220 / 1024),
+    new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
+  board.position.y = 3.3;
+  grp.add(board);
+  for (const sx of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.34, 3.5, 0.34), materials.stone);
+    post.position.set(sx * 2.8, 1.75, 0);
+    grp.add(post);
+  }
+  grp.rotation.y = Math.PI;
+  return grp;
+}
+
 // --- the stations -------------------------------------------------------------
 const ctx = { materials, assetBase: "assets" };
 const stations = world.route.map((key) => {
   const s = new Station(world.stations[key], ctx);
-  const patch = new THREE.Mesh(new THREE.PlaneGeometry(30, 26), contactMat);
-  patch.rotation.x = -Math.PI / 2;
-  patch.position.set(0, 0.012, -6);
-  patch.renderOrder = 1;
-  s.group.add(patch);
+  if (s.tier !== "leaf") {
+    const patch = new THREE.Mesh(new THREE.PlaneGeometry(30, 26), contactMat);
+    patch.rotation.x = -Math.PI / 2;
+    patch.position.set(0, 0.012, -6);
+    patch.renderOrder = 1;
+    s.group.add(patch);
+  }
   scene.add(s.group);
   return s;
 });
+course.setStationPoints(stations.map((s) => s.group.position.clone()));
 
 // --- camera ------------------------------------------------------------------
 const dir = new CameraDirector(camera, els.canvas);
@@ -165,6 +257,7 @@ function setRoute(id) {
 }
 
 // --- the fugues ----------------------------------------------------------------
+// Only Maier's book is fifty canons. Colonna's is not, so the control hides.
 // Atalanta Fugiens is fifty three-voice canons as much as it is fifty
 // engravings — "emblems for the eyes, fugues for the ears, epigrams for the
 // intellect". chiptune.js renders each canon through an NES-APU-style synth
@@ -180,7 +273,11 @@ async function ensureChip() {
   chipReady = true;
 }
 
+const HAS_FUGUES = world.audio !== false && (world.id || "atalanta") === "atalanta";
+if (!HAS_FUGUES) els.sound.style.display = "none";
+
 function setSound(on) {
+  if (!HAS_FUGUES) return;
   soundOn = on;
   els.sound.textContent = on ? "Fugues: on" : "Fugues: off";
   els.sound.classList.toggle("on", on);
@@ -209,7 +306,8 @@ function showStation(i, { openPanel = false } = {}) {
   if (i === current) return;
   current = i;
   const st = stations[i].st;
-  els.title.textContent = st.roman ? `Emblema ${st.roman}` : "Title page";
+  els.title.textContent = st.roman ? `Emblema ${st.roman}`
+    : (st.title || st.section_label || "Title page");
   els.sub.textContent = stationLabel(st).replace(/^[^·]*·\s*/, "");
   els.body.innerHTML = stationHTML(st);
   els.gateImg.src = `assets/${st.plate.file}`;
@@ -342,6 +440,16 @@ $("w-route-emblem").onclick = () => setRoute("emblem");
 $("w-route-process").onclick = () => setRoute("process");
 $("w-route-free").onclick = () => setRoute("free");
 $("w-sound").onclick = () => setSound(!soundOn);
+for (const b of document.querySelectorAll("[data-world]")) {
+  b.classList.toggle("on", b.dataset.world === (world.id || WORLD_ID));
+  b.classList.toggle("ghost", b.dataset.world !== (world.id || WORLD_ID));
+  b.onclick = () => {
+    const u = new URL(location.href);
+    u.searchParams.set("world", b.dataset.world);
+    u.searchParams.delete("station");
+    location.href = u.toString();
+  };
+}
 $("w-tour-next").onclick = () => dir.tourNext();
 $("w-tour-prev").onclick = () => dir.tourPrev();
 $("w-tour-stop").onclick = () => dir.stopTour();
@@ -405,10 +513,11 @@ if (qs.get("sound") === "1") setSound(true);
 
 // A small, honest console banner: this is a research artefact, not a game.
 console.log(
-  `%cThe Fugitive World%c\n${world.route.length} stations · ` +
-  `${world.tier_counts.measured} solved, ${world.tier_counts.conjectural} with no recoverable horizon\n` +
-  `world.json generated ${world.generated} by ${world.generator}`,
+  `%c${world.title || "The Fugitive World"}%c\n${world.route.length} stations · ` +
+  Object.entries(world.tier_counts || {}).map(([k, v]) => `${v} ${k}`).join(", ") +
+  `\ngenerated ${world.generated} by ${world.generator}`,
   "font:600 15px Georgia,serif", "font:12px monospace"
 );
-window.__world = { world, stations, course, dir, hatch, renderer, scene, camera, chip,
+window.__world = { world, id: WORLD_ID, stations, course, dir, hatch, renderer,
+  scene, camera, chip, precincts: precinctGroups,
   get route() { return routeId; }, setRoute, setSound };

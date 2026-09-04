@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Versions — Emblems in 3D</title>
+<meta name="description" content="Every version of the walkable world, still visitable." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23ece4d2%27/%3E%3Cpath d=%27M6 24h20M6 20h20M10 8l6 8 6-8%27 stroke=%27%23241d16%27 stroke-width=%272.4%27 fill=%27none%27/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1>Versions</h1>
+  <p class="sub">The world keeps changing. A version that exists only in git history is a
+     version nobody can visit, so each one is frozen at its own URL and stays there.</p>
+</header>
+
+<nav class="tabs">
+  <a href="world.html" class="tab-new">The current world</a>
+  <a href="index.html">Phase 5</a>
+  <a href="versions.html" aria-current="page">Versions</a>
+</nav>
+
+<div class="lede">
+  <p><strong>What is frozen and what is shared.</strong> Each archived version keeps its own
+  copy of the page, the stylesheet, the renderer and <em>all of its content</em> — so the
+  numbers, the text and the geometry it shipped with are exactly what you get. What it does
+  <em>not</em> copy is the image assets: the 1617 plates and the 1499 leaves are scans of
+  paper, they are facts rather than code, and they do not change when the world does. Any
+  future version that needs to change an asset rather than add one has to copy it and say
+  so in its manifest.</p>
+</div>
+
+<div id="list"></div>
+
+<footer class="foot">
+  <p class="fine">Archived by <code>tools/archive_version.py</code>; the index is
+     <code>site/data/versions.json</code>.</p>
+</footer>
+
+</div>
+
+<script type="module">
+const list = document.getElementById("list");
+const data = await fetch("data/versions.json").then((r) => r.json()).catch(() => ({ versions: [] }));
+
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g,
+  (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const rows = [];
+
+rows.push(`<section class="ver current">
+  <h2><a href="world.html">The current world</a> <span class="badge good">live</span></h2>
+  <p>Two worlds run on one engine now:
+     <a href="world.html?world=atalanta">Atalanta Fugiens</a> (Maier, 1617 — fifty-one
+     emblems on one race course) and
+     <a href="world.html?world=poliphilo">the Dream of Poliphilo</a> (Colonna, Aldus 1499 —
+     a hundred and twenty-nine leaves in thirteen precincts). This is where new work lands,
+     so it will not stay as you found it.</p>
+</section>`);
+
+for (const v of [...data.versions].reverse()) {
+  rows.push(`<section class="ver">
+    <h2><a href="${esc(v.url)}">${esc(v.label)}</a>
+        <span class="badge">${esc(v.version)}</span></h2>
+    <p>${esc(v.note)}</p>
+    <p class="fine">Frozen ${esc(v.archived)} from commit <code>${esc((v.from_commit || "").slice(0, 8))}</code>
+       — ${esc(v.commit_subject || "")}</p>
+    <p class="fine">Shares <code>${esc((v.shared_with_current || []).join(", "))}</code> with the current
+       world. ${esc(v.why_shared || "")}</p>
+  </section>`);
+}
+
+list.innerHTML = rows.join("");
+</script>
+
+<style>
+.ver { border-top: 1px solid var(--rule); padding: 18px 0; }
+.ver h2 { margin: 0 0 6px; font-size: 1.25rem; }
+.ver p { margin: 0 0 8px; line-height: 1.6; }
+.ver.current { border-left: 4px solid var(--accent, #8a6a2a); padding-left: 14px; }
+.badge { font: .68rem/1.7 ui-monospace, monospace; letter-spacing: .06em;
+  text-transform: uppercase; border: 1px solid var(--rule); padding: 0 .5em; }
+.foot { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 12px; }
+</style>
+</body>
+</html>
