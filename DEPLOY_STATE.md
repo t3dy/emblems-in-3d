@@ -4,18 +4,43 @@ Read this before touching anything to do with hosting. There are two serving
 paths in this repository and they have different roots, which is the single
 thing most likely to waste an hour.
 
-Last verified: **2026-09-04** (fetched the live URL and checked what it served).
+Last verified: **2026-09-04**, by publishing and then loading the live URL.
+
+> **Correction, same day.** The first draft of this file said Pages served the
+> `site/` folder from the default branch. That was wrong, and the way it was
+> caught is worth recording: a `git push origin master` reported
+> `* [new branch] master -> master`, which meant the branch this working copy
+> sits on was not the branch anything was being served from. The truth is
+> below. If you are reading this because something published to the wrong
+> place, that is the check: **look at what the push actually said.**
 
 ---
 
-## 1. The canonical production URL
+## 1. The canonical production URL, and the three branches
 
 **<https://t3dy.github.io/emblems-in-3d/>**
 
-GitHub Pages, from `github.com/t3dy/emblems-in-3d`. There is **no** Actions
-workflow in this repo — Pages is configured in the repository settings and
-serves the **`site/` folder as the site root**. Verified by fetching the URL:
-the page it returns is `site/index.html`.
+`github.com/t3dy/emblems-in-3d` has **three branches and they do different
+jobs**:
+
+| branch | what it is |
+|---|---|
+| `main` | the repository. The default branch, and what this working copy tracks — note the local branch is called **`master`** and tracks **`origin/main`**, so `git push origin master` creates a stray branch. Push with `git push origin master:main`. |
+| `gh-pages` | **what is actually served.** Its root is the *contents* of `site/`, plus a `.nojekyll` file. Nothing else lives on it. |
+| ~~`master`~~ | does not exist, and must not: it was created once by accident and deleted. |
+
+There is no Actions workflow. Publishing is a script:
+
+```bash
+python tools/publish_pages.py --dry-run     # show what would change
+python tools/publish_pages.py               # copy site/ -> gh-pages, commit, push
+```
+
+It checks `gh-pages` out into a temporary worktree, clears it (keeping `.git`
+and `.nojekyll`), copies `site/` in, commits with the `main` commit it was
+built from, pushes, and removes the worktree. `.nojekyll` matters: without it
+GitHub runs Jekyll over the branch and silently drops anything beginning with
+an underscore.
 
 So the mapping is:
 
@@ -93,6 +118,14 @@ committed for exactly that reason: it is the published artefact, not a cache.
 - **The three.js CDN is a third-party dependency of the published site.** If
   jsDelivr is unreachable the world does not load at all. Vendoring
   `three.module.js` into `site/vendor/` is the fix if that ever matters.
+- **The push refspec.** Local `master` tracks `origin/main`. A bare
+  `git push origin master` makes a new remote branch called `master` that
+  nothing serves and nothing reads. Always `master:main`.
+- **`git commit` can return no stdout under this Windows shell**, which broke
+  the first version of `publish_pages.py` on `r.stdout.strip()`. The runner
+  now tolerates `None` and forces UTF-8 decoding. Related: an em dash in a
+  commit subject passed through Windows argv arrives in git as mojibake, so
+  `publish_pages.py` reduces its subject to ASCII.
 - **The fugues and the synth are vendored, not referenced.** `chiptune.js`
   defaults to loading `/EmblemRoguelike/assets/fugues.json`, an absolute path
   outside the published root that only resolves on the local `C:\Dev` server.
@@ -110,5 +143,10 @@ committed for exactly that reason: it is the published artefact, not a cache.
 3. Walk to a measured station (`?station=8`), press <kbd>G</kbd>, and confirm
    the gate still lines up. That is the project's actual regression test.
 4. Commit the generated files under `site/` along with the source change.
-5. Push to `origin/master`. Pages rebuilds from the branch; give it a minute.
-6. **Fetch the live URL and look at it** before saying it is deployed.
+5. `git push origin master:main` — note the refspec; the local branch is
+   `master` and the remote branch is `main`.
+6. `python tools/publish_pages.py` to update `gh-pages`.
+7. **Load the live URL and look at it** before saying it is deployed. Not the
+   local server, and not your own diff: the URL. Poll it if you have to —
+   `curl -s -o /dev/null -w "%{http_code}" https://t3dy.github.io/emblems-in-3d/world.html`
+   returns 404 until Pages has rebuilt.
