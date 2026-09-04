@@ -164,7 +164,9 @@ function precinctSign(p) {
     post.position.set(sx * 2.8, 1.75, 0);
     grp.add(post);
   }
-  grp.rotation.y = Math.PI;
+  // The sign stands on the +Z side of the precinct, which is the side you
+  // arrive from, and a PlaneGeometry already faces +Z. Rotating it by pi shows
+  // the walker the back of the board and mirrors the type.
   return grp;
 }
 
