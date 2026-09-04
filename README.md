@@ -6,9 +6,57 @@ to echo the original engravings.
 
 ## → The live site: **<https://t3dy.github.io/emblems-in-3d/>**
 
-**Phase 5 — Reconstruction.** The current phase, published as a static site: the
-three worked examples, all 51 perspective solves drawn back onto their engravings,
-the method, and an honest account of what the previous version got wrong.
+**Phase 7 — The Fugitive World.** All fifty-one emblems in **one** walkable world:
+a single road walked in emblem order, fifty-one stations along it, free walking and a
+guided tour, carrying Maier's motto and epigram, de Jong's readings, and the alchemical
+and classical sources each discourse draws upon.
+
+- **[The Fugitive World](site/world.html)** — the world itself
+  (`?station=8` to start at a given emblem, `&tour=1` to begin the tour there,
+  `&route=process` to walk it in the order of the work, `&sound=1` for the fugues)
+- **[`docs/WORLD.md`](docs/WORLD.md)** — how it is built and what it refuses to claim
+
+The book *is* a race, so the connective tissue is a course you walk rather than a
+gallery you browse. Each station's threshold arch is the visible boundary between the
+invented world outside it and the reconstruction inside it, and the two tiers of
+station are visibly different:
+
+- the **4 plates with an admissible solve** (three of them hand-measured) are rooms —
+  every depth from that plate's own pinhole, and the reprojection gate (<kbd>G</kbd>)
+  still a real test from inside the world, because the camera takes that plate's focal
+  length and eye height;
+- the **47 without one** are flats — the plate as a cut sheet whose cutouts pop in
+  *parallel* projection, so no depth is claimed at all.
+
+Building it produced a finding of its own: Emblem XXIV's automatic solve implies a 149°
+vertical field of view, which is not a perspective construction but a spurious
+orthogonality fit, so the world rejects it — out loud, in the station's panel — rather
+than clamping the number quietly.
+
+Three ways through: **emblem order** (the book as Maier printed it), **order of the
+work** (the same fifty-one stations regrouped by the operation each stages, sequenced
+by Ripley's twelve gates — the road does not move, only the reading does), and **free
+explore**. The commentary arrives in nine colour-coded levels — Maier's motto and
+epigram, what Merian engraved, Maier's discourse, de Jong's analysis, the other
+scholars, the alchemical text being cited, the myth being alluded to, and the same
+figure unpacked in four registers at once: in the laboratory, in the body, in the
+soul, in the heavens. And each station plays its own three-voice canon through an
+NES-APU synth, because the book is fugues for the ears as much as emblems for the
+eyes.
+
+Built geometry is shaded with a tonal art map whose six hatch tiles are **cut out of
+Merian's own plates** — the most orientation-coherent passage of burin work in the
+whole book at each of six ink densities, with the plate and pixel window of each
+recorded in `site/assets/hatch/tam.json`. A wall and a cutout are therefore the same
+substance.
+
+---
+
+## Phase 5 — Reconstruction
+
+The measurement layer everything above rests on, published as a static site: the three
+worked examples, all 51 perspective solves drawn back onto their engravings, the
+method, and an honest account of what the previous version got wrong.
 
 - **[Overview](https://t3dy.github.io/emblems-in-3d/)**
 - **[The three examples](https://t3dy.github.io/emblems-in-3d/examples.html)** —
@@ -57,6 +105,9 @@ python tools/build_elements.py         # -> data/elements.json + site/assets/cut
 python tools/build_web_assets.py       # -> site/assets/{plates,ground}/ + manifest.json
 python tools/render_solve_overlay.py   # -> site/assets/solve/   (the review artifact)
 python tools/build_site_pages.py       # -> site/plates.html, site/examples.html
+python tools/build_hatch_tam.py        # -> site/assets/hatch/   (the TAM + provenance)
+python tools/build_world.py            # -> site/data/world.json (the walkable world)
+python tools/equal_height_horizon.py   # marked figures -> horizons (add --write)
 ```
 
 | File | Job |
@@ -66,6 +117,10 @@ python tools/build_site_pages.py       # -> site/plates.html, site/examples.html
 | `tools/build_web_assets.py` | Self-contained plates, and an inverse-perspective warp of each ground region into a walkable top-down texture. |
 | `site/js/reconstruct.js` | Station-point camera, angle-preserving pop, taxonomy dispatch, three-state reprojection gate. |
 | `site/js/armatures.js` | The three worked examples, built on one primitive (`plateBand`). |
+| `tools/build_hatch_tam.py` | Scans all 51 plates for the most orientation-coherent passage of burin work in each of six tone bins, and writes them as a tileable tonal art map with a provenance record. |
+| `tools/build_world.py` | Joins the Claudiens DB (mottos, epigrams, discourses, de Jong's readings, the cited authorities) to the solves and the cutouts, precomputes each station's metric placement, and emits one `world.json`. |
+| `tools/equal_height_horizon.py` | The Criminisi/Reid/Zisserman equal-height construction: two figures of the same height on one ground plane fix the horizon with no assumption about how tall anyone is. Reads the marks a person makes in the review app. |
+| `site/js/world/` | The Fugitive World — see [`docs/WORLD.md`](docs/WORLD.md). |
 
 Hand review lives in `data/perspective.overrides.json` and `data/elements.overrides.json`
 and always wins over the automatic pass.
@@ -86,11 +141,20 @@ drawn onto the engraving, the live reconstruction in a frame, and the element ta
 - **Accept / Reject / Note** → `review/decisions.json`
 - **Change an element's kind** → `data/elements.overrides.json`, then re-run `build_elements.py`
 - **Place the horizon by hand** → `data/perspective.overrides.json`, then re-run `solve_perspective.py`
+- **Mark two standing figures** (click a head, then that figure's foot) → the
+  equal-height construction returns the horizon live, with its residual and the
+  fraction of each figure's height it cuts; “Save + set horizon” writes it to
+  `data/figures.json` and the overrides. This is the way to convert the 47
+  unsolved plates into walkable rooms, and it needs no architecture and no
+  assumption about anyone's height.
 
 ## Honest status
 
-Three of the 51 solves are hand-measured. The other 48 are automatic and most are
-weak — only 10 reach a confidence of 0.25. The reason is worth stating plainly: dense
+Three of the 51 solves are hand-measured; five in all carry a horizon the armature
+router was willing to report, and one of those five (Emblem XXIV) is rejected by the
+world's lens-plausibility check, leaving four. The remaining 47 honestly return "no
+horizon recoverable". Of the automatic solves most are weak — only 10 reach a confidence of
+0.25. The reason is worth stating plainly: dense
 engraved hatching is thousands of short parallel line segments and it swamps a
 Hough-and-RANSAC vanishing-point search. The automatic pass is a first draft that a
 person has to correct, which is exactly what the review app is for.

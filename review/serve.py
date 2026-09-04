@@ -38,6 +38,14 @@ ROOT = Path(__file__).resolve().parent.parent
 DECISIONS = ROOT / "review" / "decisions.json"
 ELEM_OVERRIDES = ROOT / "data" / "elements.overrides.json"
 PERSP_OVERRIDES = ROOT / "data" / "perspective.overrides.json"
+FIGURES = ROOT / "data" / "figures.json"
+
+sys.path.insert(0, str(ROOT / "tools"))
+try:
+    from equal_height_horizon import solve_plate, basis_string
+except Exception as _e:                                    # pragma: no cover
+    solve_plate = basis_string = None
+    print("equal-height estimator unavailable:", _e)
 
 VALID_STATUS = {"unreviewed", "accepted", "rejected", "noted"}
 VALID_KINDS = {"standing", "attached", "architecture", "ornament", "furniture"}
@@ -85,6 +93,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.startswith("/api/decisions"):
             return self._json(200, load(DECISIONS, {}))
+        if self.path == "/api/figures":
+            return self._json(200, load(FIGURES, {}))
         if self.path.startswith("/api/progress"):
             d = load(DECISIONS, {})
             counts = {s: 0 for s in VALID_STATUS}
@@ -114,7 +124,82 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._save_ai_fill(data)
         if self.path == "/api/horizon":
             return self._save_horizon(data)
+        if self.path == "/api/figures":
+            return self._save_figures(data)
         return self._json(404, {"error": f"unknown endpoint {self.path}"})
+
+    def _save_figures(self, data):
+        """Mark standing figures, and get the horizon they imply.
+
+        This is the estimator PROPOSAL_PHASE6 sec.1 said the corpus needs and
+        could not have, because the extractor finds five figures in fifty-one
+        plates. It is available here the other way round: a person marks the
+        head and the foot of two or more figures who are standing on the same
+        ground, and the equal-height construction returns the horizon WITHOUT
+        any assumption about how tall they are.
+
+        Marking is saved always. Writing the horizon into the override file
+        happens only when the caller asks for it, because a mark is an
+        observation and an override is a claim.
+        """
+        if solve_plate is None:
+            return self._json(500, {"error": "tools/equal_height_horizon.py did not import"})
+        key = str(data.get("key", "")).strip()
+        figs = data.get("figures") or []
+        if not key:
+            return self._json(400, {"error": "missing key"})
+        clean = []
+        for i, f in enumerate(figs):
+            try:
+                head = [float(f["head"][0]), float(f["head"][1])]
+                foot = [float(f["foot"][0]), float(f["foot"][1])]
+            except Exception:
+                return self._json(400, {"error": f"figure {i} needs head and foot as [x, y]"})
+            if not all(0.0 <= v <= 1.0 for v in head + foot):
+                return self._json(400, {"error": f"figure {i} has a point outside the plate"})
+            if foot[1] <= head[1]:
+                return self._json(400, {"error": f"figure {i}: the foot must be BELOW the head"})
+            clean.append({"name": str(f.get("name") or f"figure {i + 1}"),
+                          "head": head, "foot": foot})
+
+        store = load(FIGURES, {})
+        entry = store.get(key, {})
+        entry["figures"] = clean
+        entry["marked_at"] = stamp()
+        if "verified" in data:
+            entry["verified"] = bool(data["verified"])
+        entry.setdefault("verified", False)
+        if data.get("note"):
+            entry["note"] = str(data["note"])
+        store[key] = entry
+        save(FIGURES, store)
+
+        persp = load(ROOT / "data" / "perspective.json", {})
+        p = persp.get(key) or {}
+        res = solve_plate(entry, p.get("width", 1600), p.get("height", 1373))
+        print(f"  {key}: {len(clean)} figures marked -> "
+              f"{'ny %.4f' % res['horizon_ny'] if res.get('ok') else res.get('why')}")
+
+        if res.get("ok") and data.get("commit"):
+            ov = load(PERSP_OVERRIDES, {})
+            rec = ov.get(key, {})
+            rec["horizon_ny"] = round(res["horizon_ny"], 4)
+            rec["horizon_y"] = round(res["horizon_y"], 1)
+            rec["horizon_tilt_deg"] = round(res["tilt_deg"], 3)
+            rec["horizon_basis"] = basis_string(res, entry)
+            rec["horizon_method"] = "equal-height"
+            rec["horizon_verified"] = bool(entry.get("verified"))
+            if res.get("eye"):
+                rec["eye_height_m"] = round(res["eye"]["eye_height_m"], 3)
+                rec["eye_height_basis"] = res["eye"]["note"]
+            rec["confidence"] = 0.8 if entry.get("verified") else 0.5
+            rec["reviewed_by"] = f"review app, equal-height {stamp()}"
+            ov[key] = rec
+            save(PERSP_OVERRIDES, ov)
+            res["committed"] = True
+
+        return self._json(200, {"ok": True, "key": key, "figures": clean, "solve": res,
+                                "rerun": "python tools/solve_perspective.py && python tools/build_world.py"})
 
     def _save_ai_fill(self, data):
         """Flag an element as 'fill the missing part in with AI later'.

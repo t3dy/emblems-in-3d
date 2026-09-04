@@ -1,0 +1,45 @@
+{
+ "_README": [
+  "Standing figures marked by hand, for the equal-height horizon construction.",
+  "Click a head then that figure's foot in the review app (section 1b); it writes here.",
+  "",
+  "Coordinates are normalised: x fraction of plate width, y fraction of height,",
+  "origin top-left. tools/equal_height_horizon.py turns two or more figures into a",
+  "horizon with NO assumption about how tall anyone is, and reports the residual.",
+  "",
+  "verified:false means the points were placed by eye and not checked against a",
+  "grid. Nothing unverified is written into data/perspective.overrides.json unless",
+  "someone asks for it explicitly, because a mark is an observation and an override",
+  "is a claim. The emblem-42 entry below is a worked EXAMPLE of the format, not a",
+  "measurement: its own readout says the horizon cuts both figures at 0.459 of",
+  "their height, which is too low for eye level and means the points need redoing."
+ ],
+ "emblem-42": {
+  "figures": [
+   {
+    "name": "figure 1",
+    "head": [
+     0.1942919868276619,
+     0.1449814126394052
+    ],
+    "foot": [
+     0.17453347969264543,
+     0.9469398857557348
+    ]
+   },
+   {
+    "name": "figure 2",
+    "head": [
+     0.7749725576289791,
+     0.25407561882310276
+    ],
+    "foot": [
+     0.7618002195389681,
+     0.8540937528334391
+    ]
+   }
+  ],
+  "marked_at": "2026-09-04T18:05:43+00:00",
+  "verified": false
+ }
+}

@@ -1,0 +1,251 @@
+/* =========================================================================
+   world.css — The Fugitive World. Paper, ink, and as little chrome as the
+   thing can be steered with. The page is a book that you are inside, so the
+   type is the book's type and the panels are leaves, not cards.
+   ========================================================================= */
+
+:root {
+  --w-paper: #ece4d2;
+  --w-paper-2: #e2d9c4;
+  --w-ink: #241d16;
+  --w-ink-soft: #5a4f42;
+  --w-rule: #b6a98f;
+  --w-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+body.world {
+  margin: 0;
+  overflow: hidden;
+  background: #cfc6b2;
+  color: var(--w-ink);
+  font-family: var(--w-serif);
+}
+
+#w-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+
+/* site.css follows the OS colour scheme, and in dark mode its --ink is a pale
+   cream. This world is always ink on paper — it is a 1617 print, not a UI —
+   so the shared controls are re-tokenised rather than inherited. */
+body.world .btn,
+body.world a.btn { background: var(--w-paper-2); color: var(--w-ink); border-color: var(--w-rule); }
+body.world .btn.ghost { background: transparent; color: var(--w-ink); }
+body.world .btn:hover { border-color: var(--w-ink); }
+body.world .btn.on { background: #8a6a2a; color: var(--w-paper); border-color: #8a6a2a; }
+body.world .fine { color: var(--w-ink-soft); }
+
+/* --- loading ------------------------------------------------------------- */
+.w-loading {
+  position: fixed; inset: 0; z-index: 40;
+  display: grid; place-content: center; text-align: center;
+  background: var(--w-paper); gap: .4rem;
+}
+.w-loading.hidden { display: none; }
+.w-loading-ttl { font-size: 2rem; margin: 0; letter-spacing: .02em; }
+.w-loading p { margin: 0; color: var(--w-ink-soft); }
+
+/* --- hud ----------------------------------------------------------------- */
+.w-hud {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; gap: .7rem;
+  padding: .5rem .8rem;
+  background: linear-gradient(180deg, rgba(236,228,210,.94), rgba(236,228,210,.0));
+  pointer-events: none;
+}
+.w-hud .btn, .w-hud a { pointer-events: auto; }
+.w-hud .spacer { flex: 1; }
+.w-hud-ttl { font-size: 1.05rem; font-weight: 600; }
+.w-hud-sub { font-style: italic; color: var(--w-ink-soft); max-width: 46vw;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.w-hud.touring .w-hud-sub { max-width: 60vw; }
+
+.w-progress-rail {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 21;
+  background: rgba(90,79,66,.15);
+}
+.w-progress { height: 100%; width: 0; background: #8a6a2a; transition: width .5s ease; }
+
+/* --- click-to-walk prompt ------------------------------------------------ */
+.w-prompt {
+  position: fixed; left: 50%; bottom: 12%; transform: translateX(-50%);
+  z-index: 22; text-align: center; pointer-events: none;
+  background: rgba(236,228,210,.86); border: 1px solid var(--w-rule);
+  padding: .8rem 1.4rem; max-width: min(92vw, 640px);
+}
+.w-prompt.hidden { display: none; }
+/* keep the prompt centred on the VIEW, not on the window, when the reading
+   panel is taking the right-hand third */
+body.world.panel-open .w-prompt,
+body.world.panel-open .w-tourbar { left: calc((100vw - min(30rem, 40vw)) / 2); }
+@media (max-width: 720px) {
+  body.world.panel-open .w-prompt, body.world.panel-open .w-tourbar { left: 50%; }
+}
+.w-prompt p { margin: .25rem 0; }
+.w-prompt .fine { font-size: .82rem; color: var(--w-ink-soft); }
+kbd {
+  font: 600 .78em ui-monospace, monospace;
+  background: var(--w-paper-2); color: var(--w-ink);
+  border: 1px solid var(--w-rule); border-bottom-width: 2px;
+  border-radius: 3px; padding: 0 .32em;
+}
+
+/* --- tour bar ------------------------------------------------------------ */
+.w-tourbar {
+  position: fixed; left: 50%; bottom: 1.1rem; transform: translateX(-50%);
+  z-index: 23; display: flex; align-items: center; gap: .8rem;
+  background: rgba(236,228,210,.94); border: 1px solid var(--w-rule);
+  padding: .45rem .7rem;
+}
+.w-tourbar.hidden { display: none; }
+.w-tourpos { font-variant-numeric: tabular-nums; min-width: 4.5rem; text-align: center; }
+.w-tourbar .fine { font-size: .78rem; color: var(--w-ink-soft); }
+
+/* --- the panel ----------------------------------------------------------- */
+.w-panel {
+  position: fixed; top: 3rem; right: 0; bottom: 0; width: min(30rem, 40vw);
+  z-index: 19; overflow-y: auto; overscroll-behavior: contain;
+  background: rgba(236,228,210,.955);
+  border-left: 1px solid var(--w-rule);
+  padding: 1rem 1.3rem 4rem;
+}
+.w-panel.hidden { display: none; }
+.w-panel-close {
+  position: absolute; top: .5rem; right: .8rem; z-index: 2;
+  background: var(--w-paper); border: 1px solid var(--w-rule);
+  width: 1.7rem; height: 1.7rem; font-size: 1.1rem; line-height: 1;
+  color: var(--w-ink-soft); cursor: pointer;
+}
+.w-body { padding-top: .3rem; }
+
+.w-head { display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; margin-bottom: .5rem; }
+.w-num { font-size: 1.2rem; font-weight: 600; }
+.w-stage, .w-setting, .w-tier {
+  font: .68rem/1.6 ui-monospace, monospace; letter-spacing: .06em;
+  text-transform: uppercase; padding: 0 .45em; border: 1px solid var(--w-rule);
+}
+.w-nigredo { background: #514c46; color: #ece4d2; border-color: #514c46; }
+.w-albedo { background: #f4f0e6; }
+.w-citrinitas { background: #e6d295; }
+.w-rubedo { background: #c98d70; color: #2a1a12; border-color: #b07a5e; }
+.w-tier-measured { background: #8a6a2a; color: #f6f0e0; border-color: #8a6a2a; }
+.w-tier-conjectural { color: var(--w-ink-soft); }
+
+.w-motto-la { font-style: italic; font-size: 1.12rem; margin: .3rem 0 .1rem; }
+.w-motto-en { margin: 0 0 .8rem; color: var(--w-ink-soft); }
+
+/* --- the commentary boxes ------------------------------------------------
+   Nine archetypes, nine colours. The colour carries the register: you should
+   never have to read a paragraph to find out whether Maier is speaking, or de
+   Jong is reading him, or a fourteenth-century alchemical compilation is being
+   cited underneath them both. Each hue is a left band plus a very light wash,
+   so nine of them can sit in one column without the panel turning into a
+   paintbox. */
+.w-boxes { margin-top: .8rem; }
+.w-box {
+  --hue: #8b8175;
+  border: 1px solid var(--w-rule);
+  border-left: 5px solid var(--hue);
+  background: color-mix(in srgb, var(--hue) 7%, var(--w-paper));
+  padding: .6rem .8rem .55rem;
+  margin: 0 0 .7rem;
+}
+.w-box p { margin: 0 0 .55rem; line-height: 1.55; }
+.w-box p:last-of-type { margin-bottom: 0; }
+.w-box-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem; margin-bottom: .45rem; }
+.w-box-tag {
+  font: 600 .62rem/1.7 ui-monospace, monospace; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--w-paper);
+  background: var(--hue); padding: 0 .5em; white-space: nowrap;
+}
+.w-box-ttl { font-weight: 600; }
+.w-box-note {
+  font: .64rem/1.7 ui-monospace, monospace; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--w-ink-soft);
+}
+.w-box.now { box-shadow: 0 0 0 2px var(--hue); }
+
+.w-a-motto      { --hue: #241d16; }
+.w-a-epigram    { --hue: #4a3c2a; }
+.w-a-image      { --hue: #6d6455; }
+.w-a-discourse  { --hue: #8a5a22; }
+.w-a-dejong     { --hue: #2f5f7a; }
+.w-a-historical { --hue: #3f6b45; }
+.w-a-alchemical { --hue: #9a7018; }
+.w-a-myth       { --hue: #6a3f78; }
+.w-a-register   { --hue: #1f6f6a; }
+.w-a-solve      { --hue: #8a6a2a; }
+
+.w-latin { font-style: italic; font-size: 1.05rem; }
+.w-verse { font-style: italic; padding-left: .8rem; border-left: 2px solid var(--w-rule); white-space: normal; }
+.w-cite { font-size: .8rem; color: var(--w-ink-soft); margin-top: .4rem; }
+.w-basis { font-size: .82rem; color: var(--w-ink-soft); }
+
+.w-regs { margin: .2rem 0 0; }
+.w-regs dt {
+  font: 600 .66rem/1.7 ui-monospace, monospace; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--hue); margin-top: .45rem;
+}
+.w-regs dd { margin: 0; line-height: 1.5; }
+
+.w-proc {
+  font: .68rem/1.6 ui-monospace, monospace; letter-spacing: .06em;
+  text-transform: uppercase; padding: 0 .45em;
+  border: 1px solid #9a7018; color: #7a5a10;
+}
+
+.w-solve { margin: 0; padding-left: 1.1rem; }
+.w-solve li { margin-bottom: .35rem; line-height: 1.5; }
+.w-solve code { font-size: .88em; background: var(--w-paper-2); padding: 0 .25em; }
+
+.w-prov {
+  margin-top: 1.2rem; font-size: .78rem; color: var(--w-ink-soft);
+  border-top: 1px dashed var(--w-rule); padding-top: .6rem;
+}
+
+/* --- the gate ------------------------------------------------------------ */
+.w-gate {
+  position: fixed; inset: 0; z-index: 30; pointer-events: none;
+  display: grid; place-items: center; background: rgba(20,16,12,.35);
+}
+.w-gate.hidden { display: none; }
+.w-gate img {
+  max-width: 100vw; max-height: 100vh; width: auto; height: 100vh;
+  object-fit: contain; opacity: .5;
+}
+.w-gate-caption {
+  position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+  max-width: min(90vw, 720px); text-align: center;
+  background: rgba(236,228,210,.94); border: 1px solid var(--w-rule);
+  padding: .5rem .9rem; font-size: .85rem;
+}
+
+/* --- diagnostics --------------------------------------------------------- */
+.w-debug {
+  position: fixed; left: .6rem; bottom: .6rem; z-index: 25; margin: 0;
+  font: .72rem/1.45 ui-monospace, monospace; white-space: pre;
+  background: rgba(236,228,210,.9); border: 1px solid var(--w-rule);
+  padding: .5rem .7rem; color: var(--w-ink);
+}
+.w-debug.hidden { display: none; }
+
+@media (max-width: 720px) {
+  .w-panel { width: 100vw; top: auto; height: 52vh; border-left: none; border-top: 1px solid var(--w-rule); }
+  .w-hud-sub { display: none; }
+}
+
+/* --- route and sound controls -------------------------------------------- */
+.w-routebar {
+  position: fixed; top: 2.9rem; left: .8rem; z-index: 22;
+  display: flex; align-items: center; gap: .35rem; flex-wrap: wrap;
+  background: rgba(236,228,210,.92); border: 1px solid var(--w-rule);
+  padding: .3rem .45rem; max-width: min(38rem, 58vw);
+}
+.w-routebar .lbl {
+  font: .64rem/1.7 ui-monospace, monospace; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--w-ink-soft); margin-right: .2rem;
+}
+.w-routebar .btn { padding: 3px 9px; font-size: 13px; }
+.w-routegloss {
+  flex-basis: 100%; font-size: .78rem; color: var(--w-ink-soft); line-height: 1.4;
+  margin: .15rem 0 0;
+}
+.w-gate-note { margin-left: .3rem; font-size: .78rem; color: var(--w-ink-soft); }

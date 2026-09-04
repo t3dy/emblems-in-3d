@@ -52,6 +52,148 @@ function flash(node, text, ok = true) {
   node._t = setTimeout(() => (node.textContent = ""), 3200);
 }
 
+// ---------------------------------------------------------- figure marking --
+const FIG_COLOURS = ["#e0a020", "#20a0e0", "#40b060", "#c060c0", "#e06040"];
+
+/** Homogeneous meet of the line through two heads and the line through two feet. */
+function meetOfPair(a, b) {
+  const L = (p, q) => [p[1] - q[1], q[0] - p[0], p[0] * q[1] - p[1] * q[0]];
+  const tops = L(a.head, b.head), bases = L(a.foot, b.foot);
+  const w = tops[0] * bases[1] - tops[1] * bases[0];
+  if (Math.abs(w) < 1e-12) return null;
+  return [(tops[1] * bases[2] - tops[2] * bases[1]) / w,
+          (tops[2] * bases[0] - tops[0] * bases[2]) / w];
+}
+
+function previewHorizon(figs) {
+  const pts = [];
+  for (let i = 0; i < figs.length; i++)
+    for (let j = i + 1; j < figs.length; j++) {
+      const m = meetOfPair(figs[i], figs[j]);
+      if (m) pts.push(m);
+    }
+  if (!pts.length) return null;
+  if (pts.length === 1) return { ny: pts[0][1], slope: 0, pts };
+  const n = pts.length;
+  const mx = pts.reduce((s, p) => s + p[0], 0) / n;
+  const my = pts.reduce((s, p) => s + p[1], 0) / n;
+  const sxx = pts.reduce((s, p) => s + (p[0] - mx) ** 2, 0);
+  const sxy = pts.reduce((s, p) => s + (p[0] - mx) * (p[1] - my), 0);
+  const slope = sxx > 1e-12 ? sxy / sxx : 0;
+  const b = my - slope * mx;
+  const resid = Math.max(...pts.map((p) => Math.abs(p[1] - (slope * p[0] + b))));
+  return { ny: slope * 0.5 + b, slope, pts, resid };
+}
+
+async function setupFigureMarking(key) {
+  const wrap = $("#figwrap"), img = $("#figimg"), cv = $("#figcv");
+  if (!wrap) return;
+  let pending = null;                  // a head waiting for its foot
+  let figs = [];
+
+  try {
+    const store = await fetch("/api/figures").then((r) => r.json());
+    if (store[key] && store[key].figures) figs = store[key].figures.map((f) => ({ ...f }));
+    if (store[key] && store[key].verified) $("#figver").checked = true;
+  } catch (e) { /* first run, no file yet */ }
+
+  function draw() {
+    const r = img.getBoundingClientRect();
+    cv.width = Math.max(1, Math.round(r.width));
+    cv.height = Math.max(1, Math.round(r.height));
+    const g = cv.getContext("2d");
+    g.clearRect(0, 0, cv.width, cv.height);
+    const X = (nx) => nx * cv.width, Y = (ny) => ny * cv.height;
+
+    figs.forEach((f, i) => {
+      const c = FIG_COLOURS[i % FIG_COLOURS.length];
+      g.strokeStyle = c; g.fillStyle = c; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(X(f.head[0]), Y(f.head[1])); g.lineTo(X(f.foot[0]), Y(f.foot[1])); g.stroke();
+      for (const p of [f.head, f.foot]) {
+        g.beginPath(); g.arc(X(p[0]), Y(p[1]), 5, 0, 7); g.fill();
+      }
+      g.font = "12px system-ui";
+      g.fillText(f.name || ("figure " + (i + 1)), X(f.head[0]) + 8, Y(f.head[1]) - 6);
+    });
+
+    if (pending) {
+      g.fillStyle = "#fff"; g.strokeStyle = "#000"; g.lineWidth = 1;
+      g.beginPath(); g.arc(X(pending[0]), Y(pending[1]), 5, 0, 7); g.fill(); g.stroke();
+    }
+
+    if (figs.length >= 2) {
+      const h = previewHorizon(figs);
+      if (h) {
+        // the head and foot lines that produced the meets, faintly
+        g.strokeStyle = "rgba(255,200,0,.35)"; g.lineWidth = 1;
+        for (let i = 0; i < figs.length; i++)
+          for (let j = i + 1; j < figs.length; j++)
+            for (const k of ["head", "foot"]) {
+              g.beginPath();
+              g.moveTo(X(figs[i][k][0]), Y(figs[i][k][1]));
+              g.lineTo(X(figs[j][k][0]), Y(figs[j][k][1]));
+              g.stroke();
+            }
+        g.strokeStyle = "rgba(255,190,0,.95)"; g.lineWidth = 2;
+        g.beginPath();
+        g.moveTo(0, Y(h.ny - h.slope * 0.5));
+        g.lineTo(cv.width, Y(h.ny + h.slope * 0.5));
+        g.stroke();
+
+        const cut = figs.map((f) => (f.foot[1] - h.ny) / (f.foot[1] - f.head[1]));
+        $("#figreadout").innerHTML =
+          "horizon <b>ny " + h.ny.toFixed(4) + "</b> \u00b7 tilt " +
+          (Math.atan(h.slope) * 180 / Math.PI).toFixed(2) + "\u00b0 \u00b7 " +
+          figs.length + " figures, " + h.pts.length + " pair meet" +
+          (h.pts.length === 1 ? "" : "s") +
+          (h.resid != null ? " \u00b7 largest residual " + h.resid.toFixed(4)
+                           : " \u00b7 one meet, tilt assumed level") +
+          "<br>the horizon cuts the figures at " + cut.map((c) => c.toFixed(3)).join(", ") +
+          " of their height (these should agree; if they do not, the figures are not the " +
+          "same height, or not on one ground plane, and the plate is telling you so)";
+      }
+    } else {
+      $("#figreadout").textContent = figs.length === 1
+        ? "one figure marked \u2014 the construction needs at least two"
+        : "";
+    }
+  }
+
+  wrap.onclick = (ev) => {
+    const r = img.getBoundingClientRect();
+    const nx = (ev.clientX - r.left) / r.width, ny = (ev.clientY - r.top) / r.height;
+    if (nx < 0 || nx > 1 || ny < 0 || ny > 1) return;
+    if (!pending) { pending = [nx, ny]; }
+    else {
+      const head = pending[1] <= ny ? pending : [nx, ny];
+      const foot = pending[1] <= ny ? [nx, ny] : pending;
+      figs.push({ name: "figure " + (figs.length + 1), head, foot });
+      pending = null;
+    }
+    draw();
+  };
+  $("#figundo").onclick = () => { if (pending) pending = null; else figs.pop(); draw(); };
+  $("#figclear").onclick = () => { figs = []; pending = null; draw(); };
+
+  async function send(commit) {
+    try {
+      const j = await post("/api/figures", {
+        key, figures: figs, verified: $("#figver").checked, commit,
+      });
+      const s = j.solve || {};
+      flash($("#figsaved"), s.ok
+        ? figs.length + " figures saved \u00b7 horizon ny " + s.horizon_ny.toFixed(4) +
+          (commit ? " \u2014 written to the overrides; re-run solve_perspective.py" : "")
+        : "saved, but no horizon: " + s.why, !!s.ok);
+    } catch (e) { flash($("#figsaved"), e.message, false); }
+  }
+  $("#figsave").onclick = () => send(false);
+  $("#figcommit").onclick = () => send(true);
+
+  if (img.complete) draw(); else img.onload = draw;
+  addEventListener("resize", draw);
+}
+
 // -------------------------------------------------------------------- list --
 function statusOf(key) { return (DECISIONS[key] || {}).status || "unreviewed"; }
 
@@ -124,6 +266,30 @@ function select(key) {
         <code>python tools/solve_perspective.py</code></span>
     </div>
 
+    <h2>1b · Or mark the people, and let the construction find the horizon</h2>
+    <p class="fine">For two or more figures of about the same height standing on the same
+      ground, the line through their heads and the line through their feet meet on the
+      horizon — <em>with no assumption about how tall anyone is</em> (Criminisi, Reid &amp;
+      Zisserman, <em>Single View Metrology</em>, 2000). This is the estimator the landscape
+      and wall plates need, and the reason it was unusable is that the extractor finds five
+      figures in fifty-one plates. Marking them by hand is the way round that.</p>
+    <p class="fine"><b>Click the top of a head, then that figure's foot on the ground.</b>
+      Repeat for the next figure. Three or more figures over-determine the horizon and the
+      residual becomes a real error bar.</p>
+    <div class="rev-figure" id="figwrap" style="position:relative;cursor:crosshair">
+      <img id="figimg" src="../site/assets/plates/${key}.jpg" alt="plate ${key}" style="display:block;width:100%" />
+      <canvas id="figcv" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+    </div>
+    <div class="rev-actions">
+      <button class="btn" id="figundo">Undo point</button>
+      <button class="btn" id="figclear">Clear</button>
+      <label class="fine"><input type="checkbox" id="figver" /> I checked these against the grid</label>
+      <button class="btn" id="figsave">Save marks</button>
+      <button class="btn" id="figcommit">Save + set horizon</button>
+      <span class="saved" id="figsaved"></span>
+    </div>
+    <p class="fine" id="figreadout"></p>
+
     <h2>2 · The reconstruction, live</h2>
     <p class="fine">Press the gate button inside the frame twice for the inverted overlay:
       flat grey means the reconstruction registers with the engraving.</p>
@@ -142,6 +308,12 @@ function select(key) {
     ${p.notes ? `<h2>Solver / reviewer notes</h2><p class="fine">${esc(p.notes)}</p>` : ""}
     ${p.metric_anomaly ? `<h2>Recorded anomaly</h2><p class="fine">${esc(p.metric_anomaly)}</p>` : ""}
   `;
+
+  // --- figure marking -----------------------------------------------------
+  // Two clicks make a figure: head, then foot. The preview construction here is
+  // the same one review/serve.py runs on save; the server stays authoritative,
+  // this is only so the horizon appears while you are still marking.
+  setupFigureMarking(key);
 
   // --- element rows -------------------------------------------------------
   const tb = $("#etable tbody");

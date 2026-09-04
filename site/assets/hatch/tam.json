@@ -1,0 +1,98 @@
+{
+ "generated": "2026-09-04",
+ "generator": "tools/build_hatch_tam.py",
+ "what": "Tonal art map for the world's hatching shader. Six tiles, light to dark, each the most orientation-coherent passage of burin work found anywhere in the 51 plates at that ink density.",
+ "method": "Otsu ink fraction per 256 px window for tone; structure-tensor coherence for stroke purity; offset-and-cross-fade for tileability (preserves stroke direction, a mirror would not).",
+ "strip": {
+  "file": "hatch/tam.png",
+  "tiles": 6,
+  "tile_px": 256,
+  "order": "light to dark"
+ },
+ "tiles": [
+  {
+   "bin": 0,
+   "tone_target": 0.06,
+   "tone_measured": 0.085,
+   "coherence": 0.9316,
+   "plate": "emblem-45.jpg",
+   "window_px": [
+    128,
+    512,
+    256,
+    256
+   ],
+   "otsu": 150
+  },
+  {
+   "bin": 1,
+   "tone_target": 0.14,
+   "tone_measured": 0.1184,
+   "coherence": 0.9379,
+   "plate": "emblem-45.jpg",
+   "window_px": [
+    128,
+    384,
+    256,
+    256
+   ],
+   "otsu": 150
+  },
+  {
+   "bin": 2,
+   "tone_target": 0.25,
+   "tone_measured": 0.2285,
+   "coherence": 0.9494,
+   "plate": "emblem-43.jpg",
+   "window_px": [
+    896,
+    0,
+    256,
+    256
+   ],
+   "otsu": 142
+  },
+  {
+   "bin": 3,
+   "tone_target": 0.38,
+   "tone_measured": 0.3829,
+   "coherence": 0.9612,
+   "plate": "emblem-17.jpg",
+   "window_px": [
+    896,
+    0,
+    256,
+    256
+   ],
+   "otsu": 146
+  },
+  {
+   "bin": 4,
+   "tone_target": 0.53,
+   "tone_measured": 0.5231,
+   "coherence": 0.9,
+   "plate": "emblem-42.jpg",
+   "window_px": [
+    640,
+    0,
+    256,
+    256
+   ],
+   "otsu": 135
+  },
+  {
+   "bin": 5,
+   "tone_target": 0.7,
+   "tone_measured": 0.705,
+   "coherence": 0.7551,
+   "plate": "emblem-24.jpg",
+   "window_px": [
+    896,
+    768,
+    256,
+    256
+   ],
+   "otsu": 137
+  }
+ ]
+}
