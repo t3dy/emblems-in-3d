@@ -38,16 +38,27 @@ import { planSetting, compileSetting } from "./settings.js";
 const PLATE_LOADER = new THREE.TextureLoader();
 const _cache = new Map();
 
-function loadTexture(url) {
+function loadTexture(url, onReady) {
   if (_cache.has(url)) {
     const e = _cache.get(url);
     e.refs++;
+    if (onReady) {
+      if (e.ready) onReady(e.tex);
+      else e.waiting.push(onReady);
+    }
     return e.tex;
   }
-  const tex = PLATE_LOADER.load(url);
+  const entry = { tex: null, refs: 1, ready: false, waiting: onReady ? [onReady] : [] };
+  const tex = PLATE_LOADER.load(url, () => {
+    entry.ready = true;
+    const w = entry.waiting;
+    entry.waiting = [];
+    w.forEach((f) => f(tex));
+  });
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
-  _cache.set(url, { tex, refs: 1 });
+  entry.tex = tex;
+  _cache.set(url, entry);
   return tex;
 }
 
@@ -331,18 +342,24 @@ export class Station {
 
     if (this.tier === "leaf") {
       // The popped cut is a window onto the SAME texture: no second file, and
-      // by construction it can never disagree with the leaf behind it.
-      for (const m of this.cards) {
-        const uv = m.userData.card.uv;
-        const t = plateTex.clone();
-        t.needsUpdate = true;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        t.repeat.set(uv[2] - uv[0], uv[3] - uv[1]);
-        t.offset.set(uv[0], 1 - uv[3]);
-        m.material.dispose();
-        m.material = new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide });
-      }
-      this._cardUrls = [];
+      // by construction it can never disagree with the leaf behind it. The
+      // clone has to wait for the image, though - cloning an empty texture and
+      // marking it for update is what makes three.js warn "no image data".
+      const cutCards = this.cards;
+      loadTexture(plateUrl, (ready) => {
+        if (!this.loaded) return;
+        for (const m of cutCards) {
+          const uv = m.userData.card.uv;
+          const t = ready.clone();
+          t.needsUpdate = true;
+          t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+          t.repeat.set(uv[2] - uv[0], uv[3] - uv[1]);
+          t.offset.set(uv[0], 1 - uv[3]);
+          m.material.dispose();
+          m.material = new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide });
+        }
+      });
+      this._cardUrls = [plateUrl];   // the extra ref taken just above
       return;
     }
 
